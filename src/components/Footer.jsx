@@ -31,7 +31,7 @@ export default function Footer(props) {
 					<div className="h-px mx-auto mt-4 rounded-full md:hidden w-11">
 					</div>
 					<div className="flex items-center justify-center flex-1 mt-4 border-gray-100 md:mt-0 md:border-r">
-						<a className="hover:text-primary-gray-20" target="_blank" rel="noopener noreferrer" href="https://github.com/cosmoart/quiz">
+						<a className="hover:text-primary-gray-20" target="_blank" rel="noopener noreferrer" href="https://github.com/cosmoart/quiz-game">
 							<span className="sr-only">
 								View on GitHub
 							</span>

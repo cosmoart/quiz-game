@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Main from '@/components/Main'
 import GameModes from '@/components/GameModes'
 import Categories from '@/components/Categories'
+import Play from '@/components/Play'
 
 export default function Home() {
 
@@ -16,6 +17,7 @@ export default function Home() {
       <Main />
       <GameModes />
       <Categories />
+      <Play />
     </>
   )
 }

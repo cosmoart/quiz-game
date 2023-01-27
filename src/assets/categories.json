@@ -1,0 +1,50 @@
+[
+	{
+		"id": "aa",
+		"name": "History",
+		"description": "The study of past events, including political, economic, social, and cultural developments.",
+		"color": "bg-amber-200"
+	},
+	{
+		"id": "ab",
+		"name": "Entertainment",
+		"description": "Activities or forms of media that provide enjoyment and amusement, such as movies, music, and sports.",
+		"color": "bg-slate-800"
+	},
+	{
+		"id": "ac",
+		"name": "Technology",
+		"description": "The application of scientific knowledge for practical purposes, especially in industry.",
+		"color": "bg-blue-600"
+	},
+	{
+		"id": "ad",
+		"name": "Geography",
+		"description": "The study of the Earth's surface, its features, and the distribution of life on it, including human and physical geography.",
+		"color": "bg-green-600"
+	},
+	{
+		"id": "ae",
+		"name": "Literature",
+		"description": "The body of written works of a language, period, or culture, including poetry, novels, and plays.",
+		"color": "bg-purple-600"
+	},
+	{
+		"id": "af",
+		"name": "Space",
+		"description": "The vast expanse that exists beyond the Earth's atmosphere, including the study of celestial bodies and phenomena",
+		"color": "bg-indigo-600"
+	},
+	{
+		"id": "ag",
+		"name": "General culture",
+		"description": "Can cover a wide range of topics, knowledge and disciplines, such as biology, zoology, science, art, literature and more.",
+		"color": "bg-yellow-600"
+	},
+	{
+		"id": "ah",
+		"name": "Cinema",
+		"description": "The art of making motion pictures, including the techniques of film production, cinematography, screenwriting, and editing.",
+		"color": "bg-red-600"
+	}
+]

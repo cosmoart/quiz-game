@@ -1,17 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import { BiArrowBack } from 'react-icons/bi';
 import getQuestion from "../../helpers/getQuestion"
+import categories from '@/assets/categories.json'
 
 export default function Play() {
+	const router = useRouter()
+
 	const [question, setQuestion] = useState('1');
+	const [queries, setQueries] = useState({});
+
 	const correctSound = useRef(null);
 	const wrongSound = useRef(null);
 
 	useEffect(() => {
 		getQuestion().then((question) => setQuestion(question));
-	}, []);
+		console.log(router.query);
+		setQueries({
+			questions: router.query.questions || 10,
+			time: router.query.time || 20,
+			mode: router.query.mode || 'classic',
+			categories: router.query.categories || null
+		});
+	}, [router]);
 
 	function validate(e, answer) {
 		console.log(answer, question.correct);
@@ -28,6 +41,10 @@ export default function Play() {
 		}
 	}
 
+	useEffect(() => {
+		console.log(queries.questions)
+	}, [queries]);
+
 	return (
 		<>
 			<Head>
@@ -36,32 +53,27 @@ export default function Play() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-
-			<Link href="/"><BiArrowBack className='text-3xl' /></Link>
+			<p>
+				questions: {queries.questions} <br />
+				time: {queries.time} <br />
+				mode: {queries.mode} <br />
+				categories: {queries.categories && queries.categories.split(",").map(category => categories.find(cat => cat.id === category).name).join(", ")}
+			</p>
+			<Link href="/" className='w-10'><BiArrowBack className='text-3xl' /></Link>
 			<audio ref={correctSound} src="sounds/correct_answer_sound.mp3" />
 			<audio ref={wrongSound} src="sounds/wrong_answer_sound.mp3" />
 			<main className='max-w-2xl mx-auto'>
-
-				<ol class="flex mb-5 items-center w-full text-white">
-					<li class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
-						<span class="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full lg:h-7 lg:w-7 dark:bg-blue-800 shrink-0">
-							1
-						</span>
-					</li>
-					<li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
-						<span class="flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full lg:h-7 lg:w-7 dark:bg-gray-700 shrink-0">
-							2
-						</span>
-					</li>
-					<li class="flex items-center w-full after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
-						<span class="flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full lg:h-7 lg:w-7 dark:bg-gray-700 shrink-0">
-							3
-						</span>
-					</li>
+				<ol className="flex mb-5 justify-between items-center w-full text-white">
+					{
+						// queries.questions = "20"
+						queries.questions && [...Array(parseInt(queries.questions))].map((_, i) => (
+							<li key={i} className={`w-6 h-6 rounded-full mr-2 text-center text-sm pt-1 ${i === 0 ? "bg-purple-300" : "bg-slate-600"}`}>{i + 1}</li>
+						))
+					}
 				</ol>
 
 				<p className='rounded-md bg-purple-300 px-10 py-6 text-xl font-semibold block mb-3'>{question.question}</p>
-				<ul className='columns-2 mb-5'>
+				<ul className='md:columns-2 mb-5'>
 					{question.answers && question.answers.map((answer, i) => (
 						<li key={i + "answer"}>
 							<button className={`w-full shadow-sm mt-4 bg-slate-200 py-3 px-5 rounded hover:scale-105 ${question.correct === answer ? "bg-green-100" : ""}`} onClick={(e) => validate(e, answer)}>{answer}</button>
