@@ -1,6 +1,6 @@
 import { BsGithub } from "react-icons/bs";
-import settings from "../assets/settings.svg";
-import Image from 'next/image';
+import { AiFillSound } from "react-icons/ai";
+import { MdOutlineLightMode } from "react-icons/md";
 
 export default function Footer(props) {
 	return (
@@ -30,13 +30,15 @@ export default function Footer(props) {
 					</nav>
 					<div className="h-px mx-auto mt-4 rounded-full md:hidden w-11">
 					</div>
-					<div className="flex items-center justify-center flex-1 mt-4 border-gray-100 md:mt-0 md:border-r">
+					<div className="flex items-center justify-center flex-1 gap-4 mt-4 border-gray-100 md:mt-0 md:border-r">
 						<a className="hover:text-primary-gray-20" target="_blank" rel="noopener noreferrer" href="https://github.com/cosmoart/quiz-game">
 							<span className="sr-only">
 								View on GitHub
 							</span>
 							<BsGithub className="w-6 h-6 text-xl transition-colors duration-200 hover:text-gray-800 dark:hover:text-white" />
 						</a>
+						<AiFillSound className="w-6 h-6 text-xl transition-colors duration-200 hover:text-gray-800 dark:hover:text-white cursor-pointer" />
+						<MdOutlineLightMode className="w-6 h-6 text-xl transition-colors duration-200 hover:text-gray-800 dark:hover:text-white cursor-pointer" />
 					</div>
 					<div className="h-px mx-auto mt-4 rounded-full md:hidden w-11 ">
 					</div>

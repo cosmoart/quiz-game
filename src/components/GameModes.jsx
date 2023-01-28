@@ -12,12 +12,12 @@ export default function GameModes() {
 					<li className='bg-slate-200 rounded p-5'>
 						<TbDeviceGamepad2 className='text-3xl' />
 						<h3 className='text-xl'>Classic</h3>
-						<p>Complete 10 questions without fail to win! You have wildcards that can help you</p>
+						<p>Complete questions without fail to win! You have wildcards that can help you</p>
 					</li>
 					<li className='bg-slate-200 rounded p-5'>
 						<BiTimeFive className='text-3xl' />
 						<h3 className='text-xl'>Time</h3>
-						<p>Complete 10 timed questions to win! You have wildcards that can help you</p>
+						<p>Complete timed questions to win! You have wildcards that can help you</p>
 					</li>
 					<li className='bg-slate-200 rounded p-5'>
 						<ImInfinite className='text-3xl' />

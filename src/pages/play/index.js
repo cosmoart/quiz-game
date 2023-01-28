@@ -8,8 +8,10 @@ import categories from '@/assets/categories.json'
 
 export default function Play() {
 	const router = useRouter()
+	const [score, setScore] = useState(1);
+	const [current, setCurrent] = useState(1);
 
-	const [question, setQuestion] = useState('1');
+	const [question, setQuestion] = useState([]);
 	const [queries, setQueries] = useState({});
 
 	const correctSound = useRef(null);
@@ -17,7 +19,6 @@ export default function Play() {
 
 	useEffect(() => {
 		getQuestion().then((question) => setQuestion(question));
-		console.log(router.query);
 		setQueries({
 			questions: router.query.questions || 10,
 			time: router.query.time || 20,
@@ -26,9 +27,20 @@ export default function Play() {
 		});
 	}, [router]);
 
+	function changueCurrent(number) {
+		if (number <= score) {
+			document.querySelectorAll('[id^="question-"]').forEach(question => {
+				question.classList.remove("slide-left", "slide-right")
+				if (question.id !== `question-${number}`) {
+					question.classList.add(question.id.slice(-1) < number ? "slide-left" : "slide-right")
+				}
+			});
+			setCurrent(number)
+		}
+	}
+
 	function validate(e, answer) {
-		console.log(answer, question.correct);
-		if (answer === question.correct) {
+		if (answer === question[current - 1].correct) {
 			e.target.style.backgroundColor = "green";
 			e.target.classList.add("shake-left-right");
 			correctSound.current.volume = 0.3;
@@ -36,14 +48,17 @@ export default function Play() {
 		} else {
 			e.target.style.backgroundColor = "red";
 			e.target.classList.add("vibrate");
+			document.querySelectorAll('[id^="answer-"]').forEach(answer => {
+				answer.disabled = true;
+				if (answer.id.slice(-1) === question[current - 1].correct) {
+					answer.style.backgroundColor = "green";
+				}
+			});
 			wrongSound.current.volume = 0.3;
 			wrongSound.current.play();
+			setScore(score + 1);
 		}
 	}
-
-	useEffect(() => {
-		console.log(queries.questions)
-	}, [queries]);
 
 	return (
 		<>
@@ -58,29 +73,40 @@ export default function Play() {
 				time: {queries.time} <br />
 				mode: {queries.mode} <br />
 				categories: {queries.categories && queries.categories.split(",").map(category => categories.find(cat => cat.id === category).name).join(", ")}
+				<br />
+				comodines: changue question, 50/50, secound shot
 			</p>
 			<Link href="/" className='w-10'><BiArrowBack className='text-3xl' /></Link>
 			<audio ref={correctSound} src="sounds/correct_answer_sound.mp3" />
 			<audio ref={wrongSound} src="sounds/wrong_answer_sound.mp3" />
-			<main className='max-w-2xl mx-auto'>
-				<ol className="flex mb-5 justify-between items-center w-full text-white">
+
+			<div className='max-w-2xl mx-auto'>
+				<ol className="flex gap-5 mb-5 justify-between items-center w-full text-white">
 					{
-						// queries.questions = "20"
 						queries.questions && [...Array(parseInt(queries.questions))].map((_, i) => (
-							<li key={i} className={`w-6 h-6 rounded-full mr-2 text-center text-sm pt-1 ${i === 0 ? "bg-purple-300" : "bg-slate-600"}`}>{i + 1}</li>
+							<li key={i} onClick={() => changueCurrent(i + 1)} className={`w-6 h-6 rounded-full mr-2 text-center text-sm pt-1 ${i + 1 === score ? "bg-red-400" : "bg-slate-600"} ${i + 1 <= score ? "cursor-pointer" : ""} ${i + 1 < score ? "bg-green-200" : ""} ${i + 1 === current ? "outline-dashed outline-red-600" : ""} `}>{i + 1}</li>
 						))
 					}
 				</ol>
-
-				<p className='rounded-md bg-purple-300 px-10 py-6 text-xl font-semibold block mb-3'>{question.question}</p>
-				<ul className='md:columns-2 mb-5'>
-					{question.answers && question.answers.map((answer, i) => (
-						<li key={i + "answer"}>
-							<button className={`w-full shadow-sm mt-4 bg-slate-200 py-3 px-5 rounded hover:scale-105 ${question.correct === answer ? "bg-green-100" : ""}`} onClick={(e) => validate(e, answer)}>{answer}</button>
-						</li>
-					))}
-				</ul>
-			</main>
+				<main className='relative w-screen max-w-2xl min-h-[20rem] mx-auto overflow-hidden h-1/2'>
+					{
+						question && question.map((question, i) => {
+							return (
+								<div key={question.correct} className={`transition-all duration-500 ${i === 0 ? "" : "slide-right"} absolute text-center w-full`} id={"question-" + (i + 1)}>
+									<p className='rounded-md bg-purple-300 px-10 py-6 text-xl font-semibold block mb-3'>{question.question}</p>
+									<ul className='md:columns-2 mb-5'>
+										{question.answers && question.answers.map((answer, i) => (
+											<li key={i + "answer"}>
+												<button className={`w-full shadow-sm mt-4 bg-slate-200 py-3 px-5 rounded hover:scale-105`} id={"answer-" + i + 1} onClick={(e) => validate(e, answer)}>{answer}</button>
+											</li>
+										))}
+									</ul>
+								</div>
+							)
+						})
+					}
+				</main>
+			</div>
 			<button onClick={() => getQuestion().then((question) => setQuestion(question))}>Get Question</button>
 		</>
 	)

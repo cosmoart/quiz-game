@@ -42,17 +42,39 @@ export default async function getQuestion(topic) {
 	// return response;
 
 
-	let answers = ['1212', '1492', '1094', '1571'];
-
-	for (let i = answers.length - 1; i > 0; i--) {
-		let j = Math.floor(Math.random() * (i + 1));
-		[answers[i], answers[j]] = [answers[j], answers[i]];
+	const random = (arr) => {
+		let newArr = arr;
+		for (let i = newArr.length - 1; i > 0; i--) {
+			let j = Math.floor(Math.random() * (i + 1));
+			[newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+		}
+		return newArr;
 	}
 
-	return {
-		topic: 'History',
-		question: 'In what year did the battle of the ships of Tolosa take place?',
-		answers: answers,
-		correct: '1212'
-	}
+	return [
+		{
+			topic: 'History',
+			question: '1 In what year did the battle of the ships of Tolosa take place?',
+			answers: random(['1212', '1492', '1094', '1571']),
+			correct: '1212'
+		},
+		{
+			topic: 'Literature',
+			question: '2 What is the verb in the following sentence: \"It was very cold yesterday\"?',
+			answers: random(['Was', 'Very', 'Yesterday', 'Cold']),
+			correct: 'Was'
+		},
+		{
+			topic: 'Space',
+			question: '3 Which planet is the second closest to the sun?',
+			answers: random(['Venus', 'Mercury', 'Mars', 'Jupiter']),
+			correct: 'Venus'
+		},
+		{
+			topic: 'History',
+			question: '4 What is the name of the French city where the treaty of Versailles was signed?',
+			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
+			correct: 'Paris'
+		},
+	]
 }
