@@ -8,7 +8,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </Html>
   )

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Main from '@/components/Main'
 import GameModes from '@/components/GameModes'
 import Categories from '@/components/Categories'
-import Play from '@/components/Play'
+import NewGame from '@/components/NewGame'
 
 export default function Home() {
 
@@ -17,7 +17,18 @@ export default function Home() {
       <Main />
       <GameModes />
       <Categories />
-      <Play />
+      <NewGame />
+      <style jsx global>{`
+				#__next {
+					display: grid;
+	        grid-template-columns: 1fr;
+				}
+        @media (min-width: 1024px) {
+          #__next {
+            grid-template-columns: 1.3fr 1fr;
+          }
+			`}
+      </style>
     </>
   )
 }

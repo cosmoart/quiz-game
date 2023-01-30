@@ -3,15 +3,19 @@
 @tailwind utilities;
 
 #__next {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	min-height: 100vh;
 }
+
 html {
 	scroll-behavior: smooth;
 }
-
+main {
+	background: rgb(28, 35, 58) url('/patternpad.svg');
+	background-size: 80%;
+}
+dialog::backdrop {
+	backdrop-filter: blur(3px);
+}
 .slide-left {
 	transform: translateX(-100%);
 	opacity: 0;

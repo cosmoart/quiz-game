@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router'
 import { BiArrowBack } from 'react-icons/bi';
+import { BsArrowRepeat } from 'react-icons/bs';
 import getQuestion from "../../helpers/getQuestion"
 import categories from '@/assets/categories.json'
 
@@ -48,17 +50,26 @@ export default function Play() {
 		} else {
 			e.target.style.backgroundColor = "red";
 			e.target.classList.add("vibrate");
-			document.querySelectorAll('[id^="answer-"]').forEach(answer => {
+			document.querySelectorAll(`.answer-${current}`).forEach(answer => {
+				console.log(answer);
 				answer.disabled = true;
-				if (answer.id.slice(-1) === question[current - 1].correct) {
+				if (answer.textContent === question[current - 1].correct) {
 					answer.style.backgroundColor = "green";
+					answer.classList.add("shake-left-right");
 				}
 			});
 			wrongSound.current.volume = 0.3;
 			wrongSound.current.play();
-			setScore(score + 1);
 		}
+		setScore(score + 1);
 	}
+
+	useEffect(() => {
+		// Add the color of the current question to the body
+		console.log(question[current - 1]?.topic);
+		console.log(categories.find(cat => cat.name === question[current - 1]?.topic));
+		// document.body.style.setProperty("--current-question", categories.find(cat => cat.name === question[current - 1]?.topic).color);
+	}, [current]);
 
 	return (
 		<>
@@ -68,20 +79,53 @@ export default function Play() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<p>
+			<div className='absolute left-5 top-1/2 -translate-y-1/2'>
 				questions: {queries.questions} <br />
 				time: {queries.time} <br />
 				mode: {queries.mode} <br />
-				categories: {queries.categories && queries.categories.split(",").map(category => categories.find(cat => cat.id === category).name).join(", ")}
-				<br />
-				comodines: changue question, 50/50, secound shot
-			</p>
-			<Link href="/" className='w-10'><BiArrowBack className='text-3xl' /></Link>
+				categories: {queries.categories && queries.categories.split(",").map(category => {
+					return <Image key={category} title={category} alt={category}
+						className="invert"
+						src={`/categories/${categories.find(cat => cat.id === category).name}.svg`}
+						width={30} height={30} />
+				})
+				}
+			</div>
+			<div className='absolute right-5 top-1/2 -translate-y-1/2'>
+				<ul className='flex gap-4 flex-col'>
+					<li>
+						<button className='px-4 py-2 rounded bg-blue-300 w-full'>
+							Change question
+						</button>
+					</li>
+					<li>
+						<button className='px-4 py-2 rounded bg-blue-300 w-full'>
+							50/50
+						</button>
+					</li>
+					<li>
+						<button className='px-4 py-2 rounded bg-blue-300 w-full'>
+							Second shot
+						</button>
+					</li>
+					<li>
+						<button className='px-4 py-2 rounded bg-blue-300 w-full'>
+							Extra life
+						</button>
+					</li>
+				</ul>
+			</div>
+			<div className='flex gap-2'>
+				<Link href="/" className='w-10'><BiArrowBack className='text-3xl' /></Link>
+				<button>
+					<BsArrowRepeat className='text-3xl' />
+				</button>
+			</div>
 			<audio ref={correctSound} src="sounds/correct_answer_sound.mp3" />
 			<audio ref={wrongSound} src="sounds/wrong_answer_sound.mp3" />
 
-			<div className='max-w-2xl mx-auto'>
-				<ol className="flex gap-5 mb-5 justify-between items-center w-full text-white">
+			<div className='max-w-2xl mx-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+				<ol className="flex gap-5 mb-10 justify-between items-center w-full text-white">
 					{
 						queries.questions && [...Array(parseInt(queries.questions))].map((_, i) => (
 							<li key={i} onClick={() => changueCurrent(i + 1)} className={`w-6 h-6 rounded-full mr-2 text-center text-sm pt-1 ${i + 1 === score ? "bg-red-400" : "bg-slate-600"} ${i + 1 <= score ? "cursor-pointer" : ""} ${i + 1 < score ? "bg-green-200" : ""} ${i + 1 === current ? "outline-dashed outline-red-600" : ""} `}>{i + 1}</li>
@@ -95,9 +139,9 @@ export default function Play() {
 								<div key={question.correct} className={`transition-all duration-500 ${i === 0 ? "" : "slide-right"} absolute text-center w-full`} id={"question-" + (i + 1)}>
 									<p className='rounded-md bg-purple-300 px-10 py-6 text-xl font-semibold block mb-3'>{question.question}</p>
 									<ul className='md:columns-2 mb-5'>
-										{question.answers && question.answers.map((answer, i) => (
-											<li key={i + "answer"}>
-												<button className={`w-full shadow-sm mt-4 bg-slate-200 py-3 px-5 rounded hover:scale-105`} id={"answer-" + i + 1} onClick={(e) => validate(e, answer)}>{answer}</button>
+										{question.answers && question.answers.map((answer, j) => (
+											<li key={j + "answer"}>
+												<button className={`${"answer-" + (i + 1)} w-full shadow-sm mt-4 bg-slate-200 py-3 px-5 rounded enabled:hover:scale-105`} onClick={(e) => validate(e, answer)}>{answer}</button>
 											</li>
 										))}
 									</ul>
@@ -107,7 +151,6 @@ export default function Play() {
 					}
 				</main>
 			</div>
-			<button onClick={() => getQuestion().then((question) => setQuestion(question))}>Get Question</button>
 		</>
 	)
 }

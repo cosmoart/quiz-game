@@ -3,48 +3,48 @@
 		"id": "aa",
 		"name": "History",
 		"description": "The study of past events, including political, economic, social, and cultural developments.",
-		"color": "#fef3c7"
+		"color": "#e6c642"
 	},
 	{
 		"id": "ab",
 		"name": "Entertainment",
 		"description": "Activities or forms of media that provide enjoyment and amusement, such as movies, music, and sports.",
-		"color": "#fee2e2"
+		"color": "#f94e4e"
 	},
 	{
 		"id": "ac",
 		"name": "Technology",
 		"description": "The application of scientific knowledge for practical purposes, especially in industry.",
-		"color": "#e0e7ff"
+		"color": "#685af5"
 	},
 	{
 		"id": "ad",
 		"name": "Geography",
 		"description": "The study of the Earth's surface, its features, and the distribution of life on it, including human and physical geography.",
-		"color": "#dcfce7"
+		"color": "#3ce956"
 	},
 	{
 		"id": "ae",
 		"name": "Art",
 		"description": "The expression or application of human creative skill and imagination, typically in a visual form such as painting or sculpture.",
-		"color": "#ffe4e6"
+		"color": "#307de7"
 	},
 	{
 		"id": "af",
 		"name": "Space",
 		"description": "The vast expanse that exists beyond the Earth's atmosphere, including the study of celestial bodies and phenomena",
-		"color": "#f3e8ff"
+		"color": "#a656fd"
 	},
 	{
 		"id": "ah",
 		"name": "Science",
 		"description": "Science is a set of verifiable systematic knowledge that studies, explains and predicts social, artificial and natural phenomena.",
-		"color": "#ecfccb"
+		"color": "#e857ed"
 	},
 	{
 		"id": "ag",
 		"name": "General culture",
 		"description": "Can cover a wide range of topics, knowledge and disciplines, such as biology, zoology, science, art, literature and more.",
-		"color": "#f1f5f9"
+		"color": "#56cfef"
 	}
 ]

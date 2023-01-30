@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container">
+		<p>dialog element comes with a backdrop and we can style that with ::backdrop selector</p>
+
+		<button onclick="openDialog()">Open dialog</button>
+
+
+		<dialog>
+			<h2>I'm an open dialog window</h2>
+			<p>Check out my backdrop :)</p>
+			<button onclick="closeDialog()">Close</button>
+		</dialog>
+
+	</div>
+	<script>
+		function openDialog() {
+			document.querySelector('dialog').showModal();
+		}
+
+		function closeDialog() {
+			document.querySelector('dialog').close();
+		}
+	</script>
+</body>
+
+</html>
