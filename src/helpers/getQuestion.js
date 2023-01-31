@@ -59,7 +59,7 @@ export default async function getQuestion(topic) {
 			correct: '1212'
 		},
 		{
-			topic: 'Literature',
+			topic: 'Art',
 			question: '2 What is the verb in the following sentence: \"It was very cold yesterday\"?',
 			answers: random(['Was', 'Very', 'Yesterday', 'Cold']),
 			correct: 'Was'
@@ -71,7 +71,7 @@ export default async function getQuestion(topic) {
 			correct: 'Venus'
 		},
 		{
-			topic: 'History',
+			topic: 'Geography',
 			question: '4 What is the name of the French city where the treaty of Versailles was signed?',
 			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
 			correct: 'Paris'

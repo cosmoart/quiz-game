@@ -43,18 +43,18 @@ export default function Play() {
 
 	function validate(e, answer) {
 		if (answer === question[current - 1].correct) {
-			e.target.style.backgroundColor = "green";
+			e.target.style.backgroundColor = "#22c55e";
 			e.target.classList.add("shake-left-right");
 			correctSound.current.volume = 0.3;
 			correctSound.current.play();
 		} else {
-			e.target.style.backgroundColor = "red";
+			e.target.style.backgroundColor = "#e11d48";
 			e.target.classList.add("vibrate");
 			document.querySelectorAll(`.answer-${current}`).forEach(answer => {
 				console.log(answer);
 				answer.disabled = true;
 				if (answer.textContent === question[current - 1].correct) {
-					answer.style.backgroundColor = "green";
+					answer.style.backgroundColor = "#22c55e";
 					answer.classList.add("shake-left-right");
 				}
 			});
@@ -65,11 +65,19 @@ export default function Play() {
 	}
 
 	useEffect(() => {
-		// Add the color of the current question to the body
-		console.log(question[current - 1]?.topic);
-		console.log(categories.find(cat => cat.name === question[current - 1]?.topic));
-		// document.body.style.setProperty("--current-question", categories.find(cat => cat.name === question[current - 1]?.topic).color);
-	}, [current]);
+		let color;
+		if (question.length > 0) {
+			color = categories.find(cat => cat.name === question[current - 1]?.topic).color
+		}
+		document.body.style.backgroundColor = color;
+		// document.body.style.setProperty("--bgColor", color);
+	}, [current, question]);
+
+	useEffect(() => {
+		window.onbeforeunload = function () {
+			return "Your game will be lost!";
+		}
+	}, []);
 
 	return (
 		<>

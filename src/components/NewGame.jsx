@@ -39,11 +39,21 @@ export default function NewGame() {
 		// });
 	}, []);
 
+	function closeDialog() {
+		dialog.current.classList.add('hide')
+		function handleAnimationEnd() {
+			dialog.current.classList.remove('hide')
+			dialog.current.close()
+			dialog.current.removeEventListener('animationend', handleAnimationEnd)
+		}
+		dialog.current.addEventListener('animationend', handleAnimationEnd)
+	}
+
 	return (
 		<dialog ref={dialog} id="newGameDialog" className='max-w-2xl fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white m-0 backdrop-blur-lg rounded-md py-7 px-10'>
 			<button
 				className='absolute top-1 right-1 text-3xl'
-				onClick={() => dialog.current.close()}>
+				onClick={() => closeDialog()} >
 				<IoCloseSharp />
 			</button>
 			<form onSubmit={(e) => e.preventDefault()}>
@@ -102,6 +112,6 @@ export default function NewGame() {
 				</div>
 				<button type='submit' className='bg-blue-600 text-white py-3 px-6 rounded-sm w-full uppercase' onClick={() => router.push(`/play?${query}`)}>New game</button>
 			</form>
-		</dialog>
+		</dialog >
 	)
 }

@@ -5,31 +5,75 @@
 #__next {
 	min-height: 100vh;
 }
-
 html {
 	scroll-behavior: smooth;
 }
-main {
+.mainHome {
 	background: rgb(28, 35, 58) url('/patternpad.svg');
 	background-size: 80%;
 }
 dialog::backdrop {
 	backdrop-filter: blur(3px);
 }
+body {
+	transition: all 0.3s ease-in-out;
+	overflow-x: hidden;
+}
 .slide-left {
 	transform: translateX(-100%);
 	opacity: 0;
 	pointer-events: none;
 }
-
 .slide-right {
 	transform: translateX(100%);
 	opacity: 0;
 	pointer-events: none;
 }
-/* Class that contain question- */
-[class*='question-'] {
-	transition: all 0.5s ease-in-out;
+/* Dialog */
+
+dialog[open] {
+	animation: show 0.3s ease;
+}
+dialog.hide {
+	animation: hide 0.2s ease;
+}
+@keyframes show {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.2);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
+}
+@keyframes hide {
+	to {
+		transform: translate(-50%, -50%) scale(0.2);
+		opacity: 0;
+	}
+}
+
+/* Scroll */
+
+::-webkit-scrollbar {
+	width: 0.5rem;
+}
+::-webkit-scrollbar-track {
+	background: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(0deg, #2563eb, #685af5);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #87adff;
+}
+
+/* Focus */
+:focus-visible {
+	outline: 5px dashed #2563eb;
+	outline-offset: 2px;
 }
 
 /* Animations */
@@ -85,21 +129,4 @@ dialog::backdrop {
 	100% {
 		transform: translate(0);
 	}
-}
-/* Scroll */
-
-::-webkit-scrollbar {
-	width: 0.5rem;
-}
-
-::-webkit-scrollbar-track {
-	background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-	background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: #555;
 }

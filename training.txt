@@ -1,0 +1,694 @@
+Topic: History
+Question: Who was the first emperor of Rome?
+- Augustus
+- Julius Caesar
+- Nero
+- Caligula
+Correct: Augustus
+--
+Topic: History
+Question: Who discovered America?
+- Christopher Columbus
+- Leif Erikson
+- Amerigo Vespucci
+- Vasco da Gama
+Correct: Christopher Columbus
+--
+Topic: History
+Question: In what year did World War I start?
+- 1914
+- 1939
+- 1945
+- 1918
+Correct: 1914
+--
+Topic: History
+Question: Who was the first president of the United States of America?
+- George Washington
+- John Adams
+- Thomas Jefferson
+- Abraham Lincoln
+Correct: George Washington
+--
+Topic: History
+Question: Who painted the Mona Lisa?
+- Leonardo da Vinci
+- Michelangelo
+- Raphael
+- Caravaggio
+Correct: Leonardo da Vinci
+--
+Topic: History
+Question: In what year did the Berlin Wall fall?
+- 1989
+- 1991
+- 1987
+- 1985
+Correct: 1989
+--
+Topic: History
+Question: Who wrote "To be, or not to be"?
+- William Shakespeare
+- Oscar Wilde
+- Charles Dickens
+- Jane Austen
+Correct: William Shakespeare
+--
+Topic: History
+Question: Who was the Queen of England during World War II?
+- Queen Elizabeth I
+- Queen Elizabeth II
+- Queen Victoria
+- Queen Mary
+Correct: Elizabeth I
+--
+Topic: History
+Question: In what year did the American Civil War end?
+- 1865
+- 1861
+- 1870
+- 1875
+Correct: 1865
+--
+Topic: History
+Question: Who invented the telephone?
+- Alexander Graham Bell
+- Thomas Edison
+- Nikola Tesla
+- Marconi
+Correct: Alexander Graham Bell
+--
+Topic: History
+Question: Who was the Ancient Greek God of the Sun?
+- Apollo
+- Zeus
+- Poseidon
+- Hades
+Correct: Apollo
+--
+Topic: History
+Question: What is the name of the French city where the treaty of Versailles was signed?
+- Paris
+- Versailles
+- Rome
+- London
+Correct: Paris
+--
+Topic: Entertainment
+Question: Who directed the movie "The Shawshank Redemption"?
+- Frank Darabont
+- Steven Spielberg
+- Martin Scorsese
+- Christopher Nolan
+Correct: Frank Darabont
+--
+Topic: Entertainment
+Question: Who played the character of Iron Man in the Marvel Cinematic Universe?
+- Robert Downey Jr.
+- Chris Evans
+- Chris Hemsworth
+- Mark Ruffalo
+Correct: Robert Downey Jr.
+--
+Topic: Entertainment
+Question: What is the name of the main character in the Harry Potter series?
+- Harry Potter
+- Hermione Granger
+- Ron Weasley
+- Neville Longbottom
+Correct: Harry Potter
+--
+Topic: Entertainment
+Question: Who won the Academy Award for Best Actor in 2019?
+- Rami Malek
+- Christian Bale
+- Joaquin Phoenix
+- Brad Pitt
+Correct: Rami Malek
+--
+Topic: Entertainment
+Question: What is the name of the band that performed the song "Bohemian Rhapsody"?
+- Queen
+- The Beatles
+- Led Zeppelin
+- Pink Floyd
+Correct: Queen
+--
+Topic: Entertainment
+Question: Who is the author of the book series "The Hunger Games"?
+- Suzanne Collins
+- Stephenie Meyer
+- J.K. Rowling
+- George R.R. Martin
+--
+Topic: Entertainment
+Question: Who played the character of Forrest Gump in the 1994 film of the same name?
+- Tom Hanks
+- Tom Cruise
+- Jim Carrey
+- Robin Williams
+Correct: Tom Hanks
+--
+Topic: Entertainment
+Question: What is the name of the animated movie about living toys?
+- Toy Story
+- The Incredibles
+- Ratatouille
+- Up
+Correct: Toy Story
+--
+Topic: Entertainment
+Question: Who played the role of The Joker in the 2019 film "Joker"?
+- Joaquin Phoenix
+- Heath Ledger
+- Jared Leto
+- Jack Nicholson
+Correct: Joaquin Phoenix
+--
+Topic: Entertainment
+Question: Who won the Grammy Award for Album of the Year in 2021?
+- Taylor Swift
+- Dua Lipa
+- Billie Eilish
+- Ariana Grande
+Correct: Taylor Swift
+--
+Topic: Entertainment
+Question: Kratos is the main character of what video game series?
+- God of War
+- The Last of Us
+- Uncharted
+- The Legend of Zelda
+Correct: God of War
+--
+Topic: Entertainment
+Question: What is the name of the villian in the movie "The Lion King"?
+- Scar
+- Mufasa
+- Timon
+- Pumbaa
+Correct: Scar
+--
+Topic: Entertainment
+Question: What is the best-selling video game in history?
+- Minecraft
+- Grand Theft Auto V
+- Tetris
+- Super Mario Bros.
+Correct: Minecraft
+--
+Topic: Entertainment
+Question: In which game is the character "Arthur Morgan" the protagonist?
+- Red Dead Redemption 2
+- Grand Theft Auto V
+- The Last of Us
+- Uncharted 4
+Correct: Red Dead Redemption 2
+--
+Topic: Technology
+Question: Who created the Windows operating system?
+- Microsoft
+- Apple
+- Google
+- IBM
+Correct: Microsoft
+--
+Topic: Technology
+Question: Who invented the World Wide Web (WWW)?
+- Tim Berners-Lee
+- Bill Gates
+- Steve Jobs
+- Mark Zuckerberg
+Correct: Tim Berners-Lee
+--
+Topic: Technology
+Question: What is the name of the most popular search engine?
+- Google
+- Bing
+- Yahoo
+- Baidu
+Correct: Google
+--
+Topic: Technology
+Question: Who is the CEO of Tesla, Inc.?
+- Elon Musk
+- Jeff Bezos
+- Satya Nadella
+- Tim Cook
+Correct: Elon Musk
+--
+Topic: Technology
+Question: Who is the creator of the programming language Python?
+- Guido van Rossum
+- James Gosling
+- Bjarne Stroustrup
+- Brendan Eich
+Correct: Guido van Rossum
+--
+Topic: Technology
+Question: What is the name of the virtual assistant created by Apple Inc.?
+- Siri
+- Alexa
+- Google Assistant
+- Bixby
+Correct: Siri
+--
+Topic: Technology
+Question: Who invented the email system?
+- Ray Tomlinson
+- Tim Berners-Lee
+- Marc Andreessen
+- Vint Cerf
+Correct: Ray Tomlinson
+--
+Topic: Technology
+Question: What is the name of the social media created by Mark Zuckerberg?
+- Facebook
+- Twitter
+- Instagram
+- Snapchat
+Correct: Facebook
+--
+Topic: Technology
+Question: Who invented the microprocessor?
+- Intel
+- AMD
+- ARM
+- Qualcomm
+Correct: Intel
+--
+Topic: Technology
+Question: What color is the "G" in the Google logo?
+- Blue
+- Red
+- Green
+- Yellow
+Correct: Blue
+--
+Topic: Geography
+Question: What is the capital of the United States of America?
+- Washington D.C.
+- New York City
+- Los Angeles
+- Chicago
+Correct: Washington D.C.
+--
+Topic: Geography
+Question: What is the longest river in the world?
+- Nile
+- Amazon
+- Yangtze
+- Mississippi
+Correct: Nile
+--
+Topic: Geography
+Question: Which country is home to the Great Barrier Reef?
+- Australia
+- Brazil
+- South Africa
+- Madagascar
+Correct: Australia
+--
+Topic: Geography
+Question: What is the capital of China?
+- Beijing
+- Shanghai
+- Hong Kong
+- Taipei
+Correct: Beijing
+--
+Topic: Geography
+Question: Which country is located between France and Germany?
+- Belgium
+- Netherlands
+- Denmark
+- Switzerland
+Correct: Belgium
+--
+Topic: Geography
+Question: What is the capital of India?
+- New Delhi
+- Mumbai
+- Bangalore
+- Hyderabad
+Correct: New Delhi
+--
+Topic: Geography
+Question: What is the tallest mountain in the world?
+- Mount Everest
+- K2
+- Mount Kilimanjaro
+- Mount Denali
+Correct: Mount Everest
+--
+Topic: Geography
+Question: What is the largest ocean in the world?
+- Pacific Ocean
+- Atlantic Ocean
+- Indian Ocean
+- Arctic Ocean
+Correct: Pacific Ocean
+--
+Topic: Geography
+Question: Which country is home to the Serengeti National Park?
+- Kenya
+- Tanzania
+- South Africa
+- Namibia
+Correct: Kenya
+--
+Topic: Geography
+Question: What is the capital of Brazil?
+- Brasilia
+- Rio de Janeiro
+- São Paulo
+- Salvador
+Correct: Brasilia
+--
+Topic: Art
+Question: Who painted the famous artwork "The Starry Night"?
+- Vincent van Gogh
+- Pablo Picasso
+- Leonardo da Vinci
+- Gustav Klimt
+Correct: Vincent van Gogh
+--
+Topic: Art
+Question: Who sculpted the statue of David?
+- Michelangelo
+- Bernini
+- Donatello
+- Rodin
+Correct: Michelangelo
+--
+Topic: Art
+Question: Who painted the famous artwork "The Persistence of Memory"?
+- Salvador Dalí
+- Pablo Picasso
+- Vincent van Gogh
+- Claude Monet
+Correct: Salvador Dalí
+--
+Topic: Art
+Question: Who sculpted the statue "The Thinker"?
+- Auguste Rodin
+- Michelangelo
+- Bernini
+- Donatello
+Correct: Auguste Rodin
+--
+Topic: Art
+Question: Who wrote the play "Romeo and Juliet"?
+- William Shakespeare
+- Oscar Wilde
+- Anton Chekhov
+- Tennessee Williams
+Correct: William Shakespeare
+--
+Topic: Art
+Question: Who wrote the novel "Pride and Prejudice"?
+- Jane Austen
+- Charlotte Bronte
+- Louisa May Alcott
+- Emily Dickinson
+Correct: Jane Austen
+--
+Topic: Art
+Question: Who composed the opera "La Boheme"?
+- Giuseppe Verdi
+- Wolfgang Amadeus Mozart
+- Ludwig van Beethoven
+- Franz Schubert
+Correct: Giuseppe Verdi
+--
+Topic: Art
+Question: Who composed the "Symphony No. 9"?
+- Ludwig van Beethoven
+- Wolfgang Amadeus Mozart
+- Franz Joseph Haydn
+- Gustav Mahler
+Correct: Ludwig van Beethoven
+--
+Topic: Art
+Question: Who composed the "Moonlight Sonata"?
+- Ludwig van Beethoven
+- Frédéric Chopin
+- Wolfgang Amadeus Mozart
+- Johannes Brahms
+Correct: Ludwig van Beethoven
+--
+Topic: Art
+Question: Who wrote the novel "One Hundred Years of Solitude"?
+- Gabriel García Márquez
+- Ernest Hemingway
+- F. Scott Fitzgerald
+- William Faulkner
+Correct: Gabriel García Márquez
+--
+Topic: Space
+Question: What is the name of the first artificial satellite launched into space?
+- Sputnik 1
+- Explorer 1
+- Vanguard 1
+- Vostok 1
+Correct: Sputnik 1
+--
+Topic: Space
+Question: Who was the first person to walk on the moon?
+- Neil Armstrong
+- Buzz Aldrin
+- Michael Collins
+- Pete Conrad
+Correct: Neil Armstrong
+--
+Topic: Space
+Question: What is the name of the largest planet in our solar system?
+- Jupiter
+- Saturn
+- Neptune
+- Uranus
+Correct: Jupiter
+--
+Topic: Space
+Question: Who was the first astronaut to orbit the Earth?
+- Yuri Gagarin
+- Neil Armstrong
+- John Glenn
+- Alan Shepard
+Correct: Yuri Gagarin
+--
+Topic: Space
+Question: What is the name of the largest moon in our solar system?
+- Ganymede
+- Callisto
+- Titan
+- Triton
+Correct: Ganymede
+--
+Topic: Space
+Question: Who was the commander of the Apollo 11 mission to the moon?
+- Neil Armstrong
+- Buzz Aldrin
+- Michael Collins
+- Pete Conrad
+Correct: Neil Armstrong
+--
+Topic: Space
+Question: What is the name of the constellation commonly referred to as the "Little Dipper"?
+- Ursa Minor
+- Cassiopeia
+- Cygnus
+- Orion
+Correct: Ursa Minor
+--
+Topic: Space
+Question: What is the name of the celestial body located at the center of our solar system?
+- The Sun
+- Earth
+- Venus
+- Mars
+Correct: The Sun
+--
+Topic: Space
+Question: Who many planets are there in our solar system?
+- 8
+- 9
+- 10
+- 11
+Correct: 8
+--
+Topic: Space
+Question: Who many stars are in our solar system?
+- 1
+- 24
+- 100 billion aprox
+- Too many to count
+Correct: 1
+--
+Topic: Space
+Question: What is the closest galaxy to ours?
+- Andromeda
+- Milky Way
+- Triangulum
+- Canis Major
+Correct: Andromeda
+--
+Topic: Science
+Question: Who is known as the "Father of Modern Physics"?
+- Albert Einstein
+- Isaac Newton
+- Stephen Hawking
+- Galileo Galilei
+Correct: Albert Einstein
+--
+Topic: Science
+Question: Haematology is the study of what?
+- Blood
+- Bones
+- Muscles
+- Nerves
+Correct: Blood
+--
+Topic: Science
+Question: What is the chemical symbol for the gold?
+- Au
+- Ir
+- Au
+- Ag
+Correct: Au
+--
+Topic: Science
+Question: Who discovered the law of gravitation?
+- Isaac Newton
+- Galileo Galilei
+- Albert Einstein
+- Johannes Kepler
+Correct: Isaac Newton
+--
+Topic: Science
+Question: Who discovered the circulation of blood?
+- William Harvey
+- Alessandro Volta
+- Michael Faraday
+- Charles Darwin
+Correct: William Harvey
+--
+Topic: Science
+Question: Who formulated the theory of evolution by natural selection?
+- Charles Darwin
+- Gregor Mendel
+- Jean-Baptiste Lamarck
+- Thomas Malthus
+Correct: Charles Darwin
+--
+Topic: Science
+Question: Who discovered the smallpox vaccine?
+- Louis Pasteur
+- Edward Jenner
+- Robert Koch
+- Alexander Fleming
+Correct: Louis Pasteur
+--
+Topic: Science
+Question: What is the chemical symbol for the element oxygen?
+- O
+- N
+- H
+- C
+Correct: O
+--
+Topic: Science
+Question: Which animal is faster?
+- Cheetah
+- Horse
+- Lion
+- Elephant
+Correct: Cheetah
+--
+Topic: Science
+Question: What is the largest animal on earth?
+- Blue Whale
+- Elephant
+- Giraffe
+- Hippopotamus
+Correct: Blue Whale
+--
+Topic: General Knowledge
+Question: Who is the current President of the United States?
+- Joe Biden
+- Donald Trump
+- Barack Obama
+- George W. Bush
+Correct: Joe Biden
+--
+Topic: General Knowledge
+Question: How many minutes are in a full week?
+- 10,080
+- 7,200
+- 5,040
+- 3,600
+Correct: 10,080
+--
+Topic: General Knowledge
+Question: How many elements are in the periodic table?
+- 118
+- 92
+- 104
+- 121
+Correct: 118
+--
+Topic: General Knowledge
+Question: How many strings does a guitar have?
+- 6
+- 4
+- 5
+- 8
+Correct: 6
+--
+Topic: General Knowledge
+Question: What country has won the most World Cups?
+- Brazil
+- Germany
+- Italy
+- Argentina
+Correct: Brazil
+--
+Topic: General Knowledge
+Question: How many bones do we have in an ear?
+- 3
+- 5
+- 6
+- 23
+Correct: 3
+--
+Topic: General Knowledge
+Question: What is the speed of light approximately?
+- 300,000 km/s
+- 180,000 km/s
+- 250,000 km/s
+- 150,000 km/s
+Correct: 300,000 km/s
+--
+Topic: General Knowledge
+Question: What does CIA stand for?
+- Central Intelligence Agency
+- Central Intelligence Administration
+- Central Imperial Agency
+- Control Information Agency
+Correct: Central Intelligence Agency
+--
+Topic: General Knowledge
+Question: Pyrophobia is the fear of what?
+- Fire
+- Water
+- Darkness
+- Heights
+Correct: Fire
+--
+Topic: General Knowledge
+Question: Acrophobia is the fear of what?
+- Heights
+- Darkness
+- Water
+- Fire
+Correct: Heights
