@@ -5,11 +5,61 @@
 #__next {
 	min-height: 100vh;
 }
+
+button {
+	position: relative;
+	vertical-align: middle;
+}
+
+button.learn-more {
+	font-weight: 600;
+	text-transform: uppercase;
+	background: #3b82f6;
+	border-radius: 0.75em;
+	transform-style: preserve-3d;
+	transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
+		background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+button.learn-more::before {
+	position: absolute;
+	content: '';
+	width: 100%;
+	height: 100%;
+	top: -3px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #2563eb;
+	border-radius: inherit;
+	transform: translate3d(0, 0.75em, -1em);
+	transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
+		box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+button.learn-more:hover {
+	background: #5490f1;
+	transform: translate(0, 0.25em);
+}
+
+button.learn-more:hover::before {
+	transform: translate3d(0, 0.5em, -1em);
+}
+
+button.learn-more:active {
+	background: #ffe9e9;
+	transform: translate(0em, 0.75em);
+}
+
+button.learn-more:active::before {
+	transform: translate3d(0, 0, -1em);
+}
+
 html {
 	scroll-behavior: smooth;
 }
 .mainHome {
-	background: rgb(28, 35, 58) url('/patternpad.svg');
+	background: rgb(28, 35, 58) url('/bg-home.svg');
 	background-size: 80%;
 }
 dialog::backdrop {

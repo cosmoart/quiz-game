@@ -1,10 +1,10 @@
 import Head from 'next/head'
-import Main from '@/components/Main'
+import Home from '@/components/Home'
 import GameModes from '@/components/GameModes'
 import Categories from '@/components/Categories'
 import NewGame from '@/components/NewGame'
 
-export default function Home() {
+export default function Main() {
 
   return (
     <>
@@ -14,7 +14,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <Main />
+      <Home />
       <GameModes />
       <Categories />
       <NewGame />
