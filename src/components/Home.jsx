@@ -42,7 +42,7 @@ export default function Main() {
 			<nav className='absolute right-4 bottom-3'>
 				<ul className='flex gap-4'>
 					<li className='relative'>
-						<button className={`align-middle relative z-20 hover:scale-105 p-1 bg-white rounded-md ${showInfo ? "scale-110" : ""}`} onClick={() => setShowInfo(!showInfo)}>
+						<button title='Show info' className={`align-middle relative z-20 hover:scale-105 p-1 bg-white rounded-md ${showInfo ? "scale-110" : ""}`} onClick={() => setShowInfo(!showInfo)}>
 							<MdInfo className='text-[25px]' style={{ color: "#1c233a" }} />
 						</button>
 						<p className={`absolute text-sm md:text-base top-0 whitespace-nowrap bg-white text-slate-900 rounded-md py-1 px-4 text-left transition-all ${showInfo ? 'opacity-100 right-7 ' : 'opacity-0 right-0 pointer-events-none'}`}>
@@ -50,7 +50,7 @@ export default function Main() {
 						</p>
 					</li>
 					<li>
-						<button className='align-middle hover:scale-105 p-1 bg-white rounded-md' onClick={() => setSound(!sound)}>
+						<button title={sound ? "Mute" : "Play music"} className='align-middle hover:scale-105 p-1 bg-white rounded-md' onClick={() => setSound(!sound)}>
 							{
 								sound ?
 									<Image src={soundOn} className="" alt="" width={25} height={25} onClick={() => setSound(false)} />
