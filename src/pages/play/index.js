@@ -51,7 +51,6 @@ export default function Play() {
 			e.target.style.backgroundColor = "#e11d48";
 			e.target.classList.add("vibrate");
 			document.querySelectorAll(`.answer-${current}`).forEach(answer => {
-				console.log(answer);
 				answer.disabled = true;
 				if (answer.textContent === question[current - 1].correct) {
 					answer.style.backgroundColor = "#22c55e";
