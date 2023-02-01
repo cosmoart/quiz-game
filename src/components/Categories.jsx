@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Categories() {
 	return (
-		<section className='max-w-6xl px-8 pb-6 flex flex-col justify-center text-slate-900'>
+		<section className='max-w-6xl bg-white px-8 pb-6 flex flex-col justify-center text-slate-900'>
 			<h2 className='text-2xl mb-4 font-medium mt-4 lg:mt-0'>Categories</h2>
 			<nav>
 				<ul className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-2 gap-3 md:gap-5'>

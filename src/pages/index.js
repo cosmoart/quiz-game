@@ -3,8 +3,13 @@ import Home from '@/components/Home'
 import GameModes from '@/components/GameModes'
 import Categories from '@/components/Categories'
 import NewGame from '@/components/NewGame'
+import { useEffect } from 'react'
 
 export default function Main() {
+
+  useEffect(() => {
+    window.onbeforeunload = () => null;
+  }, []);
 
   return (
     <>

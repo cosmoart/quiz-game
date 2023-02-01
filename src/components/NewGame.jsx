@@ -59,7 +59,7 @@ export default function NewGame() {
 			</button>
 			<form onSubmit={(e) => e.preventDefault()}>
 				<div className='flex flex-col sm:flex-row gap-8 mb-8'>
-					<div className='flex gap-5 flex-col'>
+					<div className='flex sm:gap-5 flex-col'>
 
 						<fieldset className='p-1'>
 							<legend className='text-lg font-semibold mb-2'>Mode</legend>
@@ -100,7 +100,7 @@ export default function NewGame() {
 					</div>
 					<fieldset>
 						<legend className='text-lg font-semibold mb-2 mx-1'>Categories</legend>
-						<div className='grid grid-cols-4 sm:grid-cols-2 gap-5 sm:gap-2 h-full'>
+						<div className='grid grid-cols-4 sm:grid-cols-2 gap-y-0 gap-x-3 sm:gap-2 h-full'>
 							{
 								categories.map(category => (
 									<label key={category.id} className="relative cursor-pointer" title={category.name}>
