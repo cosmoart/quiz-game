@@ -4,17 +4,18 @@ import { useRouter } from 'next/router'
 import { IoCloseSharp } from 'react-icons/io5'
 import categories from '../assets/categories.json'
 
+export const defaultConfig = {
+	mode: 'Classic',
+	questions: 10,
+	time: 20,
+	categories: categories.map(category => category.id)
+}
+
 export default function NewGame() {
 	const router = useRouter()
 	const dialog = useRef(null)
 
-	const [queries, setQueries] = useState({
-		mode: 'Classic',
-		questions: 10,
-		time: 20,
-		categories: categories.map(category => category.id)
-	});
-
+	const [queries, setQueries] = useState(defaultConfig);
 	const query = Object.keys(queries).map(key => `${key}=${queries[key]}`).join('&')
 
 	function handleInputs(e) {
@@ -27,6 +28,13 @@ export default function NewGame() {
 		} else {
 			setQueries({ ...queries, [e.target.name]: e.target.value })
 		}
+	}
+
+	function handleSubmit(e) {
+		e.preventDefault()
+		// push the url push(`/play?${query}`) and if the user is already in the play page, reload the page
+		router.push(`/play?${query}`).then(() => router.reload())
+		closeDialog()
 	}
 
 	// CLOSE DIALOG:
@@ -111,9 +119,8 @@ export default function NewGame() {
 							}
 						</div>
 					</fieldset>
-
 				</div>
-				<button type='submit' className='btn-primary py-3 px-6 w-full' onClick={() => router.push(`/play?${query}`)}>New game</button>
+				<button type='submit' className='btn-primary uppercase py-3 px-6 w-full' onClick={(e) => handleSubmit(e)}>New game</button>
 			</form>
 		</dialog >
 	)

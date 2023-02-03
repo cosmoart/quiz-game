@@ -12,6 +12,18 @@ html {
 	background: rgb(28, 35, 58) url('/bg-home.svg');
 	background-size: 80%;
 }
+body {
+	animation: bgMove 45s linear infinite;
+}
+/* From top right to bottom left */
+@keyframes bgMove {
+	0% {
+		background-position: 0% 0%;
+	}
+	100% {
+		background-position: 100% -100%;
+	}
+}
 dialog::backdrop {
 	backdrop-filter: blur(3px);
 }
@@ -66,7 +78,7 @@ body {
 
 @layer components {
 	.btn-primary {
-		@apply relative uppercase tracking-wider font-bold bg-[#3b82f6] text-center text-white rounded-md px-4 py-2 transition-all before:absolute before:w-full before:h-full before:top-[-3px] before:left-0 before:right-0 before:bottom-0 before:bg-[#2563eb];
+		@apply relative tracking-wider font-bold bg-[#3b82f6] text-center text-white rounded-md px-4 py-2 transition-all before:absolute before:w-full before:h-full before:top-[-3px] before:left-0 before:right-0 before:bottom-0 before:bg-[#2563eb];
 	}
 }
 

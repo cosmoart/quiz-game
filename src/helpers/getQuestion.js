@@ -76,5 +76,11 @@ export default async function getQuestion(topic) {
 			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
 			correct: 'Paris'
 		},
+		{
+			topic: 'General culture',
+			question: '5 What is the name of the first computer?',
+			answers: random(['Is named Astro because yes', 'Versailles', 'Rome', 'London']),
+			correct: 'Paris'
+		},
 	]
 }
