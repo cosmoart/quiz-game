@@ -33,7 +33,7 @@ export default function NewGame() {
 	function handleSubmit(e) {
 		e.preventDefault()
 		// push the url push(`/play?${query}`) and if the user is already in the play page, reload the page
-		router.push(`/play?${query}`).then(() => router.reload())
+		router.push(`/play?${query}`)
 		closeDialog()
 	}
 
@@ -86,7 +86,7 @@ export default function NewGame() {
 						<fieldset className='p-1'>
 							<legend className='text-lg font-semibold mb-2'>Questions</legend>
 							<div className='flex items-center'>
-								<input type="range" name="questions" min="5" max="12" defaultValue={queries.questions} onChange={handleInputs} className="w-full cursor-pointer" disabled={queries.mode === 'Infinite'} />
+								<input type="range" name="questions" min="4" max="10" defaultValue={queries.questions} onChange={handleInputs} className="w-full cursor-pointer" disabled={queries.mode === 'Infinite'} />
 								<span className='mx-3'>{queries.questions}</span>
 							</div>
 						</fieldset>

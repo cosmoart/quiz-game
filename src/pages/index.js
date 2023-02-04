@@ -6,17 +6,12 @@ import { useEffect } from 'react'
 
 export default function Main() {
 
-  useEffect(() => {
-    window.onbeforeunload = () => null;
-  }, []);
+  useEffect(() => window.onbeforeunload = () => null, []);
 
   return (
     <>
       <Head>
         <title>Quizi</title>
-        <meta name="description" content="TODO" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" />
       </Head>
       <Home />
       <GameModes />

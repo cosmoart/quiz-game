@@ -10,18 +10,18 @@ html {
 }
 .mainHome {
 	background: rgb(28, 35, 58) url('/bg-home.svg');
-	background-size: 80%;
+	background-size: 70%;
 }
 body {
-	animation: bgMove 45s linear infinite;
+	animation: bgMove 80s linear infinite;
+	background-size: 7%;
 }
-/* From top right to bottom left */
 @keyframes bgMove {
 	0% {
 		background-position: 0% 0%;
 	}
 	100% {
-		background-position: 100% -100%;
+		background-position: -100% 100%;
 	}
 }
 dialog::backdrop {
@@ -31,7 +31,7 @@ body {
 	transition: all 0.3s ease-in-out;
 	overflow-x: hidden;
 }
-:disabled {
+:not([class*='answer-']):disabled {
 	filter: grayscale(1);
 	cursor: not-allowed;
 }
@@ -74,6 +74,13 @@ body {
 
 .btn-primary:active::before {
 	transform: translate3d(0, 0, -0.1em);
+}
+.btn-primary:disabled:hover {
+	background: #3b82f6;
+	transform: translate(0, 0);
+}
+.btn-primary:disabled:hover::before {
+	transform: translate3d(0, 0.75em, -1em);
 }
 
 @layer components {
