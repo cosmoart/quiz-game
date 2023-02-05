@@ -31,7 +31,7 @@ body {
 	transition: all 0.3s ease-in-out;
 	overflow-x: hidden;
 }
-:not([class*='answer-']):disabled {
+.disabled {
 	filter: grayscale(1);
 	cursor: not-allowed;
 }
@@ -86,6 +86,12 @@ body {
 @layer components {
 	.btn-primary {
 		@apply relative tracking-wider font-bold bg-[#3b82f6] text-center text-white rounded-md px-4 py-2 transition-all before:absolute before:w-full before:h-full before:top-[-3px] before:left-0 before:right-0 before:bottom-0 before:bg-[#2563eb];
+	}
+	.wrongAnswer {
+		@apply before:bg-red-700 !bg-[#e11d48];
+	}
+	.correctAnswer {
+		@apply before:bg-green-600 !bg-[#22c55e];
 	}
 }
 

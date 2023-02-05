@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router'
 
-import getQuestion from "@/helpers/getQuestion"
 import Footer from '@/components/Footer'
-import { defaultConfig } from '@/components/NewGame';
+import queryValidator from '@/assets/data';
 import Wildcards from '@/components/Play/Wildcards';
 import Question from '@/components/Play/Question';
 import GameInfo from '@/components/Play/GameInfo';
@@ -12,24 +11,14 @@ import PlayHeader from '@/components/Play/PlayHeader';
 
 export default function Play() {
 	const router = useRouter()
-
-	const [questions, setQuestions] = useState([]);
 	const [queries, setQueries] = useState({});
 
 	useEffect(() => {
-		getQuestion().then((q) => setQuestions(q));
-
-		window.onbeforeunload = () => "Your game will be lost!";
-		// document.body.style.backgroundImage = "url('/pattern3.svg')";
+		// window.onbeforeunload = () => "Your game will be lost!";
 	}, []);
 
 	useEffect(() => {
-		setQueries({
-			questions: router.query.questions || defaultConfig.questions,
-			time: router.query.time || defaultConfig.time,
-			mode: router.query.mode || defaultConfig.mode,
-			categories: router.query.categories || defaultConfig.categories.join(',')
-		});
+		setQueries(queryValidator(router.query || {}));
 	}, [router.query]);
 
 	return (
@@ -39,9 +28,8 @@ export default function Play() {
 			</Head>
 
 			<PlayHeader />
-			<GameInfo queries={queries} />
-			<Question questions={questions} queries={queries} />
-			<Wildcards />
+			{queries.mode && <GameInfo queries={queries} />}
+			{queries.mode && < Question queries={queries} />}
 			<Footer alert={true} />
 		</>
 	)

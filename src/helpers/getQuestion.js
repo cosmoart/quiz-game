@@ -56,31 +56,64 @@ export default async function getQuestion(topic) {
 			topic: 'History',
 			question: '1 In what year did the battle of the ships of Tolosa take place?',
 			answers: random(['1212', '1492', '1094', '1571']),
-			correct: '1212'
+			correctAnswer: '1212',
+			userAnswer: false
 		},
 		{
 			topic: 'Art',
 			question: '2 What is the verb in the following sentence: \"It was very cold yesterday\"?',
 			answers: random(['Was', 'Very', 'Yesterday', 'Cold']),
-			correct: 'Was'
+			correctAnswer: 'Was',
+			userAnswer: false
 		},
 		{
 			topic: 'Space',
 			question: '3 Which planet is the second closest to the sun?',
 			answers: random(['Venus', 'Mercury', 'Mars', 'Jupiter']),
-			correct: 'Venus'
+			correctAnswer: 'Venus',
+			userAnswer: false,
 		},
 		{
 			topic: 'Geography',
 			question: '4 What is the name of the French city where the treaty of Versailles was signed?',
 			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
-			correct: 'Paris'
+			correctAnswer: 'Paris',
+			userAnswer: false
 		},
 		{
 			topic: 'General culture',
 			question: '5 What is the name of the first computer?',
 			answers: random(['Is named Astro because yes', 'Versailles', 'Rome', 'London']),
-			correct: 'Paris'
+			correctAnswer: 'Paris',
+			userAnswer: false
+		},
+		{
+			topic: 'General culture',
+			question: '6 What is the name of the first computer?',
+			answers: random(['Is named Astro because yes', 'Versailles', 'Rome', 'London']),
+			correctAnswer: 'Paris',
+			userAnswer: false
+		},
+		{
+			topic: 'General culture',
+			question: '7 What is the name of the first computer?',
+			answers: random(['Is named Astro because yes', 'Versailles', 'Rome', 'London']),
+			correctAnswer: 'Paris',
+			userAnswer: false
+		},
+		{
+			topic: 'General culture',
+			question: '8 What is the name of the first computer?',
+			answers: random(['Is named Astro because yes', 'Versailles', 'Rome', 'London']),
+			correctAnswer: 'Paris',
+			userAnswer: false
+		},
+		{
+			topic: 'General culture',
+			question: '9 What is the name of the first computer?',
+			answers: random(['Is named Astro because yes', 'Versailles', 'Rome', 'London']),
+			correctAnswer: 'Paris',
+			userAnswer: false
 		},
 	]
 }
