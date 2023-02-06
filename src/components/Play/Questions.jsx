@@ -2,26 +2,22 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Wildcards from './Wildcards';
 import LoseOrWin from './LoseOrWin';
-import getQuestion from "@/helpers/getQuestion"
 import categories from '@/assets/categories.json'
 
-export default function Question({ queries }) {
+export default function Questions({ queries, setQuestions, questions }) {
 	const [win, setWin] = useState(0);
 	const [wildCards, setWildCards] = useState({
 		skip: 0,
 		half: 1,
 		doubled: 1,
-		lives: 0,
+		lives: 1,
 	});
 
 	const [timeQ, setTimeQ] = useState(Number(queries.time));
-	const [questions, setQuestions] = useState([]);
 	const [score, setScore] = useState(1);
 	const [current, setCurrent] = useState(1);
 
-
 	useEffect(() => {
-		getQuestion().then((q) => setQuestions(q));
 		const timeInterva = setInterval(() => {
 			setTimeQ(timeQ => timeQ > 0 ? timeQ - 1 : timeQ);
 		}, 1000);
@@ -29,10 +25,8 @@ export default function Question({ queries }) {
 	}, []);
 
 	useEffect(() => {
-		if (timeQ === 0) {
-			setWin(false);
-		}
-	}, [timeQ, wildCards.lives]);
+		if (timeQ === 0 && queries.mode !== "Classic") winOrLose();
+	}, [timeQ]);
 
 	useEffect(() => {
 		let color;
@@ -43,6 +37,12 @@ export default function Question({ queries }) {
 		document.body.style.backgroundImage = `url(${questions[0] && questions[current - 1].topic}.png)`;
 
 	}, [current, questions]);
+
+	function winOrLose() {
+		if (queries.mode !== "Classic" && timeQ < 1 && wildCards.lives < 1) setWin(-1);
+		else if (wildCards.lives < 1) setWin(-1);
+		else if (score >= Number(queries.questions)) setWin(1);
+	}
 
 	function changueCurrent(number) {
 		if (number > score) return
@@ -74,24 +74,39 @@ export default function Question({ queries }) {
 			}
 		});
 
-		setScore(score + 1);
+		setQuestions(questions => {
+			questions[current - 1].userAnswer = correct ? 1 : -1;
+			return questions;
+		});
+
+		winOrLose();
+
+		if (!correct) {
+			setWildCards(wildCards => {
+				wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives;
+				return wildCards;
+			});
+		}
+
+		if (wildCards.lives < 1 && queries.mode !== "Classic" && timeQ < 1) return
+		setScore(score => score + 1);
 	}
 
 	return (
 		<>
-			<div className='max-w-2xl mx-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-				<ol className="flex gap-5 mb-10 justify-between items-center w-full text-white">
+			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+				<ol className="flex gap-5 mb-5 md:mb-10 justify-between items-center w-full text-white">
 					{
-						queries.questions && [...Array(parseInt(queries.questions))].map((_, i) => (
+						[...Array(parseInt(queries.questions))].map((_, i) => (
 							<li key={i}>
 								<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score ? "bg-white text-blue-500 hover:scale-105" : "bg-slate-600"} ${i + 1 <= score ? "cursor-pointer" : ""} ${i + 1 < score ? "bg-green-400" : ""} ${i + 1 === current ? "outline outline-offset-2 hover:outline-offset-4 outline-blue-500" : ""} `}>{i + 1}</button>
 							</li>
 						))
 					}
 				</ol>
-				<main className='relative w-screen max-w-2xl min-h-[20rem] mx-auto overflow-hidden h-1/2'>
+				<main className='relative max-w-2xl min-h-[26rem] md:min-h-[20rem] mx-auto overflow-hidden h-1/2'>
 					{
-						questions && questions.map((question, i) => {
+						questions.map((question, i) => {
 							return (
 								<div key={question.correctAnswer + i} className={`transition-all duration-500 ${i === 0 ? "" : "slide-right"} absolute text-center w-full`} id={"question-" + (i + 1)}>
 									<p className='rounded-md bg-blue-500 px-10 py-6 text-white text-xl font-semibold block mb-3'>
@@ -99,7 +114,7 @@ export default function Question({ queries }) {
 									</p>
 
 									<ul className='md:columns-2 mt-4 '>
-										{question.answers && question.answers.map((answer, j) => (
+										{question.answers.map((answer, j) => (
 											<li key={j + answer} className="relative">
 												<button className={`${"answer-" + (i + 1)} peer btn-primary w-full shadow-sm py-3 px-5 rounded mb-6`} onClick={validateAnswer}>
 													{answer}
@@ -118,7 +133,10 @@ export default function Question({ queries }) {
 			</div>
 			<Wildcards wildCards={wildCards} />
 			{
-				
+				win === 1 && <LoseOrWin win={true} />
+			}
+			{
+				win === -1 && <LoseOrWin />
 			}
 			{
 				queries.mode !== "Classic" && <div className='bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium'>

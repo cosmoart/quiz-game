@@ -1,16 +1,24 @@
 import Image from 'next/image'
 import soundOn from "../assets/sound-on.svg"
 import soundOff from "../assets/sound-off.svg"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdInfo } from 'react-icons/md'
 import { GoAlert } from 'react-icons/go';
 
 export default function Footer({ alert = false }) {
-	const [sound, setSound] = useState(true);
+	const [sound, setSound] = useState(false);
 	const [showInfo, setShowInfo] = useState(false);
 
+	useEffect(() => {
+		localStorage.getItem("sound") === "true" ? true : false
+	}, []);
+
+	useEffect(() => {
+		localStorage.setItem("sound", sound);
+	}, [sound]);
+
 	return (
-		<footer className='absolute right-4 bottom-3'>
+		<footer className='fixed right-4 bottom-3 z-40'>
 			<nav>
 				<ul className='flex gap-4'>
 
@@ -22,10 +30,11 @@ export default function Footer({ alert = false }) {
 									: <MdInfo className='text-[25px]' style={{ color: "#1c233a" }} />
 							}
 						</button>
-						<p className={`absolute top-[2px] text-sm md:text-base whitespace-nowrap bg-white text-slate-900 rounded-md py-1 px-4 text-left transition-all ${showInfo ? 'opacity-100 right-7 ' : 'opacity-0 right-0 pointer-events-none'}`}>
+						<p className={`absolute bottom-full -right-14 sm:bottom-auto sm:top-[2px] whitespace-pre sm:whitespace-nowrap text-sm md:text-base whitespace-nowrap bg-white text-slate-900 rounded-md py-1 px-4 text-left transition-all ${showInfo ? 'opacity-100 -right-14  sm:!right-7 ' : 'opacity-0 right-0 pointer-events-none'}`}>
 							{
 								alert
-									? "Questions made by AI. The questions and answers may have errors."
+									? `Questions made by AI.
+The questions and answers may have errors.`
 									: <span><a href="https://github.com/cosmoart/quiz-game" target="_blank" rel="noopener noreferrer" className='underline'>MIT licence</a> - Made with ❤️ by <a href="https://github.com/cosmoart" target="_blank" rel="noreferrer" className='underline'>Cosmo</a></span>
 							}
 						</p>

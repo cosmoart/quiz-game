@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { IoCloseSharp } from 'react-icons/io5'
 import categories from '../assets/categories.json'
-import queryValidator, { quiziConfig } from '@/assets/data'
+import queryValidator, { quiziConfig } from '@/helpers/gameConfig'
 
 export default function NewGame() {
 	const router = useRouter()

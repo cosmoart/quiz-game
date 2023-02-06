@@ -14,7 +14,7 @@ html {
 }
 body {
 	animation: bgMove 80s linear infinite;
-	background-size: 7%;
+	background-size: 5rem;
 }
 @keyframes bgMove {
 	0% {
