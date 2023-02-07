@@ -35,6 +35,27 @@ body {
 	filter: grayscale(1);
 	cursor: not-allowed;
 }
+/* pulse ============================= */
+.pulse_animation {
+	animation: pulse 1s infinite;
+}
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+		background: rgb(236, 52, 52);
+		color: white;
+	}
+	50% {
+		transform: scale(1.1);
+		background: white;
+		color: rgb(236, 52, 52);
+	}
+	100% {
+		transform: scale(1);
+		background: rgb(236, 52, 52);
+		color: white;
+	}
+}
 /* slide ============================ */
 .slide-left {
 	transform: translateX(-100%);
@@ -45,6 +66,28 @@ body {
 	transform: translateX(100%);
 	opacity: 0;
 	pointer-events: none;
+}
+/* Loader ============================ */
+.loader {
+	width: 100px;
+	height: 100px;
+}
+.loader path {
+	fill: #2563eb;
+	transform-origin: center;
+	animation: rotate 1.5s linear infinite;
+}
+.loaderreverse {
+	animation-direction: reverse !important;
+}
+
+@keyframes rotate {
+	to {
+		transform: rotate(360deg);
+	}
+	from {
+		transform: rotate(0deg);
+	}
 }
 
 /* btn-primary ============================ */

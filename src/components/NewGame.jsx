@@ -74,7 +74,7 @@ export default function NewGame() {
 						<fieldset className='p-1'>
 							<legend className='text-lg font-semibold mb-2'>Questions</legend>
 							<div className='flex items-center'>
-								<input type="range" name="questions" min={quiziConfig.minQuestions} max={quiziConfig.maxQuestions} defaultValue={quiziConfig.defaultQuestions} onChange={handleInputs} className="w-full cursor-pointer" disabled={queries.mode === quiziConfig.modes[quiziConfig.modes.length - 1]} />
+								<input type="range" name="questions" min={quiziConfig.minQuestions} max={quiziConfig.maxQuestions} defaultValue={quiziConfig.defaultQuestions} onChange={handleInputs} className={`w-full cursor-pointer ${queries.mode === quiziConfig.modes[quiziConfig.modes.length - 1] ? "grayscale cursor-not-allowed" : ""}`} disabled={queries.mode === quiziConfig.modes[quiziConfig.modes.length - 1]} />
 								<span className='mx-3'>{queries.questions}</span>
 							</div>
 						</fieldset>
@@ -102,7 +102,7 @@ export default function NewGame() {
 									<label key={category.id} className="relative cursor-pointer" title={category.name}>
 										<input defaultChecked className="peer h-16 sm:h-auto block opacity-0" type="checkbox" name="categories" id={category.name} value={category.id} onChange={handleInputs} disabled={queries.categories.length === 1 && queries.categories.includes(category.id)} />
 
-										<Image className={`absolute transition-all w-full peer-checked:scale-90 p-2 rounded peer-checked:bg-[${category.color}] invert peer-checked:invert-0 peer-checked:bg-[var(--bgColor)] top-0 pointer-events-none peer-checked:outline-2 peer-checked:outline-offset-2 peer-checked:outline outline-[var(--bgColor)]`} src={`/categories/${category.name.toLowerCase()}.svg`} alt={category.name} width={40} height={40} style={{ "--bgColor": category.color }} />
+										<Image className={`absolute transition-all w-full peer-checked:scale-90 p-2 rounded peer-checked:bg-[${category.color}] invert peer-checked:invert-0 peer-checked:bg-[var(--bgColor)] top-0 pointer-events-none peer-checked:outline-2 peer-checked:outline-offset-2 peer-checked:outline outline-[var(--bgColor)]`} src={`/categories-icons/${category.name.toLowerCase()}.svg`} alt={category.name} width={40} height={40} style={{ "--bgColor": category.color }} />
 									</label>
 								))
 							}

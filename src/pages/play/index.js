@@ -9,32 +9,33 @@ import GameInfo from '@/components/Play/GameInfo';
 import PlayHeader from '@/components/Play/PlayHeader';
 import getQuestions from "@/helpers/getQuestions"
 import categories from '@/assets/categories.json'
+import Loader from '@/components/Loader'
+import Link from 'next/link';
 
 export default function Play() {
 	const [questions, setQuestions] = useState([]);
 	const [queries, setQueries] = useState({});
 	const [loading, setLoading] = useState(true);
-	const router = useRouter()
+	const [errorQ, setErrorQ] = useState(false);
 
-	useEffect(() => {
-		// window.onbeforeunload = () => "Your game will be lost!";
-	}, []);
+	const router = useRouter()
 
 	useEffect(() => {
 		if (router.isReady) {
 			let validQuery = queryValidator(router.query);
 			setQueries(validQuery);
-
 			let cate = validQuery.categories.map(cat => categories.find(c => c.id === cat).name);
-			setLoading(true);
-			console.log(getQuestions(cate, queries.questions));
-			getQuestions(cate, queries.questions).then((q) => {
+			getQuestions(cate, validQuery.questions).then((q) => {
 				setQuestions(q);
 				setLoading(false);
-			});
+			}).catch((err) => {
+				setErrorQ(true);
+				setLoading(false);
+			})
 		}
-		console.log(loading)
-	}, [router.isReady]);
+		console.log(loading);
+		if (!loading) router.reload();
+	}, [router.isReady, router.query]);
 
 	return (
 		<>
@@ -44,13 +45,21 @@ export default function Play() {
 
 			{
 				loading
-					? <div className="text-slate-900 bg-white rounded-md px-6 py-4 text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">Loading...</div>
-					: <>
-						<PlayHeader />
-						<GameInfo queries={queries} />
-						<Questions queries={queries} questions={questions} setQuestions={setQuestions} />
-						<Footer alert={true} />
-					</>
+					? <div className="text-slate-900 bg-white rounded-md px-6 py-4 text-2xl flex items-center justify-center absolute top-0 left-0 w-screen h-screen cursor-progress">
+						<div title="Loading..." >
+							<Loader />
+						</div>
+					</div>
+					: errorQ ? <div className="text-slate-900 bg-white rounded-md px-6 py-4 text-2xl flex items-center justify-center flex-col absolute top-0 left-0 w-screen h-screen cursor-progress text-center">
+						<p>Ooops! Something went wrong. Please try again later.</p>
+						<Link className='text-blue-600 underline text-lg' href='/'>Go back to home</Link>
+					</div>
+						: <>
+							<PlayHeader />
+							<GameInfo queries={queries} />
+							<Questions queries={queries} questions={questions} setQuestions={setQuestions} />
+							<Footer alert={true} />
+						</>
 			}
 		</>
 	)

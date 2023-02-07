@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Wildcards from './Wildcards';
-import LoseOrWin from './LoseOrWin';
+import GameOver from './GameOver';
 import categories from '@/assets/categories.json'
 
 export default function Questions({ queries, setQuestions, questions }) {
 	const [win, setWin] = useState(0);
+	const [timeQ, setTimeQ] = useState(Number(queries.time));
+	const [score, setScore] = useState(1);
+	const [current, setCurrent] = useState(1);
 	const [wildCards, setWildCards] = useState({
 		skip: 0,
 		half: 1,
@@ -13,36 +16,27 @@ export default function Questions({ queries, setQuestions, questions }) {
 		lives: 1,
 	});
 
-	const [timeQ, setTimeQ] = useState(Number(queries.time));
-	const [score, setScore] = useState(1);
-	const [current, setCurrent] = useState(1);
-
 	useEffect(() => {
+		if (queries.mode === "Classic") return;
 		const timeInterva = setInterval(() => {
 			setTimeQ(timeQ => timeQ > 0 ? timeQ - 1 : timeQ);
 		}, 1000);
 		return () => clearInterval(timeInterva);
-	}, []);
+	}, [queries.mode]);
 
 	useEffect(() => {
-		if (timeQ === 0 && queries.mode !== "Classic") winOrLose();
+		if (timeQ < 1 && wildCards.lives < 1) setWin(-1)
+		if (timeQ < 1 && wildCards.lives > 0) setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }));
 	}, [timeQ]);
 
+	// Changue background color and image when the question changes
 	useEffect(() => {
-		let color;
 		if (questions.length > 0) {
-			color = categories.find(cat => cat.name === questions[current - 1]?.topic).color
+			let color = categories.find(cat => cat.name === questions[current - 1]?.topic).color
+			document.body.style.backgroundColor = color;
+			document.body.style.backgroundImage = `url(categories-bg/${questions[0] && questions[current - 1].topic}.webp)`;
 		}
-		document.body.style.backgroundColor = color;
-		document.body.style.backgroundImage = `url(${questions[0] && questions[current - 1].topic}.png)`;
-
 	}, [current, questions]);
-
-	function winOrLose() {
-		if (queries.mode !== "Classic" && timeQ < 1 && wildCards.lives < 1) setWin(-1);
-		else if (wildCards.lives < 1) setWin(-1);
-		else if (score >= Number(queries.questions)) setWin(1);
-	}
 
 	function changueCurrent(number) {
 		if (number > score) return
@@ -79,7 +73,7 @@ export default function Questions({ queries, setQuestions, questions }) {
 			return questions;
 		});
 
-		winOrLose();
+		if (wildCards.lives < 1 && !correct) return setWin(-1);
 
 		if (!correct) {
 			setWildCards(wildCards => {
@@ -87,19 +81,20 @@ export default function Questions({ queries, setQuestions, questions }) {
 				return wildCards;
 			});
 		}
+		let n = Number(queries.questions);
+		if (current === n && correct) return setWin(1);
 
-		if (wildCards.lives < 1 && queries.mode !== "Classic" && timeQ < 1) return
 		setScore(score => score + 1);
 	}
 
 	return (
 		<>
 			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-				<ol className="flex gap-5 mb-5 md:mb-10 justify-between items-center w-full text-white">
+				<ol className="flex gap-5 flex-wrap mb-5 md:mb-10 justify-between items-center w-full text-white">
 					{
 						[...Array(parseInt(queries.questions))].map((_, i) => (
 							<li key={i}>
-								<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score ? "bg-white text-blue-500 hover:scale-105" : "bg-slate-600"} ${i + 1 <= score ? "cursor-pointer" : ""} ${i + 1 < score ? "bg-green-400" : ""} ${i + 1 === current ? "outline outline-offset-2 hover:outline-offset-4 outline-blue-500" : ""} `}>{i + 1}</button>
+								<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && "bg-white text-blue-500"} ${i + 1 <= score ? "cursor-pointer hover:scale-105" : "bg-slate-600 hover:cursor-auto"} ${questions[i].userAnswer === 1 && "bg-green-400 !text-white"} ${questions[i].userAnswer === -1 && "bg-red-500 !text-white"} ${i + 1 === current && "outline outline-offset-2 hover:outline-offset-4 outline-blue-500"} `}>{i + 1}</button>
 							</li>
 						))
 					}
@@ -132,14 +127,9 @@ export default function Questions({ queries, setQuestions, questions }) {
 				</main>
 			</div>
 			<Wildcards wildCards={wildCards} />
+			<GameOver win={win} />
 			{
-				win === 1 && <LoseOrWin win={true} />
-			}
-			{
-				win === -1 && <LoseOrWin />
-			}
-			{
-				queries.mode !== "Classic" && <div className='bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium'>
+				queries.mode !== "Classic" && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${timeQ < 6 ? "pulse_animation" : ""}`}>
 					{timeQ}
 				</div>
 			}
