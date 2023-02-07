@@ -12,9 +12,9 @@ A quiz/trivia game made with with [Cohere](https://midu.link/ia) for the [Midude
 
   <a href="https://quizi.vercel.app">View Demo</a>
   ·
-  <a href="https://github.com/cosmoart/quiz-game">Report Bug</a>
+  <a href="https://github.com/cosmoart/quiz-game/issues">Report Bug</a>
   ·
-  <a href="https://github.com/cosmoart/quiz-game">Request Feature</a>
+  <a href="https://github.com/cosmoart/quiz-game/issues">Request Feature</a>
 </div>
 
 

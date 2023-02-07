@@ -53,8 +53,8 @@ export default function Questions({ queries, setQuestions, questions }) {
 	function validateAnswer(e) {
 		let correct = e.target.textContent === questions[current - 1].correctAnswer;
 
-		let sound = new Audio(`/sounds/${correct ? "correct" : "wrong"}_answer.mp3`);
-		sound.volume = 0.3;
+		let sound = document.getElementById(correct ? "correct_sound" : "wrong_sound");
+		// sound.volume = 0.3;
 		sound.play();
 
 		e.target.parentNode.classList.add(correct ? "shake-left-right" : "vibrate");
@@ -89,6 +89,8 @@ export default function Questions({ queries, setQuestions, questions }) {
 
 	return (
 		<>
+			<audio src="/sounds/correct_answer.mp3" id="correct_sound" className='hidden' />
+			<audio src="/sounds/wrong_answer.mp3" id="wrong_sound" className='hidden' />
 			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
 				<ol className="flex gap-5 flex-wrap mb-5 md:mb-10 justify-between items-center w-full text-white">
 					{

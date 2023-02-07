@@ -79,7 +79,7 @@ export default function GameOver({ win }) {
 						}
 					</p>
 					<Link href="/" className='btn-primary uppercase tracking-widest rounded-md bg-blue-500 text-white'>
-						{win ? 'Play Again' : 'Try Again'}
+						{win !== -1 ? 'Play Again' : 'Try Again'}
 					</Link>
 				</div>
 			</dialog>
