@@ -26,6 +26,7 @@ A quiz/trivia game made with with [Cohere](https://midu.link/ia) for the [Midude
 - [About The Project](#about-the-project)
 - [Screenshots](#screenshots)
 - [Built With](#built-with)
+- [Getting Started](#getting-started)
 - [License](#license)
 - [Contact](#contact)
 </details>
@@ -69,6 +70,38 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [Tailwind CSS](https://tailwindcss.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+1. Clone or fork the repo
+```sh
+git clone https://github.com/cosmoart/quiz-game
+```
+2. Change directory to `source_code`
+```sh
+cd source_code
+```
+3. Install NPM packages
+```sh
+npm install
+```
+4. Run the project
+```sh
+npm run dev
+```
+
+You will need to create a `.env.local` file with the Cohere API key at `source_code`. You can get one [here](https://midu.link/ia).
+
+The `.env.local` file should look like this:
+
+```
+NEXT_PUBLIC_COHERE_API_KEY=XXXXXXXXXXXXXXXXXX
+```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 
 <!-- LICENSE -->

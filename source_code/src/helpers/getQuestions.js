@@ -11,7 +11,6 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 		}
 		return newArr;
 	}
-
 	return new Promise((resolve, reject) => {
 		let questions = [];
 		let topics = [];
@@ -37,17 +36,26 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 			return response;
 
 		})).then((responses) => {
-			responses.forEach((response, i) => {
-				let res = response.body.generations[0].text;
-				questions.push({
-					topic: topics[i],
-					question: res.split('\n')[1].split('Question: ')[1],
-					answers: random(res.split('\n').slice(2, 6).map((answer) => answer.split('- ')[1])),
-					correctAnswer: res.split('\n')[6].split('Correct: ')[1],
-					userAnswer: 0
-				});
-			})
-		}).then(() => resolve(questions)).catch(err => reject(err))
+			// Search any response with statusCode 4xx or 5xx and reject the promise
+			if (responses.some((response) => response.statusCode >= 400)) return reject(responses[0]);
+
+			try {
+				responses.forEach((response, i) => {
+					let res = response.body.generations[0].text;
+					questions.push({
+						topic: topics[i],
+						question: res.split('\n')[1].split('Question: ')[1],
+						answers: random(res.split('\n').slice(2, 6).map((answer) => answer.split('- ')[1])),
+						correctAnswer: res.split('\n')[6].split('Correct: ')[1],
+						userAnswer: 0
+					});
+				})
+			} catch (err) {
+				reject(err);
+			}
+		}).catch(err => {
+			reject(err[0]);
+		}).then(() => resolve(questions))
 	})
 
 	let res = [
