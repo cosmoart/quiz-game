@@ -9,8 +9,8 @@ import GameInfo from '@/components/Play/GameInfo';
 import PlayHeader from '@/components/Play/PlayHeader';
 import getQuestions from "@/helpers/getQuestions"
 import categories from '@/assets/categories.json'
-import Loader from '@/components/Loader'
-import Link from 'next/link';
+import Loader from '@/components/LoadingPage'
+import ErrorPage from '@/components/ErrorPage';
 
 export default function Play() {
 	const [questions, setQuestions] = useState([]);
@@ -25,13 +25,12 @@ export default function Play() {
 			let validQuery = queryValidator(router.query);
 			setQueries(validQuery);
 			let cate = validQuery.categories.map(cat => categories.find(c => c.id === cat).name);
-			getQuestions(cate, validQuery.questions).then((q) => {
-				setQuestions(q);
-				setLoading(false);
-			}).catch((err) => {
-				setErrorQ([true, err]);
-				setLoading(false);
-			})
+			getQuestions(cate, validQuery.questions)
+				.then((q) => {
+					setQuestions(q);
+				}).catch((err) => {
+					setErrorQ([true, err]);
+				}).finally(() => setLoading(false));
 		}
 		console.log(errorQ.statusCode);
 		if (!loading) router.reload();
@@ -45,17 +44,9 @@ export default function Play() {
 
 			{
 				loading
-					? <div className="text-slate-900 bg-white rounded-md px-6 py-4 text-2xl flex items-center justify-center absolute top-0 left-0 w-screen h-screen cursor-progress">
-						<div title="Loading..." >
-							<Loader />
-						</div>
-					</div>
-					: errorQ[0] ? <div className="text-slate-900 bg-white rounded-md px-6 py-4 text-2xl flex items-center justify-center flex-col absolute top-0 left-0 w-screen h-screen cursor-progress text-center">
-						<h2>
-							{errorQ[1].statusCode || 500}: {errorQ[1].body && errorQ[1].body.message || "Error occured"}</h2>
-						<p>Ooops! Something went wrong. Please try again later.</p>
-						<Link className='text-blue-600 underline text-lg' href='/'>Go back to home</Link>
-					</div>
+					? <Loader />
+					: errorQ[0]
+						? <ErrorPage errorQ={errorQ} />
 						: <>
 							<PlayHeader />
 							<GameInfo queries={queries} />
