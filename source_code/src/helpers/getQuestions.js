@@ -1,6 +1,6 @@
 import promts from './promts';
 const cohere = require('cohere-ai');
-cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY);
+// cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY);
 
 export default async function getQuestions(topicsArray, questionsNumber) {
 	function random(arr) {
@@ -11,52 +11,53 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 		}
 		return newArr;
 	}
-	return new Promise((resolve, reject) => {
-		let questions = [];
-		let topics = [];
 
-		for (let i = 0; i < questionsNumber; i++) {
-			topics.push(topicsArray[i % topicsArray.length]);
-		}
+	// return new Promise((resolve, reject) => {
+	// 	let questions = [];
+	// 	let topics = [];
 
-		Promise.all(topics.map(async (topic) => {
-			let response = await cohere.generate({
-				model: 'xlarge',
-				prompt: promts[topic],
-				max_tokens: 65,
-				temperature: 0.3,
-				k: 0,
-				p: 0.75,
-				stop_sequences: ["--"],
-				frequency_penalty: 0.9,
-				presence_penalty: 0.36,
-				stop_sequences: [],
-				return_likelihoods: 'NONE'
-			});
-			return response;
+	// 	for (let i = 0; i < questionsNumber; i++) {
+	// 		topics.push(topicsArray[i % topicsArray.length]);
+	// 	}
 
-		})).then((responses) => {
-			// Search any response with statusCode 4xx or 5xx and reject the promise
-			if (responses.some((response) => response.statusCode >= 400)) return reject(responses[0]);
+	// 	Promise.all(topics.map(async (topic) => {
+	// 		let response = await cohere.generate({
+	// 			model: 'xlarge',
+	// 			prompt: promts[topic],
+	// 			max_tokens: 65,
+	// 			temperature: 0.3,
+	// 			k: 0,
+	// 			p: 0.75,
+	// 			stop_sequences: ["--"],
+	// 			frequency_penalty: 0.9,
+	// 			presence_penalty: 0.36,
+	// 			stop_sequences: [],
+	// 			return_likelihoods: 'NONE'
+	// 		});
+	// 		return response;
 
-			try {
-				responses.forEach((response, i) => {
-					let res = response.body.generations[0].text;
-					questions.push({
-						topic: topics[i],
-						question: res.split('\n')[1].split('Question: ')[1],
-						answers: random(res.split('\n').slice(2, 6).map((answer) => answer.split('- ')[1])),
-						correctAnswer: res.split('\n')[6].split('Correct: ')[1],
-						userAnswer: 0
-					});
-				})
-			} catch (err) {
-				reject(err);
-			}
-		}).catch(err => {
-			reject(err[0]);
-		}).then(() => resolve(questions))
-	})
+	// 	})).then((responses) => {
+	// 		// Search any response with statusCode 4xx or 5xx and reject the promise
+	// 		if (responses.some((response) => response.statusCode >= 400)) return reject(responses[0]);
+
+	// 		try {
+	// 			responses.forEach((response, i) => {
+	// 				let res = response.body.generations[0].text;
+	// 				questions.push({
+	// 					topic: topics[i],
+	// 					question: res.split('\n')[1].split('Question: ')[1],
+	// 					answers: random(res.split('\n').slice(2, 6).map((answer) => answer.split('- ')[1])),
+	// 					correctAnswer: res.split('\n')[6].split('Correct: ')[1],
+	// 					userAnswer: 0
+	// 				});
+	// 			})
+	// 		} catch (err) {
+	// 			reject(err);
+	// 		}
+	// 	}).catch(err => {
+	// 		reject(err[0]);
+	// 	}).then(() => resolve(questions))
+	// })
 
 	let res = [
 		{
@@ -126,7 +127,8 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
-			resolve(res);
+			// reject({ statusCode: 350, body: { message: "Error personalizado" } })
+			resolve(res)
 		}, 1000);
 	});
 }

@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import Home from '@/components/Home'
-import GameModes from '@/components/GameModes'
-import Categories from '@/components/Categories'
+import MainHome from '@/components/Home/MainHome'
+import GameModes from '@/components/Home/GameModes'
+import Categories from '@/components/Home/Categories'
 import { useEffect } from 'react'
 
 export default function Main() {
@@ -13,7 +13,7 @@ export default function Main() {
       <Head>
         <title>Quizi</title>
       </Head>
-      <Home />
+      <MainHome />
       <GameModes />
       <Categories />
       <style jsx global>

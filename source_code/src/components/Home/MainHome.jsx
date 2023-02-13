@@ -1,7 +1,7 @@
-import categories from "../assets/categories.json"
-import Footer from './Footer';
+import categories from "@/assets/categories.json"
+import Footer from '../Footer';
 
-export default function Main() {
+export default function MainHome() {
 
 	function handleTitleHover(t) {
 		const target = document.getElementById(t);

@@ -86,7 +86,6 @@ export default function Questions({ queries, setQuestions, questions }) {
 
 		setScore(score => score + 1);
 	}
-
 	return (
 		<>
 			<audio src="/sounds/correct_answer.mp3" id="correct_sound" className='hidden' />

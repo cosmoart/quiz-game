@@ -9,6 +9,15 @@ export default function NewGame() {
 	const router = useRouter()
 	const dialog = useRef(null)
 	const [queries, setQueries] = useState(queryValidator({}));
+	const [config, setConfig] = useState({
+		answersActive: true,
+		timeActive: true,
+		questions: 10,
+		time: 20,
+		categories: [],
+	});
+
+
 	const query = Object.keys(queries).map(key => `${key}=${queries[key]}`).join('&')
 
 	function handleInputs(e) {
@@ -58,29 +67,31 @@ export default function NewGame() {
 					<div className='flex sm:gap-5 flex-col'>
 
 						<fieldset className='p-1'>
-							<legend className='text-lg font-semibold mb-2'>Mode</legend>
+							<legend className='text-lg font-semibold mb-2'>Wilcards</legend>
 							<div className='flex gap-3'>
 								{
-									quiziConfig.modes.map(mode => (
+									["asd", "asda", "asv", "asf"].map(mode => (
 										<label key={mode} className="w-full">
-											<input className='peer absolute hidden' type="radio" name="mode" id={mode} value={mode} defaultChecked={mode === quiziConfig.defaultMode} onChange={handleInputs} />
-											<span className='peer-checked:bg-blue-500 transition-colors active:scale-95 py-2 rounded cursor-pointer bg-gray-200 w-full inline-block text-center peer-checked:text-white'>{mode}</span>
+											<input className='peer absolute bg-red-300 w-8' type="number" name="mode" id={mode} value={mode} defaultChecked={mode === quiziConfig.defaultMode} onChange={handleInputs} />
+											{/* <span className='peer-checked:bg-blue-500 transition-colors active:scale-95 py-2 rounded cursor-pointer bg-gray-200 w-full inline-block text-center peer-checked:text-white'>{mode}</span> */}
 										</label>
 									))
 								}
 							</div>
 						</fieldset>
 
-						<fieldset className='p-1'>
+						<fieldset className='p-1 relative'>
 							<legend className='text-lg font-semibold mb-2'>Questions</legend>
+							<input type="checkbox" name="questions" id="questions" className='absolute -top-8 left-28 w-5 h-5 cursor-pointer ' />
 							<div className='flex items-center'>
 								<input type="range" name="questions" min={quiziConfig.minQuestions} max={quiziConfig.maxQuestions} defaultValue={quiziConfig.defaultQuestions} onChange={handleInputs} className={`w-full cursor-pointer ${queries.mode === quiziConfig.modes[quiziConfig.modes.length - 1] ? "grayscale cursor-not-allowed" : ""}`} disabled={queries.mode === quiziConfig.modes[quiziConfig.modes.length - 1]} />
 								<span className='mx-3'>{queries.questions}</span>
 							</div>
 						</fieldset>
 
-						<fieldset className='after:bg-red-500 p-1'>
+						<fieldset className='after:bg-red-500 p-1 relative'>
 							<legend className='text-lg font-semibold mb-2'>Time</legend>
+							<input type="checkbox" name="time" id="time" className='absolute -top-8 left-14 w-5 h-5 cursor-pointer ' />
 							<div className='flex gap-3'>
 								{
 									[10, 20, 30, 60].map(time => (
