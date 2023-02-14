@@ -24,6 +24,7 @@ body {
 		background-position: -100% 100%;
 	}
 }
+
 dialog::backdrop {
 	backdrop-filter: blur(3px);
 }
@@ -41,17 +42,17 @@ body {
 }
 @keyframes pulse {
 	0% {
-		transform: scale(1);
+		transform: scale(1) translateX(-50%);
 		background: rgb(236, 52, 52);
 		color: white;
 	}
 	50% {
-		transform: scale(1.1);
+		transform: scale(1.1) translateX(-50%);
 		background: white;
 		color: rgb(236, 52, 52);
 	}
 	100% {
-		transform: scale(1);
+		transform: scale(1) translateX(-50%);
 		background: rgb(236, 52, 52);
 		color: white;
 	}

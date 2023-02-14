@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { AiFillCloseCircle, AiFillCheckCircle } from 'react-icons/ai'
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import ReactCanvasConfetti from "react-canvas-confetti";
+import { IoCloseSharp } from 'react-icons/io5';
 
 const canvasStyles = {
 	position: "fixed",
@@ -59,28 +59,35 @@ export default function GameOver({ win }) {
 
 	useEffect(() => {
 		if (win === 1) fire();
-	}, [win, fire]);
+	}, [win]);
 
-	if (win === 0) return null;
+	if (win === 0) return null
+
 	return (
 		<>
+			<div className='absolute w-screen h-screen backdrop-blur-sm top-0 left-0'></div>
 			<ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-			<dialog id='loseorwindialog' open={true} className='absolute m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-md px-6 py-10 rounded-md bg-white text-slate-900'>
+			<dialog id='loseorwindialog' open={win !== 0} className='absolute m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm px-6 py-10 rounded-md bg-white text-slate-900'>
+				<button
+					className='absolute top-2 right-2 text-3xl'
+					onClick={() => document.getElementById("loseorwindialog").close()}>
+					<IoCloseSharp />
+				</button>
 				<div className='flex flex-col items-center gap-4'>
 					{win !== -1
 						? <AiFillCheckCircle className='text-7xl text-green-500' />
 						: <AiFillCloseCircle className='text-7xl text-red-500' />
 					}
-					<h2 className='text-2xl font-bold'>{win ? 'You Win!' : 'You Lose!'}</h2>
+					<h2 className='text-2xl font-bold'>{win !== -1 ? 'You Win!' : 'You Lose!'}</h2>
 					<p className='text-center'>
 						{win !== -1
 							? 'Congratulations!'
 							: 'Better luck next time!'
 						}
 					</p>
-					<Link href="/" className='btn-primary uppercase tracking-widest rounded-md bg-blue-500 text-white'>
+					<button onClick={() => document.getElementById("newGameDialog").showModal()} className='btn-primary px-11 py-3 uppercase tracking-widest rounded-md bg-blue-500 text-white'>
 						{win !== -1 ? 'Play Again' : 'Try Again'}
-					</Link>
+					</button>
 				</div>
 			</dialog>
 		</>

@@ -17,25 +17,30 @@ export default function Questions({ queries, setQuestions, questions }) {
 	});
 
 	useEffect(() => {
-		if (queries.mode === "Classic") return;
+		if (!queries.timemode) return;
 		const timeInterva = setInterval(() => {
 			setTimeQ(timeQ => timeQ > 0 ? timeQ - 1 : timeQ);
 		}, 1000);
 		return () => clearInterval(timeInterva);
-	}, [queries.mode]);
+	}, [queries.timemode]);
 
 	useEffect(() => {
-		if (timeQ < 1 && wildCards.lives < 1) setWin(-1)
-		if (timeQ < 1 && wildCards.lives > 0) setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }));
+		if (timeQ < 1) {
+			if (wildCards.lives < 1) setWin(-1)
+			else {
+				setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }));
+				setTimeQ(Number(queries.time));
+				setScore(score => score + 1);
+				setCurrent(current => current + 1);
+			}
+		}
 	}, [timeQ]);
 
 	// Changue background color and image when the question changes
 	useEffect(() => {
-		if (questions.length > 0) {
-			let color = categories.find(cat => cat.name === questions[current - 1]?.topic).color
-			document.body.style.backgroundColor = color;
-			document.body.style.backgroundImage = `url(categories-bg/${questions[0] && questions[current - 1].topic}.webp)`;
-		}
+		let color = categories.find(cat => cat.name === questions[current - 1]?.topic).color
+		document.body.style.backgroundColor = color;
+		document.body.style.backgroundImage = `url(categories-bg/${questions[0] && questions[current - 1].topic}.webp)`;
 	}, [current, questions]);
 
 	function changueCurrent(number) {
@@ -51,10 +56,11 @@ export default function Questions({ queries, setQuestions, questions }) {
 	}
 
 	function validateAnswer(e) {
+		return setWin(1)
 		let correct = e.target.textContent === questions[current - 1].correctAnswer;
 
 		let sound = document.getElementById(correct ? "correct_sound" : "wrong_sound");
-		// sound.volume = 0.3;
+		sound.volume = 0.3;
 		sound.play();
 
 		e.target.parentNode.classList.add(correct ? "shake-left-right" : "vibrate");
@@ -73,33 +79,39 @@ export default function Questions({ queries, setQuestions, questions }) {
 			return questions;
 		});
 
-		if (wildCards.lives < 1 && !correct) return setWin(-1);
-
 		if (!correct) {
-			setWildCards(wildCards => {
-				wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives;
-				return wildCards;
-			});
-		}
-		let n = Number(queries.questions);
-		if (current === n && correct) return setWin(1);
+			if (wildCards.lives < 1) return setWin(-1);
+			else {
+				setWildCards(wildCards => {
+					wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives;
+					return wildCards;
+				});
+			}
+		} else if (current === Number(queries.questions)) return setWin(1);
 
 		setScore(score => score + 1);
 	}
+
 	return (
 		<>
 			<audio src="/sounds/correct_answer.mp3" id="correct_sound" className='hidden' />
 			<audio src="/sounds/wrong_answer.mp3" id="wrong_sound" className='hidden' />
 			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-				<ol className="flex gap-5 flex-wrap mb-5 md:mb-10 justify-between items-center w-full text-white">
-					{
-						[...Array(parseInt(queries.questions))].map((_, i) => (
-							<li key={i}>
-								<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && "bg-white text-blue-500"} ${i + 1 <= score ? "cursor-pointer hover:scale-105" : "bg-slate-600 hover:cursor-auto"} ${questions[i].userAnswer === 1 && "bg-green-400 !text-white"} ${questions[i].userAnswer === -1 && "bg-red-500 !text-white"} ${i + 1 === current && "outline outline-offset-2 hover:outline-offset-4 outline-blue-500"} `}>{i + 1}</button>
-							</li>
-						))
-					}
-				</ol>
+				{
+					queries.infinitymode
+						? <div className='mx-auto bg-white text-black rounded-full z-10 w-14 grid place-items-center aspect-square mb-4 text-xl font-medium'>
+							{current}
+						</div>
+						: <ol className="flex gap-5 flex-wrap mb-5 md:mb-10 justify-between items-center w-full text-white">
+							{
+								[...Array(parseInt(queries.questions))].map((_, i) => (
+									<li key={i}>
+										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && "bg-white text-blue-500"} ${i + 1 <= score ? "cursor-pointer hover:scale-105" : "bg-slate-600 hover:cursor-auto"} ${questions[i].userAnswer === 1 && "bg-green-400 !text-white"} ${questions[i].userAnswer === -1 && "bg-red-500 !text-white"} ${i + 1 === current && "outline outline-offset-2 hover:outline-offset-4 outline-blue-500"} `}>{i + 1}</button>
+									</li>
+								))
+							}
+						</ol>
+				}
 				<main className='relative max-w-2xl min-h-[26rem] md:min-h-[20rem] mx-auto overflow-hidden h-1/2'>
 					{
 						questions.map((question, i) => {
@@ -130,7 +142,7 @@ export default function Questions({ queries, setQuestions, questions }) {
 			<Wildcards wildCards={wildCards} />
 			<GameOver win={win} />
 			{
-				queries.mode !== "Classic" && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${timeQ < 6 ? "pulse_animation" : ""}`}>
+				queries.timemode && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${timeQ < 6 && win >= 0 ? "pulse_animation" : ""}`}>
 					{timeQ}
 				</div>
 			}

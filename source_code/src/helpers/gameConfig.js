@@ -4,12 +4,13 @@ const MAX_QUESTIONS = 10;
 const MIN_QUESTIONS = 4;
 const TIMES = [10, 20, 30, 60];
 const MODES = ['Classic', 'Time', 'Infinity'];
-const DEFAULT_MODE = 'Classic';
 const DEFAULT_TIME = 20;
 const DEFAULT_QUESTIONS = 5;
+const INFINITY_MODE = false;
+const TIME_MODE = false;
 
 function queryValidator(query) {
-	const { questions, time, mode, categories } = query;
+	const { questions, time, infinitymode, timemode, categories } = query;
 	let urlQueries = {};
 
 	if (questions && Number(questions)) {
@@ -24,10 +25,11 @@ function queryValidator(query) {
 		else urlQueries.time = time;
 	} else urlQueries.time = DEFAULT_TIME;
 
-	if (mode) {
-		if (MODES.includes(mode)) urlQueries.mode = mode;
-		else urlQueries.mode = DEFAULT_MODE;
-	} else urlQueries.mode = DEFAULT_MODE;
+	if (infinitymode && infinitymode === 'true') urlQueries.infinitymode = true;
+	else urlQueries.infinitymode = INFINITY_MODE;
+
+	if (timemode && timemode === 'true') urlQueries.timemode = true;
+	else urlQueries.timemode = TIME_MODE;
 
 	if (categories) {
 		const categoriesArray = categories.split(',');
@@ -44,13 +46,11 @@ export default queryValidator;
 export const quiziConfig = {
 	questions: DEFAULT_QUESTIONS,
 	time: DEFAULT_TIME,
-	mode: DEFAULT_MODE,
 	categories: categoriesJSON.map(category => category.id),
 	minQuestions: MIN_QUESTIONS,
 	maxQuestions: MAX_QUESTIONS,
 	times: TIMES,
 	modes: MODES,
-	defaultMode: DEFAULT_MODE,
 	defaultTime: DEFAULT_TIME,
 	defaultQuestions: DEFAULT_QUESTIONS,
 }

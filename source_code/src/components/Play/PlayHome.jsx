@@ -21,7 +21,6 @@ export default function PlayHome({ loading, setLoading, setErrorQ, errorQ }) {
 			getQuestions(cate, validQuery.questions)
 				.then((q) => {
 					setQuestions(q);
-					console.log(q);
 				}).catch((err) => {
 					setErrorQ([true, err]);
 				}).finally(() => {
