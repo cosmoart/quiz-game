@@ -10,7 +10,7 @@ export default function Questions({ queries, setQuestions, questions }) {
 	const [score, setScore] = useState(1);
 	const [current, setCurrent] = useState(1);
 	const [wildCards, setWildCards] = useState({
-		skip: 0,
+		skip: 1,
 		half: 1,
 		doubled: 1,
 		lives: 1,
@@ -40,11 +40,13 @@ export default function Questions({ queries, setQuestions, questions }) {
 	useEffect(() => {
 		let color = categories.find(cat => cat.name === questions[current - 1]?.topic).color
 		document.body.style.backgroundColor = color;
-		document.body.style.backgroundImage = `url(categories-bg/${questions[0] && questions[current - 1].topic}.webp)`;
+		// document.body.style.backgroundImage = `url(categories-bg/${questions[0] && questions[current - 1].topic}.webp)`;
+		document.body.style.backgroundImage = "url(https://garticphone.com/images/textura.png)"
+		document.body.style.backgroundSize = "cover";
 	}, [current, questions]);
 
-	function changueCurrent(number) {
-		if (number > score) return
+	function changueCurrent(number, avoidState) {
+		if (number > score && !avoidState) return
 
 		document.querySelectorAll('[id^="question-"]').forEach(question => {
 			question.classList.remove("slide-left", "slide-right")
@@ -52,11 +54,11 @@ export default function Questions({ queries, setQuestions, questions }) {
 				question.classList.add(question.id.slice(-1) < number ? "slide-left" : "slide-right")
 			}
 		});
+
 		setCurrent(number)
 	}
 
 	function validateAnswer(e) {
-		return setWin(1)
 		let correct = e.target.textContent === questions[current - 1].correctAnswer;
 
 		let sound = document.getElementById(correct ? "correct_sound" : "wrong_sound");
@@ -80,6 +82,7 @@ export default function Questions({ queries, setQuestions, questions }) {
 		});
 
 		if (!correct) {
+			console.log(wildCards.lives < 1);
 			if (wildCards.lives < 1) return setWin(-1);
 			else {
 				setWildCards(wildCards => {
@@ -89,7 +92,48 @@ export default function Questions({ queries, setQuestions, questions }) {
 			}
 		} else if (current === Number(queries.questions)) return setWin(1);
 
+		setTimeQ(Number(queries.time));
 		setScore(score => score + 1);
+		setTimeout(() => {
+			changueCurrent(current + 1, true);
+		}, 1000);
+	}
+
+	// Wilcards
+
+	function wilcardSkip() {
+		if (wildCards.skip < 1 || current !== score) return
+		setWildCards(wildCards => ({ ...wildCards, skip: wildCards.skip - 1 }));
+		document.querySelectorAll(`.answer-${current}`).forEach(answer => {
+			answer.disabled = true;
+			if (answer.textContent === questions[current - 1].correctAnswer) {
+				answer.classList.add("correctAnswer")
+				answer.parentNode.classList.add("shake-left-right")
+			}
+		});
+		setScore(score => score + 1);
+		setQuestions(questions => {
+			questions[current - 1].userAnswer = 2;
+			return questions;
+		});
+		setTimeQ(Number(queries.time));
+		setTimeout(() => {
+			changueCurrent(current + 1, true);
+		}, 1000);
+	}
+
+	function wilcardFifty() {
+		if (wildCards.half < 1 || current !== score) return
+		setWildCards(wildCards => ({ ...wildCards, half: wildCards.half - 1 }));
+		let answers = document.querySelectorAll(`.answer-${current}`);
+		let correct = questions[current - 1].correctAnswer;
+		let wrongs = [...answers].filter(answer => answer.textContent !== correct);
+
+		wrongs.sort(() => Math.random() - 0.5).slice(0, 2).forEach(wrong => {
+			wrong.classList.add("wrongAnswer");
+			wrong.parentNode.classList.add("vibrate");
+			wrong.disabled = true;
+		});
 	}
 
 	return (
@@ -106,18 +150,18 @@ export default function Questions({ queries, setQuestions, questions }) {
 							{
 								[...Array(parseInt(queries.questions))].map((_, i) => (
 									<li key={i}>
-										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && "bg-white text-blue-500"} ${i + 1 <= score ? "cursor-pointer hover:scale-105" : "bg-slate-600 hover:cursor-auto"} ${questions[i].userAnswer === 1 && "bg-green-400 !text-white"} ${questions[i].userAnswer === -1 && "bg-red-500 !text-white"} ${i + 1 === current && "outline outline-offset-2 hover:outline-offset-4 outline-blue-500"} `}>{i + 1}</button>
+										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && "bg-white text-blue-500"} ${i + 1 <= score ? "cursor-pointer hover:scale-105" : "bg-slate-600 hover:cursor-auto"} ${questions[i].userAnswer === 1 && "bg-green-400 !text-white"} ${questions[i].userAnswer === -1 && "bg-red-500 !text-white"}  ${questions[i].userAnswer === 2 && "bg-blue-500 !text-white"} ${i + 1 === current && "outline outline-offset-2 hover:outline-offset-4 outline-blue-500"} `}>{i + 1}</button>
 									</li>
 								))
 							}
 						</ol>
 				}
-				<main className='relative max-w-2xl min-h-[26rem] md:min-h-[20rem] mx-auto overflow-hidden h-1/2'>
+				<main className='relative max-w-2xl min-h-[28rem] md:min-h-[16rem] mx-auto overflow-hidden h-1/2'>
 					{
 						questions.map((question, i) => {
 							return (
 								<div key={question.correctAnswer + i} className={`transition-all duration-500 ${i === 0 ? "" : "slide-right"} absolute text-center w-full`} id={"question-" + (i + 1)}>
-									<p className='rounded-md bg-blue-500 px-10 py-6 text-white text-xl font-semibold block mb-3'>
+									<p className='rounded-md h-[6.5rem] flex justify-center items-center bg-blue-500 px-10 py-6 text-white text-xl font-semibold block mb-3'>
 										{question.question}
 									</p>
 
@@ -139,8 +183,8 @@ export default function Questions({ queries, setQuestions, questions }) {
 					}
 				</main>
 			</div>
-			<Wildcards wildCards={wildCards} />
 			<GameOver win={win} />
+			<Wildcards wildCards={wildCards} wilcardSkip={wilcardSkip} wilcardFifty={wilcardFifty} win={win} />
 			{
 				queries.timemode && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${timeQ < 6 && win >= 0 ? "pulse_animation" : ""}`}>
 					{timeQ}

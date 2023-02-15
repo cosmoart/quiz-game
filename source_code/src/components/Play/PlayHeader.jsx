@@ -13,7 +13,7 @@ export default function PlayHeader() {
 				</li>
 				<li>
 					<button className='hover:scale-105 transition-all p-1 bg-white rounded' onClick={() => document.getElementById("newGameDialog").showModal()}>
-						<BsArrowRepeat className='text-[27px]' color='#0f172a' title='New game' />
+						<BsArrowRepeat className='text-[28px]' color='#0f172a' title='New game' />
 					</button>
 				</li>
 			</ul>

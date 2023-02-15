@@ -89,30 +89,25 @@ export default function NewGame() {
 							<legend className='text-lg font-semibold mb-2'>Wilcards</legend>
 							<div >
 								<ul className='flex gap-3 justify-between'>
-									<li className={`relative ${true < 1 && "grayscale"}`}>
+									<li className={`flex gap-2 justify-center items-center ${true < 1 && "grayscale"}`}>
 										<div className='p-[10px] aspect-square rounded bg-blue-500 transition-transform' title='Skip question' disabled={true < 1}>
 											<BsSkipEndFill color='white' className='text-2xl' />
 										</div>
-										<span className='absolute -bottom-2 -right-2 bg-white rounded-full aspect-square w-6 flex justify-center items-center text-sm font-medium'>x{true}</span>
+										<span className='text-xl'>x2</span>
 									</li>
 
-									<li className={`relative ${true && "grayscale"}`}>
+									<li className={`flex gap-2 justify-center items-center ${true && "grayscale"}`}>
 										<div className='p-[10px] aspect-square rounded text-white bg-blue-500 transition-transform text' title='Delete two wrong questions' disabled={true}>
 											<img src={fiftyImg.src} alt="fifty fifty" width={23} />
 										</div>
-										<span className='absolute -bottom-2 -right-2 bg-white rounded-full aspect-square w-6 flex justify-center items-center text-sm font-medium'>x{1}</span>
+										<span className='text-xl'>x0</span>
 									</li>
 
-									<li className={`relative ${false && "grayscale"}`}>
-										<div className='p-[10px] aspect-square rounded bg-blue-500 transition-transform' title='Second chance' disabled={false}>
-											<FaWindowClose color='white' className='text-2xl' />
+									<li className={`flex gap-2 justify-center items-center ${true && "grayscale"}`} title='Lives'>
+										<div className='p-[10px] aspect-square rounded text-white bg-blue-500 transition-transform text' title='Delete two wrong questions'>
+											<FaHeart color='white' className='text-2xl' />
 										</div>
-										<span className='absolute -bottom-2 -right-2 bg-white rounded-full aspect-square w-6 flex justify-center items-center text-sm font-medium'>x{2}</span>
-									</li>
-
-									<li className={`p-[10px] relative aspect-square flex items-center rounded bg-blue-500 ${false ? "grayscale" : ""}`} title='Lives'>
-										<FaHeart color='white' className='text-2xl' />
-										<span className='absolute -bottom-2 -right-2 bg-white rounded-full aspect-square w-6 flex justify-center items-center text-sm font-medium'>x{1}</span>
+										<span className='text-xl'>x1</span>
 									</li>
 								</ul>
 							</div>
@@ -137,7 +132,7 @@ export default function NewGame() {
 									[10, 20, 30, 60].map(time => (
 										<label key={time} className="w-full">
 											<input className='peer absolute hidden' type="radio" name="time" id={`${time}s`} value={time} defaultChecked={time === Number(queries.time)} onChange={handleInputs} disabled={!queries.timemode} />
-											<span className={`peer-checked:bg-blue-500 transition-colors  peer-checked:text-white px-2 sm:px-4 py-2 rounded mr-3 cursor-pointer bg-gray-200 text-center w-full inline-block ${!queries.timemode ? "grayscale cursor-not-allowed" : "active:scale-95"}`}>{time}s</span>
+											<span className={`peer-checked:bg-blue-500 transition-colors  peer-checked:text-white px-2 sm:px-4 py-2 rounded mr-3 cursor-pointer bg-gray-200 text-center w-full inline-block ${!queries.timemode ? "grayscale cursor-not-allowed" : "active:scale-95"}`} translate="no">{time}s</span>
 										</label>
 									))
 								}

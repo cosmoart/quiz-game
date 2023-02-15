@@ -4,6 +4,7 @@ import soundOff from "../assets/sound-off.svg"
 import { useEffect, useState } from 'react';
 import { MdInfo } from 'react-icons/md'
 import { GoAlert } from 'react-icons/go';
+import { BsFillStarFill } from 'react-icons/bs';
 
 export default function Footer({ alert = false }) {
 	const [sound, setSound] = useState(false);
@@ -35,7 +36,7 @@ export default function Footer({ alert = false }) {
 								alert
 									? `Questions made by AI.
 The questions and answers may have errors.`
-									: <span><a href="https://github.com/cosmoart/quiz-game" target="_blank" rel="noopener noreferrer" className='underline'>MIT licence</a> - Made with ❤️ by <a href="https://github.com/cosmoart" target="_blank" rel="noreferrer" className='underline'>Cosmo</a></span>
+									: <span><a href="https://github.com/cosmoart/quiz-game" target="_blank" rel="noopener noreferrer" className='bg-slate-200 px-1 rounded'><BsFillStarFill className='inline-block mb-1' color='#e3b341' /> Star</a> - Made with ❤️ by <a href="https://github.com/cosmoart" target="_blank" rel="noreferrer" className='underline'>Cosmo</a></span>
 							}
 						</p>
 					</li>

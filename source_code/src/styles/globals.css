@@ -12,18 +12,6 @@ html {
 	background: rgb(28, 35, 58) url('/bg-home.svg');
 	background-size: 70%;
 }
-body {
-	animation: bgMove 80s linear infinite;
-	background-size: 5rem;
-}
-@keyframes bgMove {
-	0% {
-		background-position: 0% 0%;
-	}
-	100% {
-		background-position: -100% 100%;
-	}
-}
 
 dialog::backdrop {
 	backdrop-filter: blur(3px);

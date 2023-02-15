@@ -1,6 +1,6 @@
 import promts from './promts';
 const cohere = require('cohere-ai');
-// cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY);
+cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY);
 
 export default async function getQuestions(topicsArray, questionsNumber) {
 	function random(arr) {
@@ -20,7 +20,7 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 	// 		topics.push(topicsArray[i % topicsArray.length]);
 	// 	}
 
-	// 	Promise.all(topics.map(async (topic) => {
+	// 	Promise.all(random(topics).map(async (topic) => {
 	// 		let response = await cohere.generate({
 	// 			model: 'xlarge',
 	// 			prompt: promts[topic],
@@ -34,12 +34,9 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 	// 			stop_sequences: [],
 	// 			return_likelihoods: 'NONE'
 	// 		});
+	// 		if (response.statusCode >= 400) return reject(response);
 	// 		return response;
-
 	// 	})).then((responses) => {
-	// 		// Search any response with statusCode 4xx or 5xx and reject the promise
-	// 		if (responses.some((response) => response.statusCode >= 400)) return reject(responses[0]);
-
 	// 		try {
 	// 			responses.forEach((response, i) => {
 	// 				let res = response.body.generations[0].text;
@@ -83,7 +80,7 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 		},
 		{
 			topic: 'General culture',
-			question: 'What is the name of the French city where the treaty of Versailles was signed?',
+			question: 'What is the name of the French city where the treaty of Versailles was signed? awfawfawfaw ',
 			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
 			correctAnswer: 'Paris',
 			userAnswer: 0
@@ -97,7 +94,7 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 		},
 		{
 			topic: 'General culture',
-			question: 'What is the name of the first computer?',
+			question: 'What is the name of the first computer? fawfawfawfawwwwwwwwwwwwfawf awF af awf',
 			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
 			correctAnswer: 'Paris',
 			userAnswer: 0
@@ -110,14 +107,14 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 			userAnswer: 0
 		},
 		{
-			topic: 'General culture',
+			topic: 'Geography',
 			question: 'What is the name of the first computer?',
 			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
 			correctAnswer: 'Paris',
 			userAnswer: 0
 		},
 		{
-			topic: 'General culture',
+			topic: 'Art',
 			question: 'What is the name of the first computer?',
 			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
 			correctAnswer: 'Paris',
@@ -128,7 +125,7 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
 			// reject({ statusCode: 350, body: { message: "Error personalizado" } })
-			resolve(res)
+			resolve(random(res))
 		}, 1000);
 	});
 }

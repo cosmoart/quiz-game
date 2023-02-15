@@ -1,5 +1,5 @@
 import { AiFillCloseCircle, AiFillCheckCircle } from 'react-icons/ai'
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactCanvasConfetti from "react-canvas-confetti";
 import { IoCloseSharp } from 'react-icons/io5';
 
@@ -9,10 +9,12 @@ const canvasStyles = {
 	width: "100%",
 	height: "100%",
 	top: 0,
-	left: 0
+	left: 0,
+	zIndex: 100
 };
 
 export default function GameOver({ win }) {
+	const [showDialog, setShowDialog] = useState(false);
 	const refAnimationInstance = useRef(null);
 
 	const getInstance = useCallback((instance) => {
@@ -59,18 +61,26 @@ export default function GameOver({ win }) {
 
 	useEffect(() => {
 		if (win === 1) fire();
+		if (win !== 0) {
+			setShowDialog(true);
+		}
 	}, [win]);
+
+	function closeDialog() {
+		setShowDialog(false);
+		document.getElementById("loseorwindialog").close()
+	}
 
 	if (win === 0) return null
 
 	return (
 		<>
-			<div className='absolute w-screen h-screen backdrop-blur-sm top-0 left-0'></div>
+			<div className={`${!showDialog && "scale-0 opacity-0"} transition-all absolute z-10 w-screen h-screen backdrop-blur-sm top-0 left-0`}></div>
 			<ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-			<dialog id='loseorwindialog' open={win !== 0} className='absolute m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm px-6 py-10 rounded-md bg-white text-slate-900'>
+			<dialog id='loseorwindialog' open={win !== 0} className='absolute m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm px-6 py-10 rounded-md bg-white text-slate-900 z-30'>
 				<button
 					className='absolute top-2 right-2 text-3xl'
-					onClick={() => document.getElementById("loseorwindialog").close()}>
+					onClick={closeDialog}>
 					<IoCloseSharp />
 				</button>
 				<div className='flex flex-col items-center gap-4'>
