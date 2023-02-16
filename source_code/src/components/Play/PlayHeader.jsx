@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function PlayHeader() {
 	return (
 		<nav>
-			<ul className='flex gap-3 p-3'>
+			<ul className='flex gap-4 p-4'>
 				<li>
 					<Link href="/" className='w-10'>
 						<BiArrowBack color='#0f172a' className='text-4xl hover:scale-105 transition-all  p-1 bg-white rounded' title='Go back' />

@@ -38,7 +38,7 @@ export default function Questions({ queries, setQuestions, questions }) {
 
 	// Changue background color and image when the question changes
 	useEffect(() => {
-		let color = categories.find(cat => cat.name === questions[current - 1]?.topic).color
+		let color = categories.find(cat => cat.name === questions[current - 1]?.topic)?.color
 		document.body.style.backgroundColor = color;
 		// document.body.style.backgroundImage = `url(categories-bg/${questions[0] && questions[current - 1].topic}.webp)`;
 		document.body.style.backgroundImage = "url(https://garticphone.com/images/textura.png)"
@@ -58,12 +58,17 @@ export default function Questions({ queries, setQuestions, questions }) {
 		setCurrent(number)
 	}
 
+	function answerSound(correct) {
+		if (localStorage.getItem("sound") === "true") {
+			let sound = new Audio(correct ? "/sounds/correct_answer.mp3" : "/sounds/wrong_answer.mp3");
+			sound.volume = 0.3;
+			sound.play();
+		}
+	}
+
 	function validateAnswer(e) {
 		let correct = e.target.textContent === questions[current - 1].correctAnswer;
-
-		let sound = document.getElementById(correct ? "correct_sound" : "wrong_sound");
-		sound.volume = 0.3;
-		sound.play();
+		answerSound(correct);
 
 		e.target.parentNode.classList.add(correct ? "shake-left-right" : "vibrate");
 		e.target.classList.add(correct ? "correctAnswer" : "wrongAnswer")
@@ -82,13 +87,13 @@ export default function Questions({ queries, setQuestions, questions }) {
 		});
 
 		if (!correct) {
-			console.log(wildCards.lives < 1);
 			if (wildCards.lives < 1) return setWin(-1);
 			else {
 				setWildCards(wildCards => {
 					wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives;
 					return wildCards;
 				});
+				if (current === Number(queries.questions)) return setWin(1)
 			}
 		} else if (current === Number(queries.questions)) return setWin(1);
 
@@ -103,10 +108,13 @@ export default function Questions({ queries, setQuestions, questions }) {
 
 	function wilcardSkip() {
 		if (wildCards.skip < 1 || current !== score) return
+		if (wildCards.skip > 0 && current === Number(queries.questions)) return setWin(1)
+
 		setWildCards(wildCards => ({ ...wildCards, skip: wildCards.skip - 1 }));
 		document.querySelectorAll(`.answer-${current}`).forEach(answer => {
 			answer.disabled = true;
 			if (answer.textContent === questions[current - 1].correctAnswer) {
+				answerSound(true);
 				answer.classList.add("correctAnswer")
 				answer.parentNode.classList.add("shake-left-right")
 			}
@@ -138,19 +146,17 @@ export default function Questions({ queries, setQuestions, questions }) {
 
 	return (
 		<>
-			<audio src="/sounds/correct_answer.mp3" id="correct_sound" className='hidden' />
-			<audio src="/sounds/wrong_answer.mp3" id="wrong_sound" className='hidden' />
 			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
 				{
 					queries.infinitymode
 						? <div className='mx-auto bg-white text-black rounded-full z-10 w-14 grid place-items-center aspect-square mb-4 text-xl font-medium'>
 							{current}
 						</div>
-						: <ol className="flex gap-5 flex-wrap mb-5 md:mb-10 justify-between items-center w-full text-white">
+						: <ol className='progressBar flex relative gap-5 overflow-auto sm:overflow-visible p-2 sm:p-0 mb-5 md:mb-10 justify-between items-center w-full text-white after:absolute after:top-1/2 after:-z-10 after:transition-all after:duration-700 after:rounded-full after:-translate-y-1/2 after:h-[6px] after:bg-blue-500' style={{ "--segments": Number(queries.questions) - 1, "--current": score - 1 }}>
 							{
 								[...Array(parseInt(queries.questions))].map((_, i) => (
 									<li key={i}>
-										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && "bg-white text-blue-500"} ${i + 1 <= score ? "cursor-pointer hover:scale-105" : "bg-slate-600 hover:cursor-auto"} ${questions[i].userAnswer === 1 && "bg-green-400 !text-white"} ${questions[i].userAnswer === -1 && "bg-red-500 !text-white"}  ${questions[i].userAnswer === 2 && "bg-blue-500 !text-white"} ${i + 1 === current && "outline outline-offset-2 hover:outline-offset-4 outline-blue-500"} `}>{i + 1}</button>
+										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && "bg-white text-blue-500"} ${i + 1 <= score ? "cursor-pointer hover:scale-105" : "bg-slate-600 hover:cursor-auto"} ${questions[i].userAnswer === 1 && "bg-green-500 !text-white"} ${questions[i].userAnswer === -1 && "bg-red-500 !text-white"}  ${questions[i].userAnswer === 2 && "bg-blue-500 !text-white"} ${i + 1 === current && "outline outline-offset-2 hover:outline-offset-4 outline-blue-500"} `}>{i + 1}</button>
 									</li>
 								))
 							}
@@ -161,7 +167,7 @@ export default function Questions({ queries, setQuestions, questions }) {
 						questions.map((question, i) => {
 							return (
 								<div key={question.correctAnswer + i} className={`transition-all duration-500 ${i === 0 ? "" : "slide-right"} absolute text-center w-full`} id={"question-" + (i + 1)}>
-									<p className='rounded-md h-[6.5rem] flex justify-center items-center bg-blue-500 px-10 py-6 text-white text-xl font-semibold block mb-3'>
+									<p className='rounded-md h-32 md:h-[6.5rem] flex justify-center items-center bg-blue-500 px-10 py-6 text-white text-xl font-semibold mb-3'>
 										{question.question}
 									</p>
 

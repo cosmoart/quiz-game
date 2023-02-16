@@ -82,28 +82,28 @@ export default function NewGame() {
 				<IoCloseSharp />
 			</button>
 			<form onSubmit={(e) => e.preventDefault()}>
-				<div className='flex flex-col sm:flex-row gap-8 mb-8'>
-					<div className='flex sm:gap-5 flex-col'>
+				<div className='flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8'>
+					<div className='flex gap-2 sm:gap-5 flex-col'>
 
 						<fieldset className='p-1'>
 							<legend className='text-lg font-semibold mb-2'>Wilcards</legend>
 							<div >
 								<ul className='flex gap-3 justify-between'>
-									<li className={`flex gap-2 justify-center items-center ${true < 1 && "grayscale"}`}>
+									<li className={`flex gap-2 justify-center items-center`}>
 										<div className='p-[10px] aspect-square rounded bg-blue-500 transition-transform' title='Skip question' disabled={true < 1}>
 											<BsSkipEndFill color='white' className='text-2xl' />
 										</div>
-										<span className='text-xl'>x2</span>
+										<span className='text-xl'>x1</span>
 									</li>
 
-									<li className={`flex gap-2 justify-center items-center ${true && "grayscale"}`}>
+									<li className={`flex gap-2 justify-center items-center`}>
 										<div className='p-[10px] aspect-square rounded text-white bg-blue-500 transition-transform text' title='Delete two wrong questions' disabled={true}>
 											<img src={fiftyImg.src} alt="fifty fifty" width={23} />
 										</div>
-										<span className='text-xl'>x0</span>
+										<span className='text-xl'>x1</span>
 									</li>
 
-									<li className={`flex gap-2 justify-center items-center ${true && "grayscale"}`} title='Lives'>
+									<li className={`flex gap-2 justify-center items-center`} title='Lives'>
 										<div className='p-[10px] aspect-square rounded text-white bg-blue-500 transition-transform text' title='Delete two wrong questions'>
 											<FaHeart color='white' className='text-2xl' />
 										</div>

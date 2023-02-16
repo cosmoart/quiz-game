@@ -11,7 +11,11 @@ export default function Footer({ alert = false }) {
 	const [showInfo, setShowInfo] = useState(false);
 
 	useEffect(() => {
-		localStorage.getItem("sound") === "true" ? true : false
+		if (!localStorage.getItem("sound")) {
+			localStorage.setItem("sound", sound);
+		} else {
+			setSound(localStorage.getItem("sound") === "true");
+		}
 	}, []);
 
 	useEffect(() => {
@@ -19,7 +23,7 @@ export default function Footer({ alert = false }) {
 	}, [sound]);
 
 	return (
-		<footer className='fixed right-4 bottom-3 z-40'>
+		<footer className='fixed right-4 bottom-3 z-20'>
 			<nav>
 				<ul className='flex gap-4'>
 
@@ -31,7 +35,7 @@ export default function Footer({ alert = false }) {
 									: <MdInfo className='text-[25px]' style={{ color: "#1c233a" }} />
 							}
 						</button>
-						<p className={`absolute bottom-full -right-14 sm:bottom-auto sm:top-[2px] whitespace-pre sm:whitespace-nowrap text-sm md:text-base whitespace-nowrap bg-white text-slate-900 rounded-md py-1 px-4 text-left transition-all ${showInfo ? 'opacity-100 -right-14  sm:!right-7 ' : 'opacity-0 right-0 pointer-events-none'}`}>
+						<p className={`absolute bottom-full -right-14 sm:bottom-auto sm:top-[2px] whitespace-pre sm:whitespace-nowrap text-sm md:text-base bg-white text-slate-900 rounded-md py-1 px-4 text-left transition-all ${showInfo ? 'opacity-100 -right-14  sm:!right-7 ' : 'opacity-0 right-0 pointer-events-none'}`}>
 							{
 								alert
 									? `Questions made by AI.

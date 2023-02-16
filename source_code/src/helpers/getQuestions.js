@@ -1,4 +1,5 @@
 import promts from './promts';
+import testQuestions from './testQuestions';
 const cohere = require('cohere-ai');
 cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY);
 
@@ -56,76 +57,10 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 	// 	}).then(() => resolve(questions))
 	// })
 
-	let res = [
-		{
-			topic: 'Art',
-			question: 'In what year did the battle of the ships of Tolosa take place?',
-			answers: random(['1212', '1492', '1094', '1571']),
-			correctAnswer: '1212',
-			userAnswer: 0
-		},
-		{
-			topic: 'Space',
-			question: 'What is the verb in the following sentence: \"It was very cold yesterday\"?',
-			answers: random(['Was', 'Very', 'Yesterday', 'Cold']),
-			correctAnswer: 'Was',
-			userAnswer: 0
-		},
-		{
-			topic: 'Science',
-			question: 'Which planet is the second closest to the sun?',
-			answers: random(['Venus', 'Mercury', 'Mars', 'Jupiter']),
-			correctAnswer: 'Venus',
-			userAnswer: 0
-		},
-		{
-			topic: 'General culture',
-			question: 'What is the name of the French city where the treaty of Versailles was signed? awfawfawfaw ',
-			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
-			correctAnswer: 'Paris',
-			userAnswer: 0
-		},
-		{
-			topic: 'Art',
-			question: 'What is the name of the first computer?',
-			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
-			correctAnswer: 'Paris',
-			userAnswer: 0
-		},
-		{
-			topic: 'General culture',
-			question: 'What is the name of the first computer? fawfawfawfawwwwwwwwwwwwfawf awF af awf',
-			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
-			correctAnswer: 'Paris',
-			userAnswer: 0
-		},
-		{
-			topic: 'General culture',
-			question: 'What is the name of the first computer?',
-			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
-			correctAnswer: 'Paris',
-			userAnswer: 0
-		},
-		{
-			topic: 'Geography',
-			question: 'What is the name of the first computer?',
-			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
-			correctAnswer: 'Paris',
-			userAnswer: 0
-		},
-		{
-			topic: 'Art',
-			question: 'What is the name of the first computer?',
-			answers: random(['Paris', 'Versailles', 'Rome', 'London']),
-			correctAnswer: 'Paris',
-			userAnswer: 0
-		},
-	]
-
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
-			// reject({ statusCode: 350, body: { message: "Error personalizado" } })
-			resolve(random(res))
+			// reject({ statusCode: 350, body: { message: "Custom error" } })
+			resolve(random(testQuestions).slice(0, questionsNumber));
 		}, 1000);
 	});
 }
