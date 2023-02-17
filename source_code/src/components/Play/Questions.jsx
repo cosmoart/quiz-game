@@ -145,7 +145,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 				else {
 					setWildCards(wildCards => {
 						wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
-						wildCards
+						return wildCards
 					})
 					if (current === Number(queries.questions)) setWin(1)
 				}
