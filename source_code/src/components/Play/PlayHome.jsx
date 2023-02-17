@@ -18,7 +18,7 @@ export default function PlayHome({ loading, setLoading, setErrorQ, errorQ }) {
 			let validQuery = queryValidator(router.query);
 			let cate = validQuery.categories.map(cat => categories.find(c => c.id === cat).name);
 			setQueries(validQuery);
-			getQuestions(cate, validQuery.questions)
+			getQuestions(cate, validQuery.infinitymode ? 5 : validQuery.questions)
 				.then((q) => {
 					setQuestions(q);
 				}).catch((err) => {
@@ -38,6 +38,14 @@ export default function PlayHome({ loading, setLoading, setErrorQ, errorQ }) {
 					<GameInfo queries={queries} />
 					<Questions queries={queries} questions={questions} setQuestions={setQuestions} />
 					<Footer alert={true} />
+					<style jsx global>
+						{`
+							body {
+								background: url(https://garticphone.com/images/textura.png) 100% 100% no-repeat;
+								background-size: cover;
+							}
+						`}
+					</style>
 				</>
 			}
 		</>

@@ -76,7 +76,7 @@ export default function GameOver({ win }) {
 
 	return (
 		<>
-			<div className={`${!showDialog && "scale-0 opacity-0"} transition-all fixed z-30 w-screen h-screen backdrop-blur-sm top-0 left-0`}></div>
+			<div onClick={closeDialog} className={`${!showDialog && "scale-0 opacity-0"} transition-all fixed z-30 w-screen h-screen backdrop-blur-sm top-0 left-0`}></div>
 			<ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
 			<dialog id='loseorwindialog' open={win !== 0} className='fixed m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm px-6 py-10 rounded-md bg-white text-slate-900 z-40'>
 				<button
