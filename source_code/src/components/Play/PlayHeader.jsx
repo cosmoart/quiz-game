@@ -1,8 +1,8 @@
-import { BiArrowBack } from 'react-icons/bi';
-import { BsArrowRepeat } from 'react-icons/bs';
-import Link from 'next/link';
+import { BiArrowBack } from 'react-icons/bi'
+import { BsArrowRepeat } from 'react-icons/bs'
+import Link from 'next/link'
 
-export default function PlayHeader() {
+export default function PlayHeader () {
 	return (
 		<nav>
 			<ul className='flex gap-4 p-4'>
@@ -12,7 +12,7 @@ export default function PlayHeader() {
 					</Link>
 				</li>
 				<li>
-					<button className='hover:scale-105 transition-all p-1 bg-white rounded' onClick={() => document.getElementById("newGameDialog").showModal()}>
+					<button className='hover:scale-105 transition-all p-1 bg-white rounded' onClick={() => document.getElementById('newGameDialog').showModal()}>
 						<BsArrowRepeat className='text-[28px]' color='#0f172a' title='New game' />
 					</button>
 				</li>

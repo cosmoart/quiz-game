@@ -34,7 +34,7 @@ A quiz/trivia game made with with [Cohere](https://midu.link/ia) for the [Midude
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Quizi is a quiz/trivia game made with with [Cohere](https://midu.link/ia) for the [Midudev Cohere hackathon](https://github.com/midudev/midu-cohere-hackathon). You can select different game modes and topics. Cohere's AI will generate the questions and answers for you.
+Quizi is a quiz/trivia game made with with [Cohere](https://midu.link/ia) for the [Midudev Cohere hackathon](https://github.com/midudev/midu-cohere-hackathon). You can select different game modes and topics, you also have wildcards . Cohere's AI will generate the questions and answers for you.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -45,13 +45,57 @@ Quizi is a quiz/trivia game made with with [Cohere](https://midu.link/ia) for th
 <table>
     <tr>
       <td>
-          <img src="./readme/mobile.webp" width="100%" title="Mobile solution"  />
+          <img src="./readme/home_mobile.webp" width="100%" title="Home in Mobile"  />
       </td>
       <td>
-          <img src="./readme/tablet.webp" width="100%" title="Tablet solution"/>
+          <img src="./readme/home_tablet.webp" width="100%" title="Home in Tablet"/>
       </td>
       <td>
-          <img src="./readme/desktop.webp" width="100%" title="Desktop solution"/>
+          <img src="./readme/home_desktop.webp" width="100%" title="Home in Desktop"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <img src="./readme/form_mobile.webp" width="100%" title="Form in Mobile"  />
+      </td>
+      <td>
+          <img src="./readme/form_tablet.webp" width="100%" title="Form in Tablet"/>
+      </td>
+      <td>
+          <img src="./readme/form_desktop.webp" width="100%" title="Form in Desktop"/>
+      </td>
+    </tr>
+        <tr>
+      <td>
+          <img src="./readme/play_classic_mobile.webp" width="100%" title="Play, classic mode in Mobile"  />
+      </td>
+      <td>
+          <img src="./readme/play_classic_tablet.webp" width="100%" title="Play, classic mode in Tablet"/>
+      </td>
+      <td>
+          <img src="./readme/play_classic_desktop.webp" width="100%" title="Play, classic mode in Desktop"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <img src="./readme/play_time_mobile.webp" width="100%" title="Play, time mode in Mobile"  />
+      </td>
+      <td>
+          <img src="./readme/play_time_tablet.webp" width="100%" title="Play, time mode in Tablet"/>
+      </td>
+      <td>
+          <img src="./readme/play_time_desktop.webp" width="100%" title="Play, time mode in Desktop"/>
+      </td>
+    </tr>
+          <tr>
+      <td>
+          <img src="./readme/win_mobile.webp" width="100%" title="Win screen in Mobile"  />
+      </td>
+      <td>
+          <img src="./readme/win_tablet.webp" width="100%" title="Win screen in Tablet"/>
+      </td>
+      <td>
+          <img src="./readme/win_desktop.webp" width="100%" title="Win screen in Desktop"/>
       </td>
     </tr>
 </table>
@@ -61,13 +105,20 @@ Quizi is a quiz/trivia game made with with [Cohere](https://midu.link/ia) for th
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+List of the frameworks, libraries and tools used to build the project.
 
 * [Next.js](https://nextjs.org/)
 * [React.js](https://reactjs.org/)
-* [Cohere](https://midu.link/ia)
-* [Vercel](https://vercel.com/)
-* [Tailwind CSS](https://tailwindcss.com/)
+* [Cohere](https://midu.link/ia) For the generation of questions
+* [Vercel](https://vercel.com/) For hosting
+* [Tailwind CSS](https://tailwindcss.com/) For styling
+* [AnimatiSS](https://xsgames.co/animatiss/) For animations (title hover, correct and wrong answer)
+* [Patternpad](https://patternpad.com/editor.html) For the home background pattern
+* [Figma](https://www.figma.com/) For the design
+* [React icons](https://react-icons.github.io/react-icons/) For icons
+* [Iconify](https://iconify.design) For the answers letters icons
+* [Tabler Icons](https://tablericons.com) For the categories icons
+* [Canvas confetti](https://www.npmjs.com/package/canvas-confetti) For the confetti animation
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -107,11 +158,23 @@ NEXT_PUBLIC_COHERE_API_KEY=XXXXXXXXXXXXXXXXXX
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See [`LICENSE.txt`](https://github.com/cosmoart/quiz-game/blob/main/LICENCE) for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+<!-- ROADMAP -->
+## Roadmap
+
+- [ ] Circle wipe transition
+- [ ] Background music
+- [ ] Improve UI: Form, GameOver
+- [ ] Buttons sounds
+- [ ] Win and Lose sounds
+- [ ] Multi-language Support (?)
+- [ ] PWA
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact

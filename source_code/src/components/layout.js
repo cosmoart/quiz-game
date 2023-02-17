@@ -1,6 +1,6 @@
 import NewGame from './NewGame'
 
-export default function Layout({ children }) {
+export default function Layout ({ children }) {
 	return (
 		<>
 			{children}

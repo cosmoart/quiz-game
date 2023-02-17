@@ -1,7 +1,7 @@
-import categories from "@/assets/categories.json"
+import categories from '@/assets/categories.json'
 import Image from 'next/image'
 
-export default function Categories() {
+export default function Categories () {
 	return (
 		<section className='max-w-6xl bg-white px-8 pb-6 flex flex-col justify-center text-slate-900'>
 			<h2 className='text-2xl mb-4 font-medium mt-4 lg:mt-0'>Categories</h2>

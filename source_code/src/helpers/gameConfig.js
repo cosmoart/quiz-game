@@ -25,11 +25,16 @@ function queryValidator(query) {
 		else urlQueries.time = time;
 	} else urlQueries.time = DEFAULT_TIME;
 
-	if (infinitymode && infinitymode === 'true') urlQueries.infinitymode = true;
+	if (infinitymode) {
+		if (infinitymode === 'true') urlQueries.infinitymode = true;
+		else urlQueries.infinitymode = false
+	}
 	else urlQueries.infinitymode = INFINITY_MODE;
 
-	if (timemode && timemode === 'true') urlQueries.timemode = true;
-	else urlQueries.timemode = TIME_MODE;
+	if (timemode) {
+		if (timemode === 'true') urlQueries.timemode = true;
+		else urlQueries.timemode = false
+	} else urlQueries.timemode = TIME_MODE;
 
 	if (categories) {
 		const categoriesArray = categories.split(',');

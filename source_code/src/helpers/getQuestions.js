@@ -1,16 +1,16 @@
-import promts from './promts';
-import testQuestions from './testQuestions';
-const cohere = require('cohere-ai');
-cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY);
+import promts from './promts'
+import testQuestions from './testQuestions'
+const cohere = require('cohere-ai')
+cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY)
 
-export default async function getQuestions(topicsArray, questionsNumber) {
-	function random(arr) {
-		let newArr = arr;
+export default async function getQuestions (topicsArray, questionsNumber) {
+	function random (arr) {
+		const newArr = arr
 		for (let i = newArr.length - 1; i > 0; i--) {
-			let j = Math.floor(Math.random() * (i + 1));
-			[newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+			const j = Math.floor(Math.random() * (i + 1));
+			[newArr[i], newArr[j]] = [newArr[j], newArr[i]]
 		}
-		return newArr;
+		return newArr
 	}
 
 	// return new Promise((resolve, reject) => {
@@ -60,7 +60,7 @@ export default async function getQuestions(topicsArray, questionsNumber) {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
 			// reject({ statusCode: 350, body: { message: "Custom error" } })
-			resolve(random(testQuestions).slice(0, questionsNumber));
-		}, 1000);
-	});
+			resolve(random(testQuestions).slice(0, questionsNumber))
+		}, 1000)
+	})
 }
