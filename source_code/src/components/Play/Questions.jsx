@@ -216,7 +216,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 						</ol>
 				}
 				{
-					!loading
+					!loading && !error
 						? <main className='relative max-w-2xl min-h-[28rem] md:min-h-[16rem] mx-auto overflow-hidden h-1/2'>
 							{
 								questions.map((question, i) => {

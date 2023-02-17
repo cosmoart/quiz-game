@@ -1,4 +1,4 @@
-import promts from './promts'
+// import promts from './promts'
 import testQuestions from './testQuestions'
 const cohere = require('cohere-ai')
 cohere.init(process.env.NEXT_PUBLIC_COHERE_API_KEY)
