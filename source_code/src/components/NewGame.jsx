@@ -90,7 +90,7 @@ export default function NewGame () {
 
 								<li className={'flex gap-2 justify-center items-center'}>
 									<div className='p-[10px] aspect-square rounded text-white bg-blue-500 transition-transform text' title='Delete two wrong questions' disabled={true}>
-										<img src={fiftyImg.src} alt="fifty fifty" width={23} />
+										<Image src={fiftyImg.src} alt="fifty fifty" width={23} />
 									</div>
 									<span className='text-xl'>x1</span>
 								</li>

@@ -4,7 +4,12 @@
 		"es2021": true,
 		"node": true
 	},
-	"extends": ["plugin:react/recommended", "standard", "next/core-web-vitals"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:@next/next/recommended",
+		"standard"
+	],
 	"overrides": [],
 	"parserOptions": {
 		"ecmaFeatures": {

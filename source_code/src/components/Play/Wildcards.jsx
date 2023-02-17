@@ -1,6 +1,7 @@
 import { BsSkipEndFill } from 'react-icons/bs'
 import { FaHeart } from 'react-icons/fa'
 import fiftyImg from '@/assets/fifty.svg'
+import Image from 'next/image'
 
 export default function Wildcards ({ wildCards, wilcardSkip, wilcardFifty, win }) {
 	return (
@@ -17,7 +18,7 @@ export default function Wildcards ({ wildCards, wilcardSkip, wilcardFifty, win }
 
 					<li className={`relative ${wildCards.half < 1 || win !== 0 ? 'grayscale cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}>
 						<button onClick={wilcardFifty} className='p-[10px] aspect-square rounded text-white bg-blue-500 w-full  transition-transform text' title='Delete two wrong questions' disabled={wildCards.half < 1 || win !== 0}>
-							<img src={fiftyImg.src} alt="fifty fifty" width={20} />
+							<Image src={fiftyImg.src} alt="fifty fifty" width={20} />
 						</button>
 						<span className='absolute -bottom-2 -right-2 bg-white rounded-full aspect-square w-6 flex justify-center items-center text-sm font-medium'>x{wildCards.half}</span>
 					</li>
