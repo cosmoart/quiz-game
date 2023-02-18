@@ -2,16 +2,12 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { IoCloseSharp } from 'react-icons/io5'
-import { BsSkipEndFill } from 'react-icons/bs'
-import { IoMdInfinite } from 'react-icons/io'
-import { FaHeart } from 'react-icons/fa'
-import categories from '../assets/categories.json'
-import fiftyImg from '@/assets/fifty.svg'
-
 import queryValidator, { quiziConfig } from '@/helpers/gameConfig'
+import { IoCloseSharp } from 'react-icons/io5'
+import categories from '../assets/categories.json'
+import LeftFormSection from './LeftFormSection'
 
-export default function NewGame () {
+export default function NewGameForm () {
 	const router = useRouter()
 	const dialog = useRef(null)
 	const [queries, setQueries] = useState(queryValidator({}))
@@ -74,63 +70,9 @@ export default function NewGame () {
 			<button className='absolute top-2 right-2 text-3xl' onClick={() => closeDialog()} >
 				<IoCloseSharp />
 			</button>
-			<form onSubmit={(e) => e.preventDefault()}>
+			<form onSubmit={(e) => e.preventDefault()} >
 				<div className='flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8'>
-					<div className='flex gap-2 sm:gap-5 flex-col'>
-
-						<fieldset className='p-1'>
-							<legend className='text-lg font-semibold mb-2'>Wilcards</legend>
-							<ul className='flex gap-3 justify-between'>
-								<li className={'flex gap-2 justify-center items-center'}>
-									<div className='p-[10px] aspect-square rounded bg-blue-500 transition-transform' title='Skip question' disabled={true < 1}>
-										<BsSkipEndFill color='white' className='text-2xl' />
-									</div>
-									<span className='text-xl'>x1</span>
-								</li>
-
-								<li className={'flex gap-2 justify-center items-center'}>
-									<div className='p-[10px] aspect-square rounded text-white bg-blue-500 transition-transform text' title='Delete two wrong questions' disabled={true}>
-										<Image src={fiftyImg.src} alt="fifty fifty" width={23} />
-									</div>
-									<span className='text-xl'>x1</span>
-								</li>
-
-								<li className={'flex gap-2 justify-center items-center'} title='Lives'>
-									<div className='p-[10px] aspect-square rounded text-white bg-blue-500 transition-transform text' title='Delete two wrong questions'>
-										<FaHeart color='white' className='text-2xl' />
-									</div>
-									<span className='text-xl'>x1</span>
-								</li>
-							</ul>
-						</fieldset>
-
-						<fieldset className='p-1 relative'>
-							<legend className='text-lg font-semibold mb-2'>Questions</legend>
-							<input onClick={handleInputs} defaultChecked={!queries.infinitymode} type="checkbox" name="infinitymode" className='absolute -top-8 left-28 w-5 h-5 cursor-pointer ' />
-							<div className='flex items-center'>
-								<input type="range" name="questions" min={quiziConfig.minQuestions} max={quiziConfig.maxQuestions} defaultValue={queries.questions} onChange={handleInputs} className={`w-full cursor-pointer ${queries.infinitymode ? 'grayscale cursor-not-allowed' : ''}`} disabled={queries.infinitymode} />
-								<span className={`w-11 flex justify-center font-semibold h-5 ${queries.infinitymode && 'text-[24px]'}`}>
-									{queries.infinitymode ? <IoMdInfinite /> : queries.questions}
-								</span>
-							</div>
-						</fieldset>
-
-						<fieldset className='after:bg-red-500 p-1 relative'>
-							<legend className='text-lg font-semibold mb-2'>Time</legend>
-							<input onClick={handleInputs} defaultChecked={queries.timemode} type="checkbox" name="timemode" className='absolute -top-8 left-14 w-5 h-5 cursor-pointer ' />
-							<div className='flex gap-3'>
-								{
-									[10, 20, 30, 60].map(time => (
-										<label key={time} className="w-full">
-											<input className='peer absolute hidden' type="radio" name="time" id={`${time}s`} value={time} defaultChecked={time === Number(queries.time)} onChange={handleInputs} disabled={!queries.timemode} />
-											<span className={`peer-checked:bg-blue-500 transition-colors  peer-checked:text-white px-2 sm:px-4 py-2 rounded mr-3 cursor-pointer bg-gray-200 text-center w-full inline-block ${!queries.timemode ? 'grayscale cursor-not-allowed' : 'active:scale-95'}`} translate="no">{time}s</span>
-										</label>
-									))
-								}
-							</div>
-						</fieldset>
-					</div>
-
+					<LeftFormSection queries={queries} handleInputs={handleInputs} quiziConfig={quiziConfig} />
 					<fieldset>
 						<legend className='text-lg font-semibold mb-2 mx-1'>Categories</legend>
 						<div className='grid grid-cols-4 sm:grid-cols-2 gap-y-0 gap-x-3 sm:gap-2 h-full'>

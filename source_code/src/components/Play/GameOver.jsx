@@ -92,10 +92,8 @@ export default function GameOver ({ win }) {
 					<h2 className='text-2xl font-bold'>{win !== -1 ? 'You Win!' : 'You Lose!'}</h2>
 					<p className='text-center mb-3 whitespace-pre-line'>
 						{win !== -1
-							? `Congratulations!
-							Quiz completed successfully.`
-							: `Better luck next time!
-							You can try again.`
+							? 'Congratulations! \nQuiz completed successfully.'
+							: 'Better luck next time! \nYou can try again.'
 						}
 					</p>
 					<div className='flex gap-4 items-center'>

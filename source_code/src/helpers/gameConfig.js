@@ -49,12 +49,11 @@ export default queryValidator
 
 export const quiziConfig = {
 	questions: DEFAULT_QUESTIONS,
-	time: DEFAULT_TIME,
-	categories: categoriesJSON.map(category => category.id),
 	minQuestions: MIN_QUESTIONS,
 	maxQuestions: MAX_QUESTIONS,
+	defaultQuestions: DEFAULT_QUESTIONS,
+	time: DEFAULT_TIME,
 	times: TIMES,
 	modes: MODES,
-	defaultTime: DEFAULT_TIME,
-	defaultQuestions: DEFAULT_QUESTIONS
+	defaultTime: DEFAULT_TIME
 }

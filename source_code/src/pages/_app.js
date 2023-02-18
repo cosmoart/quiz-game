@@ -1,6 +1,5 @@
 import '@/styles/globals.css'
 import Layout from '../components/layout'
-import Head from 'next/head'
 import { Rubik } from '@next/font/google'
 import { useEffect } from 'react'
 
@@ -10,13 +9,8 @@ export default function App ({ Component, pageProps }) {
 	useEffect(() => document.body.classList.add(rubik.className), [])
 
 	return (
-		<>
-			<Head>
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-			</Head>
-			<Layout>
-				<Component {...pageProps} className={rubik.className} />
-			</Layout>
-		</>
+		<Layout>
+			<Component {...pageProps} className={rubik.className} />
+		</Layout>
 	)
 }
