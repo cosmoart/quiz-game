@@ -6,7 +6,7 @@
 <br/>
 <br />
 
-  # 🟥🟨🟦 Quizi 🟧🟩🟪
+  # 🟥🟦 Quizi 🟨🟩
 
 A quiz/trivia game made with with [Cohere](https://midu.link/ia) for the [Midudev Cohere hackathon](https://github.com/midudev/midu-cohere-hackathon)!
 
