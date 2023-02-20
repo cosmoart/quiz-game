@@ -62,9 +62,7 @@ export default function GameOver ({ win }) {
 
 	useEffect(() => {
 		if (win === 1) fire()
-		if (win !== 0) {
-			setShowDialog(true)
-		}
+		if (win !== 0) setShowDialog(true)
 	}, [win])
 
 	function closeDialog () {

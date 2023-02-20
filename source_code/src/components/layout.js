@@ -1,4 +1,4 @@
-import NewGameForm from './NewGameForm'
+import NewGameForm from './Form/NewGameForm'
 
 export default function Layout ({ children }) {
 	return (

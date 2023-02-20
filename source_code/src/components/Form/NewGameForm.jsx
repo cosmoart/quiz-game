@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import queryValidator, { quiziConfig } from '@/helpers/gameConfig'
 import { IoCloseSharp } from 'react-icons/io5'
-import categories from '../assets/categories.json'
+import categories from '@/assets/categories.json'
 import LeftFormSection from './LeftFormSection'
 
 export default function NewGameForm () {

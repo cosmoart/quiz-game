@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import queryValidator from '@/helpers/gameConfig'
 import getQuestions from '@/helpers/getQuestions'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+
 import Footer from '../Footer'
 import GameInfo from './GameInfo'
 import PlayHeader from './PlayHeader'
@@ -18,14 +19,11 @@ export default function PlayHome ({ loading, setLoading, setErrorQ, errorQ }) {
 			const validQuery = queryValidator(router.query)
 			const cate = validQuery.categories.map(cat => categories.find(c => c.id === cat).name)
 			setQueries(validQuery)
+
 			getQuestions(cate, validQuery.infinitymode ? 5 : validQuery.questions)
-				.then((q) => {
-					setQuestions(q)
-				}).catch((err) => {
-					setErrorQ([true, err])
-				}).finally(() => {
-					setLoading(false)
-				})
+				.then((q) => setQuestions(q))
+				.catch((err) => setErrorQ([true, err]))
+				.finally(() => setLoading(false))
 		}
 		if (!loading) router.reload()
 	}, [router.isReady, router.query])
@@ -41,8 +39,13 @@ export default function PlayHome ({ loading, setLoading, setErrorQ, errorQ }) {
 					<style jsx global>
 						{`
 							body {
-								background: url(https://garticphone.com/images/textura.png) 100% 100% no-repeat;
-								background-size: cover;
+								background: url(play_bg.png) center;
+								background-size: 100% 100%;
+							}
+							@media (max-width: 1030px) {
+								body {
+									background-size: auto 100%;
+								}
 							}
 						`}
 					</style>

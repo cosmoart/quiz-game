@@ -7,13 +7,7 @@ import categories from '@/assets/categories.json'
 
 export default function Questions ({ queries, setQuestions, questions }) {
 	const [win, setWin] = useState(0)
-	const [loading, setloading] = useState(false)
-	const [error, setError] = useState(false)
-
-	const [timeQ, setTimeQ] = useState(Number(queries.time))
 	const [score, setScore] = useState(1)
-	const [scoreInfinity, setScoreInfinity] = useState([1, 5])
-
 	const [current, setCurrent] = useState(1)
 	const [wildCards, setWildCards] = useState({
 		skip: 1,
@@ -22,24 +16,30 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		lives: 1
 	})
 
+	// Infinity mode
+	const [loading, setloading] = useState(false)
+	const [error, setError] = useState(false)
+	const [scoreInfinity, setScoreInfinity] = useState([1, 5])
+
+	// Time mode
+	const [timeQ, setTimeQ] = useState(Number(queries.time))
+
+	// Infinity mode
 	function getAnotherQuestions () {
 		setloading(true)
 		setCurrent(1)
 		getQuestions(queries.categories, 5)
 			.then((q) => {
 				setQuestions(q)
-				console.log(q)
 			}).catch((err) => {
 				setError(err)
 			}).finally(() => {
 				setScoreInfinity(scoreInfinity => [scoreInfinity[0], scoreInfinity[1] + 5])
 				setloading(false)
-				console.log(current)
-				setCurrent(1)
-				console.log(current)
 			})
 	}
 
+	// Time mode
 	useEffect(() => {
 		if (!queries.timemode) return
 		const timeInterva = setInterval(() => {
@@ -51,47 +51,38 @@ export default function Questions ({ queries, setQuestions, questions }) {
 	useEffect(() => {
 		if (timeQ < 1) {
 			if (wildCards.lives < 1) {
-				document.querySelectorAll(`.answer-${current}`).forEach(answer => {
-					answer.disabled = true
-					if (answer.textContent === questions[current - 1].correctAnswer) {
-						answer.classList.add('correctAnswer')
-					}
-				})
+				clickAnswers(false)
 				setWin(-1)
 			} else {
 				setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
-				clickCorrectAnswer()
+				clickAnswers()
 			}
 		}
 	}, [timeQ])
 
+	// Clasic mode
 	// Changue background color and image when the question changes
 	useEffect(() => {
 		const color = categories.find(cat => cat.name === questions[current - 1]?.topic)?.color
 		document.body.style.backgroundColor = color
 	}, [current, questions])
 
-	function clickCorrectAnswer () {
-		setScore(score => score + 1)
-		setTimeQ(Number(queries.time))
+	function clickAnswers (correct = true, addScore = true) {
+		if (addScore) {
+			setScore(score => score + 1)
+			setTimeQ(Number(queries.time))
+			setTimeout(() => changueCurrent(current + 1, true), 1000)
+		}
 
 		document.querySelectorAll(`.answer-${current}`).forEach(answer => {
 			answer.disabled = true
-			if (answer.textContent === questions[current - 1].correctAnswer) {
-				answerSound(true)
-				answer.classList.add('correctAnswer')
-				answer.parentNode.classList.add('shake-left-right')
+			if (correct) {
+				if (answer.textContent === questions[current - 1].correctAnswer) {
+					answer.classList.add('correctAnswer')
+					answer.parentNode.classList.add('shake-left-right')
+				}
 			}
 		})
-
-		setQuestions(questions => {
-			questions[current - 1].userAnswer = 2
-			return questions
-		})
-
-		setTimeout(() => {
-			changueCurrent(current + 1, true)
-		}, 1000)
 	}
 
 	function changueCurrent (number, avoidState) {
@@ -118,59 +109,55 @@ export default function Questions ({ queries, setQuestions, questions }) {
 	function validateAnswer (e) {
 		const correct = e.target.textContent === questions[current - 1].correctAnswer
 
-		answerSound(correct)
+		// e.target.parentNode.classList.add(correct ? 'shake-left-right' : 'vibrate')
+		// e.target.classList.add(correct ? 'correctAnswer' : 'wrongAnswer')
 
-		e.target.parentNode.classList.add(correct ? 'shake-left-right' : 'vibrate')
-		e.target.classList.add(correct ? 'correctAnswer' : 'wrongAnswer')
-
-		document.querySelectorAll(`.answer-${current}`).forEach(answer => {
-			answer.disabled = true
-			if (!correct && answer.textContent === questions[current - 1].correctAnswer) {
-				answer.classList.add('correctAnswer')
-				answer.parentNode.classList.add('shake-left-right')
+		if (correct) {
+			if (current === Number(queries.questions)) {
+				setWin(1)
+				clickAnswers(true, false)
+			} else clickAnswers()
+		} else {
+			if (wildCards.lives < 1) {
+				clickAnswers({ correct: false, addScore: false })
+				setWin(-1)
+			} else {
+				setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
+				if (current === Number(queries.questions)) {
+					setWin(1)
+					clickAnswers(false, false)
+				} else clickAnswers(false)
 			}
-		})
+		}
 
+		answerSound(correct)
 		setQuestions(questions => {
 			questions[current - 1].userAnswer = correct ? 1 : -1
 			return questions
 		})
 
-		if (queries.infinitymode) {
-			if (correct || wildCards.lives > 0) setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
-			if (scoreInfinity[0] === scoreInfinity[1]) {
-				if (correct) {
-					getAnotherQuestions()
-				} else if (wildCards.lives < 1) setWin(-1)
-				else {
-					setWildCards(wildCards => {
-						wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
-						return wildCards
-					})
-					if (current === Number(queries.questions)) setWin(1)
-				}
-			}
-		} else {
-			if (!correct) {
-				if (wildCards.lives < 1) return setWin(-1)
-				else {
-					setWildCards(wildCards => {
-						wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
-						return wildCards
-					})
-					if (current === Number(queries.questions)) return setWin(1)
-				}
-			} else if (current === Number(queries.questions)) return setWin(1)
-		}
+		// if (queries.infinitymode) {
+		// 	if (correct || wildCards.lives > 0) setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
+		// 	if (scoreInfinity[0] === scoreInfinity[1]) {
+		// 		if (correct) {
+		// 			getAnotherQuestions()
+		// 		} else if (wildCards.lives < 1) setWin(-1)
+		// 		else {
+		// 			setWildCards(wildCards => {
+		// 				wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
+		// 				return wildCards
+		// 			})
+		// 			if (current === Number(queries.questions)) setWin(1)
+		// 		}
+		// 	}
+		// }
 
-		setTimeQ(Number(queries.time))
-		setScore(score => score + 1)
-		setTimeout(() => {
-			if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) {
-				console.log(current)
-				changueCurrent(1, true)
-			} else changueCurrent(current + 1, true)
-		}, 1000)
+		// setTimeout(() => {
+		// 	if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) {
+		// 		console.log(current)
+		// 		changueCurrent(1, true)
+		// 	} else changueCurrent(current + 1, true)
+		// }, 1000)
 	}
 
 	// Wilcards
@@ -180,7 +167,8 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		if (wildCards.skip > 0 && current === Number(queries.questions)) return setWin(1)
 
 		setWildCards(wildCards => ({ ...wildCards, skip: wildCards.skip - 1 }))
-		clickCorrectAnswer()
+		setQuestions(questions => (questions[current - 1].userAnswer = 2))
+		clickAnswers()
 	}
 
 	function wilcardFifty () {
@@ -197,6 +185,17 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		})
 	}
 
+	function buttonBg (i) {
+		let bg = 'bg-slate-600 hover:cursor-auto'
+		if (i + 1 === score) bg = 'bg-white text-blue-500'
+		if (questions[i].userAnswer === 1) bg = 'bg-green-500 !text-white'
+		if (questions[i].userAnswer === -1) bg = 'bg-red-500 !text-white'
+		if (questions[i].userAnswer === 2) bg = 'bg-blue-500 !text-white'
+		if (i + 1 <= score) bg += ' cursor-pointer hover:scale-105'
+		if (i + 1 === current) bg += ' outline outline-offset-2 hover:outline-offset-4 outline-blue-500'
+		return bg
+	}
+
 	return (
 		<>
 			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
@@ -209,7 +208,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 							{
 								[...Array(parseInt(queries.questions))].map((_, i) => (
 									<li key={i}>
-										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${i + 1 === score && 'bg-white text-blue-500'} ${i + 1 <= score ? 'cursor-pointer hover:scale-105' : 'bg-slate-600 hover:cursor-auto'} ${questions[i].userAnswer === 1 && 'bg-green-500 !text-white'} ${questions[i].userAnswer === -1 && 'bg-red-500 !text-white'}  ${questions[i].userAnswer === 2 && 'bg-blue-500 !text-white'} ${i + 1 === current && 'outline outline-offset-2 hover:outline-offset-4 outline-blue-500'} `}>{i + 1}</button>
+										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${buttonBg(i)}`}>{i + 1}</button>
 									</li>
 								))
 							}
@@ -258,3 +257,4 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		</>
 	)
 }
+// 272

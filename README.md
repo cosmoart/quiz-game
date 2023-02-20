@@ -119,6 +119,7 @@ List of the frameworks, libraries and tools used to build the project.
 * [Iconify](https://iconify.design) For the answers letters icons
 * [Tabler Icons](https://tablericons.com) For the categories icons
 * [Canvas confetti](https://www.npmjs.com/package/canvas-confetti) For the confetti animation
+- [Vector Halftone Maker](https://halftone.xoihazard.com) For the halftone effect
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
