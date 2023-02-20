@@ -26,8 +26,10 @@ function queryValidator (query) {
 	} else urlQueries.time = DEFAULT_TIME
 
 	if (infinitymode) {
-		if (infinitymode === 'true') urlQueries.infinitymode = true
-		else urlQueries.infinitymode = false
+		if (infinitymode === 'true') {
+			urlQueries.infinitymode = true
+			urlQueries.questions = DEFAULT_QUESTIONS
+		} else urlQueries.infinitymode = false
 	} else urlQueries.infinitymode = INFINITY_MODE
 
 	if (timemode) {

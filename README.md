@@ -144,7 +144,9 @@ npm install
 npm run dev
 ```
 
-You will need to create a `.env.local` file with the Cohere API key at `source_code`. You can get one [here](https://midu.link/ia).
+To make the API work properly, you have two options:
+1. Comment the return of the first promise in `source_code/src/helpers/getQuestions.js` and uncomment the return of the second promise.
+2. Create a `.env.local` file with the Cohere API key at `source_code`. You can get one [here](https://midu.link/ia).
 
 The `.env.local` file should look like this:
 
@@ -174,6 +176,8 @@ Distributed under the MIT License. See [`LICENSE.txt`](https://github.com/cosmoa
 - [ ] Win and Lose sounds
 - [ ] Multi-language Support (?)
 - [ ] PWA
+- [ ] Personalize the game over screen for infinite mode
+- [ ] Smart storage of unanswered questions
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

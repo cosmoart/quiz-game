@@ -9,69 +9,68 @@ export default function Questions ({ queries, setQuestions, questions }) {
 	const [win, setWin] = useState(0)
 	const [score, setScore] = useState(1)
 	const [current, setCurrent] = useState(1)
+	const [time, setTime] = useState(Number(queries.time))
 	const [wildCards, setWildCards] = useState({
 		skip: 1,
 		half: 1,
-		doubled: 1,
 		lives: 1
 	})
 
-	// Infinity mode
 	const [loading, setloading] = useState(false)
 	const [error, setError] = useState(false)
 	const [scoreInfinity, setScoreInfinity] = useState([1, 5])
 
-	// Time mode
-	const [timeQ, setTimeQ] = useState(Number(queries.time))
+	useEffect(() => {
+		if (win !== 0) return
+		if (!queries.timemode) return
+		const timeInterval = setInterval(() => setTime(time => time > 0 ? time - 1 : time), 1000)
+		return () => clearInterval(timeInterval)
+	}, [queries.timemode, win])
 
-	// Infinity mode
+	useEffect(() => {
+		if (win !== 0) return
+		if (time < 1) {
+			if (queries.infinitymode && loading) return setError(true)
+			if (wildCards.lives < 1) {
+				clickAnswers(true, false)
+				setWin(-1)
+				answerSound(false)
+			} else {
+				setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
+				clickAnswers()
+				answerSound(true)
+			}
+		}
+	}, [time])
+
+	useEffect(() => {
+		const color = categories.find(cat => cat.name === questions[current - 1]?.topic)?.color
+		document.body.style.backgroundColor = color
+	}, [current])
+
 	function getAnotherQuestions () {
 		setloading(true)
 		setCurrent(1)
-		getQuestions(queries.categories, 5)
-			.then((q) => {
-				setQuestions(q)
-			}).catch((err) => {
-				setError(err)
-			}).finally(() => {
-				setScoreInfinity(scoreInfinity => [scoreInfinity[0], scoreInfinity[1] + 5])
+		setTime(60)
+		const topics = categories.filter(category => queries.categories.find(cat => cat === category.id)).map(cat => cat.name)
+		getQuestions(topics, 5)
+			.then((q) => setQuestions(q))
+			.catch((err) => setError(err))
+			.finally(() => {
+				setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1] + 5])
+				setTime(Number(queries.time))
 				setloading(false)
 			})
 	}
 
-	// Time mode
-	useEffect(() => {
-		if (!queries.timemode) return
-		const timeInterva = setInterval(() => {
-			setTimeQ(timeQ => timeQ > 0 ? timeQ - 1 : timeQ)
-		}, 1000)
-		return () => clearInterval(timeInterva)
-	}, [queries.timemode])
-
-	useEffect(() => {
-		if (timeQ < 1) {
-			if (wildCards.lives < 1) {
-				clickAnswers(false)
-				setWin(-1)
-			} else {
-				setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
-				clickAnswers()
-			}
-		}
-	}, [timeQ])
-
-	// Clasic mode
-	// Changue background color and image when the question changes
-	useEffect(() => {
-		const color = categories.find(cat => cat.name === questions[current - 1]?.topic)?.color
-		document.body.style.backgroundColor = color
-	}, [current, questions])
-
 	function clickAnswers (correct = true, addScore = true) {
 		if (addScore) {
-			setScore(score => score + 1)
-			setTimeQ(Number(queries.time))
-			setTimeout(() => changueCurrent(current + 1, true), 1000)
+			setTimeout(() => {
+				if (queries.infinitymode) setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
+				setTime(Number(queries.time))
+				setScore(score => score + 1)
+				changueCurrent(current + 1, true)
+			}, 1000)
 		}
 
 		document.querySelectorAll(`.answer-${current}`).forEach(answer => {
@@ -109,70 +108,86 @@ export default function Questions ({ queries, setQuestions, questions }) {
 	function validateAnswer (e) {
 		const correct = e.target.textContent === questions[current - 1].correctAnswer
 
-		// e.target.parentNode.classList.add(correct ? 'shake-left-right' : 'vibrate')
-		// e.target.classList.add(correct ? 'correctAnswer' : 'wrongAnswer')
+		e.target.parentNode.classList.add(correct ? 'shake-left-right' : 'vibrate')
+		e.target.classList.add(correct ? 'correctAnswer' : 'wrongAnswer')
 
-		if (correct) {
-			if (current === Number(queries.questions)) {
-				setWin(1)
-				clickAnswers(true, false)
-			} else clickAnswers()
-		} else {
-			if (wildCards.lives < 1) {
-				clickAnswers({ correct: false, addScore: false })
-				setWin(-1)
-			} else {
-				setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
-				if (current === Number(queries.questions)) {
-					setWin(1)
-					clickAnswers(false, false)
-				} else clickAnswers(false)
+		document.querySelectorAll(`.answer-${current}`).forEach(answer => {
+			answer.disabled = true
+			if (!correct && answer.textContent === questions[current - 1].correctAnswer) {
+				answer.classList.add('correctAnswer')
+				answer.parentNode.classList.add('shake-left-right')
 			}
-		}
+		})
 
+		setScore(score => score + 1)
+		setTime(Number(queries.time))
 		answerSound(correct)
 		setQuestions(questions => {
 			questions[current - 1].userAnswer = correct ? 1 : -1
 			return questions
 		})
 
-		// if (queries.infinitymode) {
-		// 	if (correct || wildCards.lives > 0) setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
-		// 	if (scoreInfinity[0] === scoreInfinity[1]) {
-		// 		if (correct) {
-		// 			getAnotherQuestions()
-		// 		} else if (wildCards.lives < 1) setWin(-1)
-		// 		else {
-		// 			setWildCards(wildCards => {
-		// 				wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
-		// 				return wildCards
-		// 			})
-		// 			if (current === Number(queries.questions)) setWin(1)
-		// 		}
-		// 	}
-		// }
+		if (queries.infinitymode) {
+			if (correct) {
+				if (scoreInfinity[0] === scoreInfinity[1]) getAnotherQuestions()
+				else setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
+			} else {
+				if (wildCards.lives < 1) return setWin(-1)
+				else {
+					if (scoreInfinity[0] === scoreInfinity[1]) getAnotherQuestions()
+					else {
+						setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
+						setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
+					}
+				}
+			}
+		} else {
+			if (!correct) {
+				if (wildCards.lives < 1) return setWin(-1)
+				else {
+					setWildCards(wildCards => {
+						wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
+						return wildCards
+					})
+					if (current === Number(queries.questions)) return setWin(1)
+				}
+			} else if (current === Number(queries.questions)) return setWin(1)
+		}
 
-		// setTimeout(() => {
-		// 	if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) {
-		// 		console.log(current)
-		// 		changueCurrent(1, true)
-		// 	} else changueCurrent(current + 1, true)
-		// }, 1000)
+		setTimeout(() => {
+			if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) {
+				changueCurrent(1, true)
+			} else changueCurrent(current + 1, true)
+		}, 900)
 	}
 
 	// Wilcards
 
 	function wilcardSkip () {
-		if (wildCards.skip < 1 || current !== score) return
-		if (wildCards.skip > 0 && current === Number(queries.questions)) return setWin(1)
+		if (wildCards.skip < 1) {
+			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
+			else if (current !== score) return
+		}
+		if (wildCards.skip > 0 && current === Number(queries.questions)) {
+			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
+			else return setWin(1)
+		}
 
+		answerSound(true)
 		setWildCards(wildCards => ({ ...wildCards, skip: wildCards.skip - 1 }))
-		setQuestions(questions => (questions[current - 1].userAnswer = 2))
 		clickAnswers()
+
+		if (!queries.infinitymode) {
+			setQuestions(questions => (questions[current - 1].userAnswer = 2))
+		}
 	}
 
 	function wilcardFifty () {
-		if (wildCards.half < 1 || current !== score) return
+		if (wildCards.half < 1) {
+			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
+			else if (current !== score) return
+		}
+
 		setWildCards(wildCards => ({ ...wildCards, half: wildCards.half - 1 }))
 		const answers = document.querySelectorAll(`.answer-${current}`)
 		const correct = questions[current - 1].correctAnswer
@@ -242,7 +257,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 								})
 							}
 						</main>
-						: <div className='flex items-center justify-center h-1/2'>
+						: <div className='flex h-32 md:h-[6.5rem] items-center justify-center rounded-md bg-blue-500 px-10 py-6 text-white text-xl font-semibold'>
 							Loading next questions...
 						</div>
 				}
@@ -250,8 +265,8 @@ export default function Questions ({ queries, setQuestions, questions }) {
 			<GameOver win={win} />
 			<Wildcards wildCards={wildCards} wilcardSkip={wilcardSkip} wilcardFifty={wilcardFifty} win={win} />
 			{
-				queries.timemode && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${timeQ < 6 && win >= 0 ? 'pulse_animation' : ''}`}>
-					{timeQ}
+				queries.timemode && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${time < 6 && win >= 0 ? 'pulse_animation' : ''}`}>
+					{time}
 				</div>
 			}
 		</>
