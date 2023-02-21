@@ -119,8 +119,6 @@ export default function Questions ({ queries, setQuestions, questions }) {
 			}
 		})
 
-		setScore(score => score + 1)
-		setTime(Number(queries.time))
 		answerSound(correct)
 		setQuestions(questions => {
 			questions[current - 1].userAnswer = correct ? 1 : -1
@@ -132,25 +130,23 @@ export default function Questions ({ queries, setQuestions, questions }) {
 				if (scoreInfinity[0] === scoreInfinity[1]) getAnotherQuestions()
 				else setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
 			} else {
-				if (wildCards.lives < 1) return setWin(-1)
-				else {
+				if (wildCards.lives > 0) {
 					if (scoreInfinity[0] === scoreInfinity[1]) getAnotherQuestions()
 					else {
 						setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
 						setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
 					}
-				}
+				} else return setWin(-1)
 			}
 		} else {
 			if (!correct) {
-				if (wildCards.lives < 1) return setWin(-1)
-				else {
+				if (wildCards.lives > 0) {
 					setWildCards(wildCards => {
 						wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
 						return wildCards
 					})
 					if (current === Number(queries.questions)) return setWin(1)
-				}
+				} else return setWin(-1)
 			} else if (current === Number(queries.questions)) return setWin(1)
 		}
 
@@ -158,27 +154,33 @@ export default function Questions ({ queries, setQuestions, questions }) {
 			if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) {
 				changueCurrent(1, true)
 			} else changueCurrent(current + 1, true)
+			setScore(score => score + 1)
+			setTime(Number(queries.time))
 		}, 900)
 	}
 
 	// Wilcards
 
 	function wilcardSkip () {
-		if (wildCards.skip < 1) {
-			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
-			else if (current !== score) return
-		}
+		if (wildCards.skip < 1 && !queries.infinitymode && current !== score) return
+
 		if (wildCards.skip > 0 && current === Number(queries.questions)) {
 			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
-			else return setWin(1)
+			else setWin(1)
 		}
 
 		answerSound(true)
 		setWildCards(wildCards => ({ ...wildCards, skip: wildCards.skip - 1 }))
-		clickAnswers()
+		if (current === Number(queries.questions) && !queries.infinitymode) {
+			console.log('win')
+			clickAnswers(true, false)
+		} else clickAnswers()
 
 		if (!queries.infinitymode) {
-			setQuestions(questions => (questions[current - 1].userAnswer = 2))
+			setQuestions(questions => {
+				questions[current - 1].userAnswer = 1
+				return questions
+			})
 		}
 	}
 
@@ -244,7 +246,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 												{question.answers.map((answer, j) => (
 													<li key={j + answer} className="relative">
 														<button className={`${'answer-' + (i + 1)} peer btn-primary w-full shadow-sm py-3 px-5 rounded mb-6`} onClick={validateAnswer}>
-															{answer}
+															{answer || '---'}
 														</button >
 
 														<Image className='absolute pointer-events-none left-2 top-1 peer-disabled:translate-y-0 peer-hover:translate-y-[0.25em] peer-active:translate-y-[0.75em] transition-transform z-20 invert' src={`/letters/letter-${['a', 'b', 'c', 'd'][j]}.svg`} width={40} height={40} alt={`Question ${j + 1}]}`} />
