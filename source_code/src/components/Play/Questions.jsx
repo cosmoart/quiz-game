@@ -172,13 +172,12 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		answerSound(true)
 		setWildCards(wildCards => ({ ...wildCards, skip: wildCards.skip - 1 }))
 		if (current === Number(queries.questions) && !queries.infinitymode) {
-			console.log('win')
 			clickAnswers(true, false)
 		} else clickAnswers()
 
 		if (!queries.infinitymode) {
 			setQuestions(questions => {
-				questions[current - 1].userAnswer = 1
+				questions[current - 1].userAnswer = 2
 				return questions
 			})
 		}

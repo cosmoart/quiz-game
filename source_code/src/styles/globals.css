@@ -187,14 +187,15 @@ input[type='range']::-moz-range-thumb {
 
 /* Scroll ============================ */
 ::-webkit-scrollbar {
-	width: 0.5rem;
+	width: 2px;
+	/* width: 0.5rem; */
 }
 ::-webkit-scrollbar-track {
 	background: #ffffff;
 }
 ::-webkit-scrollbar-thumb {
 	background: linear-gradient(0deg, #2563eb, #685af5);
-	border-radius: 10px;
+	border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
 	background: #87adff;
