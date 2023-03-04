@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
-import Loader from '@/components/LoadingPage'
-import ErrorPage from '@/components/ErrorPage'
+import PageLoading from '@/components/PageLoading'
+import PageError from '@/components/PageError'
 import PlayHome from '@/components/Play/PlayHome'
 
 export default function Play () {
@@ -16,10 +16,10 @@ export default function Play () {
 				<title>Quizi | Play</title>
 			</Head>
 			{
-				loading && <Loader />
+				loading && <PageLoading />
 			}
 			{
-				errorQ[0] && <ErrorPage errorQ={errorQ} />
+				errorQ[0] && <PageError errorQ={errorQ} />
 			}
 			<PlayHome setLoading={setLoading} setErrorQ={setErrorQ} errorQ={errorQ} loading={loading} />
 		</>

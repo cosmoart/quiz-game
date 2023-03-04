@@ -1,5 +1,5 @@
 import categories from '@/assets/categories.json'
-import Footer from '../Footer'
+import PageFooter from '../PageFooter'
 
 export default function MainHome () {
 	function handleTitleHover (e) {
@@ -31,7 +31,7 @@ export default function MainHome () {
 				</p>
 			</article>
 			<button onClick={() => document.getElementById('newGameDialog').showModal()} id='play' href="play" className='btn-primary uppercase px-6 py-4 text-lg max-w-md w-full mx-auto mt-10'>Play</button>
-			<Footer />
+			<PageFooter />
 		</main >
 	)
 }

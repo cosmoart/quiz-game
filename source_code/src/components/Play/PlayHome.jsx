@@ -3,10 +3,10 @@ import { useRouter } from 'next/router'
 import queryValidator from '@/helpers/gameConfig'
 import getQuestions from '@/helpers/getQuestions'
 
-import Footer from '../Footer'
+import Footer from '../PageFooter'
 import GameInfo from './GameInfo'
 import PlayHeader from './PlayHeader'
-import Questions from './Questions'
+import QuestionsMain from '../Questions/QuestionsMain'
 import categories from '@/assets/categories.json'
 
 export default function PlayHome ({ loading, setLoading, setErrorQ, errorQ }) {
@@ -33,8 +33,8 @@ export default function PlayHome ({ loading, setLoading, setErrorQ, errorQ }) {
 			{
 				!loading && !errorQ[0] && <>
 					<PlayHeader />
-					<GameInfo queries={queries} />
-					<Questions queries={queries} questions={questions} setQuestions={setQuestions} />
+					<GameInfo />
+					<QuestionsMain questions={questions} setQuestions={setQuestions} />
 					<Footer alert={true} />
 					<style jsx global>
 						{`

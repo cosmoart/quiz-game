@@ -1,32 +1,16 @@
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useRouter } from 'next/router'
 
-import queryValidator, { quiziConfig } from '@/helpers/gameConfig'
 import { IoCloseSharp } from 'react-icons/io5'
 import categories from '@/assets/categories.json'
 import LeftFormSection from './LeftFormSection'
+import useQueries from '@/hooks/useQueries'
 
 export default function NewGameForm () {
 	const router = useRouter()
 	const dialog = useRef(null)
-	const [queries, setQueries] = useState(queryValidator({}))
-
-	const query = Object.keys(queries).map(key => `${key}=${queries[key]}`).join('&')
-
-	// LOCAL STORAGE:
-	useEffect(() => {
-		if (localStorage.getItem('quiziConfig')) {
-			const config = JSON.parse(localStorage.getItem('quiziConfig'))
-			setQueries(config)
-		} else {
-			localStorage.setItem('quiziConfig', JSON.stringify(quiziConfig))
-		}
-	}, [])
-
-	useEffect(() => {
-		localStorage.setItem('quiziConfig', JSON.stringify(queries))
-	}, [queries])
+	const [queries, setQueries, query] = useQueries()
 
 	// HANDLE FORM INPUTS:
 	function handleInputs (e) {
@@ -72,7 +56,7 @@ export default function NewGameForm () {
 			</button>
 			<form onSubmit={(e) => e.preventDefault()} >
 				<div className='flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8'>
-					<LeftFormSection queries={queries} handleInputs={handleInputs} quiziConfig={quiziConfig} />
+					<LeftFormSection handleInputs={handleInputs} />
 					<fieldset>
 						<legend className='text-lg font-semibold mb-2 mx-1'>Categories</legend>
 						<div className='grid grid-cols-4 sm:grid-cols-2 gap-y-0 gap-x-3 sm:gap-2 h-full'>

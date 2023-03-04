@@ -3,8 +3,12 @@ import { BsSkipEndFill } from 'react-icons/bs'
 import { IoMdInfinite } from 'react-icons/io'
 import { FaHeart } from 'react-icons/fa'
 import fiftyImg from '@/assets/fifty.svg'
+import { quiziConfig } from '@/helpers/gameConfig'
+import useQueries from '@/hooks/useQueries'
 
-export default function LeftFormSection ({ queries, handleInputs, quiziConfig }) {
+export default function LeftFormSection ({ handleInputs }) {
+	const [queries] = useQueries()
+
 	return (
 		<div className='flex gap-2 sm:gap-5 flex-col'>
 			{/* WILCARDS */}

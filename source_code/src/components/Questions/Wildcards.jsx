@@ -2,8 +2,16 @@ import { BsSkipEndFill } from 'react-icons/bs'
 import { FaHeart } from 'react-icons/fa'
 import fiftyImg from '@/assets/fifty.svg'
 import Image from 'next/image'
+import useWildCards from '@/hooks/useWildCards'
+import { useEffect } from 'react'
 
-export default function Wildcards ({ wildCards, wilcardSkip, wilcardFifty, win }) {
+export default function Wildcards ({ win, wilcardFifty, wilcardSkip }) {
+	const [wildCards] = useWildCards()
+
+	useEffect(() => {
+		console.log(wildCards)
+	}, [wildCards])
+
 	return (
 		<aside className='absolute top-4 right-4 lg:top-1/2 lg:-translate-y-1/2 p-2 rounded-md bg-white'>
 			<nav>

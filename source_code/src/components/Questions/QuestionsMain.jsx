@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
-import getQuestions from '@/helpers/getQuestions'
-import Image from 'next/image'
 import Wildcards from './Wildcards'
-import GameOver from './GameOver'
+import GameOver from '../Play/GameOver'
+import QuestionsNav from './QuestionsNav'
 import categories from '@/assets/categories.json'
+import useWildCards from '../../hooks/useWildCards'
+import getQuestions from '@/helpers/getQuestions'
+import QuestionSlider from './QuestionSlider'
+import useQueries from '@/hooks/useQueries'
 
-export default function Questions ({ queries, setQuestions, questions }) {
+export default function Questions ({ setQuestions, questions }) {
+	const [queries] = useQueries()
 	const [win, setWin] = useState(0)
 	const [score, setScore] = useState(1)
 	const [current, setCurrent] = useState(1)
 	const [time, setTime] = useState(Number(queries.time))
-	const [wildCards, setWildCards] = useState({
-		skip: 1,
-		half: 1,
-		lives: 1
-	})
+	const [wildCards, subtractWildcard] = useWildCards(queries)
 
 	const [loading, setloading] = useState(false)
 	const [error, setError] = useState(false)
@@ -36,7 +36,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 				setWin(-1)
 				answerSound(false)
 			} else {
-				setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
+				subtractWildcard('lives')
 				clickAnswers()
 				answerSound(true)
 			}
@@ -97,7 +97,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		setCurrent(number)
 	}
 
-	function answerSound (correct) {
+	function answerSound (correct = true) {
 		if (localStorage.getItem('sound') === 'true') {
 			const sound = new Audio(correct ? '/sounds/correct_answer.mp3' : '/sounds/wrong_answer.mp3')
 			sound.volume = 0.3
@@ -114,8 +114,8 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		document.querySelectorAll(`.answer-${current}`).forEach(answer => {
 			answer.disabled = true
 			if (!correct && answer.textContent === questions[current - 1].correctAnswer) {
-				answer.classList.add('correctAnswer')
 				answer.parentNode.classList.add('shake-left-right')
+				answer.classList.add('correctAnswer')
 			}
 		})
 
@@ -133,7 +133,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 				if (wildCards.lives > 0) {
 					if (scoreInfinity[0] === scoreInfinity[1]) getAnotherQuestions()
 					else {
-						setWildCards(wildCards => ({ ...wildCards, lives: wildCards.lives - 1 }))
+						subtractWildcard('lives')
 						setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
 					}
 				} else return setWin(-1)
@@ -141,10 +141,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		} else {
 			if (!correct) {
 				if (wildCards.lives > 0) {
-					setWildCards(wildCards => {
-						wildCards.lives = wildCards.lives > 0 ? wildCards.lives - 1 : wildCards.lives
-						return wildCards
-					})
+					subtractWildcard('lives')
 					if (current === Number(queries.questions)) return setWin(1)
 				} else return setWin(-1)
 			} else if (current === Number(queries.questions)) return setWin(1)
@@ -159,8 +156,6 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		}, 900)
 	}
 
-	// Wilcards
-
 	function wilcardSkip () {
 		if (wildCards.skip < 1 && !queries.infinitymode && current !== score) return
 
@@ -170,7 +165,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		}
 
 		answerSound(true)
-		setWildCards(wildCards => ({ ...wildCards, skip: wildCards.skip - 1 }))
+		subtractWildcard('skip')
 		if (current === Number(queries.questions) && !queries.infinitymode) {
 			clickAnswers(true, false)
 		} else clickAnswers()
@@ -189,7 +184,7 @@ export default function Questions ({ queries, setQuestions, questions }) {
 			else if (current !== score) return
 		}
 
-		setWildCards(wildCards => ({ ...wildCards, half: wildCards.half - 1 }))
+		subtractWildcard('half')
 		const answers = document.querySelectorAll(`.answer-${current}`)
 		const correct = questions[current - 1].correctAnswer
 		const wrongs = [...answers].filter(answer => answer.textContent !== correct)
@@ -201,70 +196,14 @@ export default function Questions ({ queries, setQuestions, questions }) {
 		})
 	}
 
-	function buttonBg (i) {
-		let bg = 'bg-slate-600 hover:cursor-auto'
-		if (i + 1 === score) bg = 'bg-white text-blue-500'
-		if (questions[i].userAnswer === 1) bg = 'bg-green-500 !text-white'
-		if (questions[i].userAnswer === -1) bg = 'bg-red-500 !text-white'
-		if (questions[i].userAnswer === 2) bg = 'bg-blue-500 !text-white'
-		if (i + 1 <= score) bg += ' cursor-pointer hover:scale-105'
-		if (i + 1 === current) bg += ' outline outline-offset-2 hover:outline-offset-4 outline-blue-500'
-		return bg
-	}
-
 	return (
 		<>
-			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-				{
-					queries.infinitymode
-						? <div className='mx-auto bg-white text-black rounded-full z-10 w-14 grid place-items-center aspect-square mb-4 text-xl font-medium'>
-							{scoreInfinity[0]}
-						</div>
-						: <ol className='progressBar flex relative gap-5 overflow-auto sm:overflow-visible p-2 sm:p-0 mb-5 md:mb-10 justify-between items-center w-full text-white after:absolute after:top-1/2 after:-z-10 after:transition-all after:duration-700 after:rounded-full after:-translate-y-1/2 after:h-[6px] after:bg-blue-500' style={{ '--segments': Number(queries.questions) - 1, '--current': score - 1 }}>
-							{
-								[...Array(parseInt(queries.questions))].map((_, i) => (
-									<li key={i}>
-										<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${buttonBg(i)}`}>{i + 1}</button>
-									</li>
-								))
-							}
-						</ol>
-				}
-				{
-					!loading && !error
-						? <main className='relative max-w-2xl min-h-[28rem] md:min-h-[16rem] mx-auto overflow-hidden h-1/2'>
-							{
-								questions.map((question, i) => {
-									return (
-										<div key={question.correctAnswer + i} className={`transition-all duration-500 ${i === 0 ? '' : 'slide-right'} absolute text-center w-full`} id={'question-' + (i + 1)}>
-											<p className='rounded-md h-32 md:h-[6.5rem] flex justify-center items-center bg-blue-500 px-10 py-6 text-white text-xl font-semibold mb-3'>
-												{question.question}
-											</p>
-
-											<ul className='md:columns-2 mt-4 '>
-												{question.answers.map((answer, j) => (
-													<li key={j + answer} className="relative">
-														<button className={`${'answer-' + (i + 1)} peer btn-primary w-full shadow-sm py-3 px-5 rounded mb-6`} onClick={validateAnswer}>
-															{answer || '---'}
-														</button >
-
-														<Image className='absolute pointer-events-none left-2 top-1 peer-disabled:translate-y-0 peer-hover:translate-y-[0.25em] peer-active:translate-y-[0.75em] transition-transform z-20 invert' src={`/letters/letter-${['a', 'b', 'c', 'd'][j]}.svg`} width={40} height={40} alt={`Question ${j + 1}]}`} />
-													</li>
-												))}
-											</ul>
-
-										</div>
-									)
-								})
-							}
-						</main>
-						: <div className='flex h-32 md:h-[6.5rem] items-center justify-center rounded-md bg-blue-500 px-10 py-6 text-white text-xl font-semibold'>
-							Loading next questions...
-						</div>
-				}
+			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+				<QuestionsNav score={score} scoreInfinity={scoreInfinity} changueCurrent={changueCurrent} questions={questions} current={current} />
+				<QuestionSlider questions={questions} loading={loading} error={error} validateAnswer={validateAnswer} />
 			</div>
 			<GameOver win={win} />
-			<Wildcards wildCards={wildCards} wilcardSkip={wilcardSkip} wilcardFifty={wilcardFifty} win={win} />
+			<Wildcards win={win} wilcardSkip={wilcardSkip} wilcardFifty={wilcardFifty} />
 			{
 				queries.timemode && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${time < 6 && win >= 0 ? 'pulse_animation' : ''}`}>
 					{time}
