@@ -1,28 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Wildcards from './Wildcards'
 import GameOver from '../Play/GameOver'
-import QuestionsNav from './QuestionsNav'
+import QuestionsNavbar from './QuestionsNavbar'
 import categories from '@/assets/categories.json'
-import useWildCards from '../../hooks/useWildCards'
+import { WildcardsContext } from '@/hooks/WildcardsContext'
 import getQuestions from '@/helpers/getQuestions'
 import QuestionSlider from './QuestionSlider'
-import useQueries from '@/hooks/useQueries'
+import { QueriesContext } from '@/hooks/QueriesContext'
+import playSound from '@/helpers/playSound'
 
-export default function Questions ({ setQuestions, questions }) {
-	const [queries] = useQueries()
+export default function Questions ({ ques }) {
+	const [questions, setQuestions] = useState(ques)
+	const { queries } = useContext(QueriesContext)
+	const { wildCards, subtractWildcard } = useContext(WildcardsContext)
 	const [win, setWin] = useState(0)
 	const [score, setScore] = useState(1)
 	const [current, setCurrent] = useState(1)
 	const [time, setTime] = useState(Number(queries.time))
-	const [wildCards, subtractWildcard] = useWildCards(queries)
 
 	const [loading, setloading] = useState(false)
 	const [error, setError] = useState(false)
 	const [scoreInfinity, setScoreInfinity] = useState([1, 5])
 
 	useEffect(() => {
-		if (win !== 0) return
-		if (!queries.timemode) return
+		if (win !== 0 || !queries.timemode) return
 		const timeInterval = setInterval(() => setTime(time => time > 0 ? time - 1 : time), 1000)
 		return () => clearInterval(timeInterval)
 	}, [queries.timemode, win])
@@ -34,11 +35,11 @@ export default function Questions ({ setQuestions, questions }) {
 			if (wildCards.lives < 1) {
 				clickAnswers(true, false)
 				setWin(-1)
-				answerSound(false)
+				playSound('wrong_answer', 0.3)
 			} else {
 				subtractWildcard('lives')
 				clickAnswers()
-				answerSound(true)
+				playSound('correct_answer', 0.3)
 			}
 		}
 	}, [time])
@@ -50,7 +51,7 @@ export default function Questions ({ setQuestions, questions }) {
 
 	function getAnotherQuestions () {
 		setloading(true)
-		setCurrent(1)
+		changueCurrent(1)
 		setTime(60)
 		const topics = categories.filter(category => queries.categories.find(cat => cat === category.id)).map(cat => cat.name)
 		getQuestions(topics, 5)
@@ -69,7 +70,7 @@ export default function Questions ({ setQuestions, questions }) {
 				if (queries.infinitymode) setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
 				setTime(Number(queries.time))
 				setScore(score => score + 1)
-				changueCurrent(current + 1, true)
+				changueCurrent(current + 1)
 			}, 1000)
 		}
 
@@ -84,8 +85,8 @@ export default function Questions ({ setQuestions, questions }) {
 		})
 	}
 
-	function changueCurrent (number, avoidState) {
-		if (number > score && !avoidState) return
+	function changueCurrent (number) {
+		if (number > Number(queries.questions)) return
 
 		document.querySelectorAll('[id^="question-"]').forEach(question => {
 			question.classList.remove('slide-left', 'slide-right')
@@ -95,14 +96,6 @@ export default function Questions ({ setQuestions, questions }) {
 		})
 
 		setCurrent(number)
-	}
-
-	function answerSound (correct = true) {
-		if (localStorage.getItem('sound') === 'true') {
-			const sound = new Audio(correct ? '/sounds/correct_answer.mp3' : '/sounds/wrong_answer.mp3')
-			sound.volume = 0.3
-			sound.play()
-		}
 	}
 
 	function validateAnswer (e) {
@@ -119,7 +112,7 @@ export default function Questions ({ setQuestions, questions }) {
 			}
 		})
 
-		answerSound(correct)
+		playSound(correct ? 'correct_answer' : 'wrong_answer', 0.3)
 		setQuestions(questions => {
 			questions[current - 1].userAnswer = correct ? 1 : -1
 			return questions
@@ -149,61 +142,21 @@ export default function Questions ({ setQuestions, questions }) {
 
 		setTimeout(() => {
 			if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) {
-				changueCurrent(1, true)
-			} else changueCurrent(current + 1, true)
+				changueCurrent(1)
+			} else changueCurrent(current + 1)
 			setScore(score => score + 1)
 			setTime(Number(queries.time))
 		}, 900)
 	}
 
-	function wilcardSkip () {
-		if (wildCards.skip < 1 && !queries.infinitymode && current !== score) return
-
-		if (wildCards.skip > 0 && current === Number(queries.questions)) {
-			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
-			else setWin(1)
-		}
-
-		answerSound(true)
-		subtractWildcard('skip')
-		if (current === Number(queries.questions) && !queries.infinitymode) {
-			clickAnswers(true, false)
-		} else clickAnswers()
-
-		if (!queries.infinitymode) {
-			setQuestions(questions => {
-				questions[current - 1].userAnswer = 2
-				return questions
-			})
-		}
-	}
-
-	function wilcardFifty () {
-		if (wildCards.half < 1) {
-			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
-			else if (current !== score) return
-		}
-
-		subtractWildcard('half')
-		const answers = document.querySelectorAll(`.answer-${current}`)
-		const correct = questions[current - 1].correctAnswer
-		const wrongs = [...answers].filter(answer => answer.textContent !== correct)
-
-		wrongs.sort(() => Math.random() - 0.5).slice(0, 2).forEach(wrong => {
-			wrong.classList.add('wrongAnswer')
-			wrong.parentNode.classList.add('vibrate')
-			wrong.disabled = true
-		})
-	}
-
 	return (
 		<>
 			<div className='fixed max-w-xl md:max-w-2xl w-[85%] mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-				<QuestionsNav score={score} scoreInfinity={scoreInfinity} changueCurrent={changueCurrent} questions={questions} current={current} />
+				<QuestionsNavbar score={score} scoreInfinity={scoreInfinity} changueCurrent={changueCurrent} questions={questions} current={current} />
 				<QuestionSlider questions={questions} loading={loading} error={error} validateAnswer={validateAnswer} />
 			</div>
-			<GameOver win={win} />
-			<Wildcards win={win} wilcardSkip={wilcardSkip} wilcardFifty={wilcardFifty} />
+			{win !== 0 && <GameOver win={win} />}
+			<Wildcards win={win} setWin={setWin} current={current} score={score} questions={questions} setQuestions={setQuestions} clickAnswers={clickAnswers} scoreInfinity={scoreInfinity} getAnotherQuestions={getAnotherQuestions} />
 			{
 				queries.timemode && <div className={`bg-white flex items-center justify-center w-14 aspect-square absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full text-2xl text-slate-900 font-medium ${time < 6 && win >= 0 ? 'pulse_animation' : ''}`}>
 					{time}

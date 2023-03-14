@@ -1,5 +1,6 @@
 import categories from '@/assets/categories.json'
 import PageFooter from '../PageFooter'
+import playSound from '@/helpers/playSound'
 
 export default function MainHome () {
 	function handleTitleHover (e) {
@@ -13,6 +14,11 @@ export default function MainHome () {
 
 	function handleTitleLeave (e) {
 		e.target.style.color = 'white'
+	}
+
+	function handlePlay () {
+		playSound('pop')
+		document.getElementById('newGameDialog').showModal()
 	}
 
 	return (
@@ -30,7 +36,9 @@ export default function MainHome () {
 					Play an infinite number of possible questions!
 				</p>
 			</article>
-			<button onClick={() => document.getElementById('newGameDialog').showModal()} id='play' href="play" className='btn-primary uppercase px-6 py-4 text-lg max-w-md w-full mx-auto mt-10'>Play</button>
+			<button onClick={handlePlay} id='play' href="play" className='btn-primary uppercase px-6 py-4 text-lg max-w-md w-full mx-auto mt-10' >
+				Play
+			</button>
 			<PageFooter />
 		</main >
 	)

@@ -1,33 +1,49 @@
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import LeftFormSection from './LeftFormSection'
 import { IoCloseSharp } from 'react-icons/io5'
 import categories from '@/assets/categories.json'
-import LeftFormSection from './LeftFormSection'
-import useQueries from '@/hooks/useQueries'
+import { QueriesContext } from '@/hooks/QueriesContext'
+import playSound from '@/helpers/playSound'
+import queryValidator from '@/helpers/gameConfig'
 
 export default function NewGameForm () {
+	const { queries, setQueries } = useContext(QueriesContext)
+	const [quer, setQuer] = useState(queries)
 	const router = useRouter()
 	const dialog = useRef(null)
-	const [queries, setQueries, query] = useQueries()
+
+	useEffect(() => {
+		if (router.isReady && router.pathname === '/play') {
+			setQueries(queryValidator(router.query))
+		}
+	}, [router.isReady])
 
 	// HANDLE FORM INPUTS:
 	function handleInputs (e) {
 		if (e.target.name === 'infinitymode' || e.target.name === 'timemode') {
-			return setQueries({ ...queries, [e.target.name]: e.target.name === 'infinitymode' ? !e.target.checked : e.target.checked })
+			e.target.checked ? playSound('pop-up-on') : playSound('pop-up-off')
+			return setQuer({ ...queries, [e.target.name]: e.target.name === 'infinitymode' ? !e.target.checked : e.target.checked })
 		}
 
 		if (e.target.name === 'categories') {
-			return setQueries({ ...queries, [e.target.name]: e.target.checked ? [...queries.categories, e.target.value] : queries.categories.filter(cat => cat !== e.target.value) })
+			e.target.checked ? playSound('pop-up-on') : playSound('pop-up-off')
+			return setQuer({ ...queries, [e.target.name]: e.target.checked ? [...queries.categories, e.target.value] : queries.categories.filter(cat => cat !== e.target.value) })
 		}
 
-		setQueries({ ...queries, [e.target.name]: e.target.value })
+		playSound('pop')
+		setQuer({ ...queries, [e.target.name]: e.target.value })
 	}
 
 	function handleSubmit (e) {
 		e.preventDefault()
-		router.push(`/play?${query}`)
+		const query = Object.keys(quer).map(key => `${key}=${quer[key]}`).join('&')
+		router.push({ pathname: '/play', query })
+		if (router.pathname === '/play') {
+			router.reload()
+		}
 		closeDialog()
 	}
 
@@ -40,6 +56,7 @@ export default function NewGameForm () {
 	}
 
 	function closeDialog () {
+		playSound('pop-down')
 		dialog.current.classList.add('hide')
 		function handleAnimationEnd () {
 			dialog.current.classList.remove('hide')
@@ -51,14 +68,16 @@ export default function NewGameForm () {
 
 	return (
 		<dialog ref={dialog} onClick={(e) => clickOutsideDialog(e)} id="newGameDialog" className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-slate-900 m-0 backdrop-blur-lg rounded-md py-9 px-11'>
-			<button className='absolute top-2 right-2 text-3xl' onClick={() => closeDialog()} >
+			<button className='absolute top-2 right-2 text-3xl' onClick={closeDialog} >
 				<IoCloseSharp />
 			</button>
 			<form onSubmit={(e) => e.preventDefault()} >
 				<div className='flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8'>
-					<LeftFormSection handleInputs={handleInputs} />
+					<LeftFormSection handleInputs={handleInputs} queries={quer} />
 					<fieldset>
-						<legend className='text-lg font-semibold mb-2 mx-1'>Categories</legend>
+						<legend className='text-lg font-semibold mb-2 mx-1'>
+							Categories
+						</legend>
 						<div className='grid grid-cols-4 sm:grid-cols-2 gap-y-0 gap-x-3 sm:gap-2 h-full'>
 							{
 								categories.map(category => (

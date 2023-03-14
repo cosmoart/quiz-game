@@ -2,15 +2,53 @@ import { BsSkipEndFill } from 'react-icons/bs'
 import { FaHeart } from 'react-icons/fa'
 import fiftyImg from '@/assets/fifty.svg'
 import Image from 'next/image'
-import useWildCards from '@/hooks/useWildCards'
-import { useEffect } from 'react'
+import { WildcardsContext } from '@/hooks/WildcardsContext'
+import { QueriesContext } from '@/hooks/QueriesContext'
+import { useContext } from 'react'
+import playSound from '@/helpers/playSound'
 
-export default function Wildcards ({ win, wilcardFifty, wilcardSkip }) {
-	const [wildCards] = useWildCards()
+export default function Wildcards ({ win, setWin, current, score, questions, setQuestions, clickAnswers, scoreInfinity, getAnotherQuestions }) {
+	const { queries } = useContext(QueriesContext)
+	const { wildCards, subtractWildcard } = useContext(WildcardsContext)
 
-	useEffect(() => {
-		console.log(wildCards)
-	}, [wildCards])
+	function wilcardSkip () {
+		if (wildCards.skip < 1 && !queries.infinitymode && current !== score) return
+		if (wildCards.skip > 0 && current === Number(queries.questions)) {
+			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
+			else setWin(1)
+		}
+
+		playSound('correct_answer', 0.3)
+		subtractWildcard('skip')
+		if (current === Number(queries.questions) && !queries.infinitymode) {
+			clickAnswers(true, false)
+		} else clickAnswers()
+
+		if (!queries.infinitymode) {
+			setQuestions(questions => {
+				questions[current - 1].userAnswer = 2
+				return questions
+			})
+		}
+	}
+
+	function wilcardFifty () {
+		if (wildCards.half < 1) {
+			if (queries.infinitymode && scoreInfinity[0] === scoreInfinity[1]) return getAnotherQuestions()
+			else if (current !== score) return
+		}
+
+		subtractWildcard('half')
+		const answers = document.querySelectorAll(`.answer-${current}`)
+		const correct = questions[current - 1].correctAnswer
+		const wrongs = [...answers].filter(answer => answer.textContent !== correct)
+
+		wrongs.sort(() => Math.random() - 0.5).slice(0, 2).forEach(wrong => {
+			wrong.classList.add('wrongAnswer')
+			wrong.parentNode.classList.add('vibrate')
+			wrong.disabled = true
+		})
+	}
 
 	return (
 		<aside className='absolute top-4 right-4 lg:top-1/2 lg:-translate-y-1/2 p-2 rounded-md bg-white'>

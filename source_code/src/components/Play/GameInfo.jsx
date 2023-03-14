@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import { AiFillInfoCircle } from 'react-icons/ai'
 import categories from '@/assets/categories.json'
-import { useState } from 'react'
-import useQueries from '@/hooks/useQueries'
+import { useContext, useState } from 'react'
+import { QueriesContext } from '@/hooks/QueriesContext'
 
 export default function GameInfo () {
-	const [queries] = useQueries()
+	const { queries } = useContext(QueriesContext)
 	const [showInfo, setShowInfo] = useState(false)
 
 	const mode = queries.timemode && queries.infinitymode ? 'Time | Infinity' : !queries.timemode && !queries.infinitymode ? 'Classic' : queries.timemode ? 'Time' : 'Infinity'

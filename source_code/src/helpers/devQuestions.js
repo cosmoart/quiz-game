@@ -7,7 +7,7 @@ function random (arr) {
 	return newArr
 }
 
-const testQuestions = [
+const questions = [
 	{
 		topic: 'History',
 		question: 'In what year did the Berlin Wall fall?',
@@ -122,4 +122,6 @@ const testQuestions = [
 	}
 ]
 
-export default testQuestions
+export default function devQuestions (number) {
+	return random(questions).slice(0, number)
+}

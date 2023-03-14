@@ -1,7 +1,8 @@
 import { AiFillCloseCircle, AiFillCheckCircle } from 'react-icons/ai'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import ReactCanvasConfetti from 'react-canvas-confetti'
 import { IoCloseSharp } from 'react-icons/io5'
+import playSound from '@/helpers/playSound'
 import Link from 'next/link'
 
 const canvasStyles = {
@@ -15,7 +16,6 @@ const canvasStyles = {
 }
 
 export default function GameOver ({ win }) {
-	const [showDialog, setShowDialog] = useState(false)
 	const refAnimationInstance = useRef(null)
 
 	const getInstance = useCallback((instance) => {
@@ -61,22 +61,23 @@ export default function GameOver ({ win }) {
 	}, [makeShot])
 
 	useEffect(() => {
-		if (win === 1) fire()
-		if (win !== 0) setShowDialog(true)
+		if (win === 1) {
+			fire()
+			playSound('win', 0.2)
+		}
 	}, [win])
 
 	function closeDialog () {
-		setShowDialog(false)
-		document.getElementById('loseorwindialog').close()
+		playSound('pop', 0.2)
+		document.getElementById('gameoverdialog').close()
+		document.getElementById('gameoverbg')?.remove()
 	}
-
-	if (win === 0) return null
 
 	return (
 		<>
-			<div onClick={closeDialog} className={`${!showDialog && 'scale-0 opacity-0'} transition-all fixed z-30 w-screen h-screen backdrop-blur-sm top-0 left-0`}></div>
+			<div onClick={closeDialog} id="gameoverbg" className='transition-all fixed z-30 w-screen h-screen backdrop-blur-sm top-0 left-0'></div>
 			<ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-			<dialog id='loseorwindialog' open={win !== 0} className='fixed m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm px-6 py-10 rounded-md bg-white text-slate-900 z-40'>
+			<dialog id='gameoverdialog' open={true} className='fixed m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm px-6 py-10 rounded-md bg-white text-slate-900 z-40'>
 				<button
 					className='absolute top-2 right-2 text-3xl'
 					onClick={closeDialog}>

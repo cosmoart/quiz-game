@@ -1,7 +1,8 @@
-import useQueries from '@/hooks/useQueries'
+import { QueriesContext } from '@/hooks/QueriesContext'
+import { useContext } from 'react'
 
-export default function QuestionsNav ({ score, scoreInfinity, changueCurrent, questions, current }) {
-	const [queries] = useQueries()
+export default function QuestionsNavbar ({ score, scoreInfinity, changueCurrent, questions, current }) {
+	const { queries } = useContext(QueriesContext)
 
 	function buttonBg (i) {
 		let bg = 'bg-slate-600 hover:cursor-auto'
@@ -23,9 +24,9 @@ export default function QuestionsNav ({ score, scoreInfinity, changueCurrent, qu
 	}
 
 	return (
-		<ol className='progressBar flex relative gap-5 overflow-auto sm:overflow-visible p-2 sm:p-0 mb-5 md:mb-10 justify-between items-center w-full text-white after:absolute after:top-1/2 after:-z-10 after:transition-all after:duration-700 after:rounded-full after:-translate-y-1/2 after:h-[6px] after:bg-blue-500' style={{ '--segments': Number(queries.questions) - 1, '--current': score - 1 }}>
+		<ol className='progressBar flex relative gap-5 overflow-auto sm:overflow-visible p-2 sm:p-0 mb-5 md:mb-10 justify-between items-center w-full text-white after:absolute after:top-1/2 after:-z-10 after:transition-all after:duration-700 after:rounded-full after:-translate-y-1/2 after:h-[6px] after:bg-blue-500' style={{ '--segments': parseInt(questions.length) - 1, '--current': score - 1 }}>
 			{
-				[...Array(parseInt(queries.questions))].map((_, i) => (
+				[...Array(parseInt(questions.length))].map((_, i) => (
 					<li key={i}>
 						<button onClick={() => changueCurrent(i + 1)} className={`w-8 h-8 flex items-center justify-center pt-[2px] font-medium transition-all rounded-full text-center text-sm ${buttonBg(i)}`}>{i + 1}</button>
 					</li>

@@ -4,11 +4,8 @@ import { IoMdInfinite } from 'react-icons/io'
 import { FaHeart } from 'react-icons/fa'
 import fiftyImg from '@/assets/fifty.svg'
 import { quiziConfig } from '@/helpers/gameConfig'
-import useQueries from '@/hooks/useQueries'
 
-export default function LeftFormSection ({ handleInputs }) {
-	const [queries] = useQueries()
-
+export default function LeftFormSection ({ handleInputs, queries }) {
 	return (
 		<div className='flex gap-2 sm:gap-5 flex-col'>
 			{/* WILCARDS */}

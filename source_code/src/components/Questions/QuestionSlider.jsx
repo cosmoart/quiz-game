@@ -28,7 +28,8 @@ export default function QuestionSlider ({ questions, loading, error, validateAns
 							<ul className='md:columns-2 mt-4 '>
 								{question.answers.map((answer, j) => (
 									<li key={j + answer} className="relative">
-										<button className={`${'answer-' + (i + 1)} peer btn-primary w-full shadow-sm py-3 px-5 rounded mb-6`} onClick={validateAnswer}>
+										<button className={`${'answer-' + (i + 1)} peer btn-primary w-full shadow-sm py-3 px-5 rounded mb-6`}
+											onClick={validateAnswer}>
 											{answer || '---'}
 										</button >
 

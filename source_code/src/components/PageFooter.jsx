@@ -19,13 +19,28 @@ export default function Footer ({ alert = false }) {
 		localStorage.setItem('sound', sound)
 	}, [sound])
 
+	function playSound (sound) {
+		if (localStorage.getItem('sound') === 'true') {
+			const audio = new Audio(`/sounds/${sound}.mp3`)
+			audio.volume = 0.25
+			audio.play()
+		}
+	}
+
+	function handleClick (info = false) {
+		if (info) setShowInfo(!showInfo)
+		else setSound(!sound)
+
+		playSound('switch-on')
+	}
+
 	return (
 		<footer className='fixed right-4 bottom-3 z-20'>
 			<nav>
 				<ul className='flex gap-4'>
 
 					<li className='relative'>
-						<button title='Show info' className={`align-middle relative z-20 hover:scale-105 p-1.5 bg-white rounded-md ${showInfo ? 'scale-110' : ''}`} onClick={() => setShowInfo(!showInfo)}>
+						<button title='Show info' className={`align-middle relative z-20 hover:scale-105 p-1.5 bg-white rounded-md ${showInfo ? 'scale-110' : ''}`} onClick={() => handleClick(true)}>
 							{
 								alert
 									? <GoAlert className='text-[25px] mx-auto' color='#0f172a' />
@@ -42,7 +57,7 @@ export default function Footer ({ alert = false }) {
 					</li>
 
 					<li>
-						<button title={sound ? 'Mute' : 'Play music'} className='align-middle hover:scale-105 p-1.5 bg-white rounded-md' onClick={() => setSound(!sound)}>
+						<button title={sound ? 'Mute' : 'Play music'} className='align-middle hover:scale-105 p-1.5 bg-white rounded-md' onClick={handleClick}>
 							{
 								sound
 									? <Image src={soundOn} className="" alt="" width={25} height={25} onClick={() => setSound(false)} />

@@ -16,13 +16,13 @@ function queryValidator (query) {
 	if (questions && Number(questions)) {
 		if (questions > MAX_QUESTIONS) urlQueries.questions = MAX_QUESTIONS
 		else if (questions < MIN_QUESTIONS) urlQueries.questions = MIN_QUESTIONS
-		else urlQueries.questions = questions
+		else urlQueries.questions = Number(questions)
 	} else urlQueries.questions = DEFAULT_QUESTIONS
 
 	if (time && Number(time)) {
 		if (time > TIMES[TIMES.length - 1]) urlQueries.time = TIMES[TIMES.length - 1]
 		else if (time < TIMES[0]) urlQueries.time = TIMES[0]
-		else urlQueries.time = time
+		else urlQueries.time = Number(time)
 	} else urlQueries.time = DEFAULT_TIME
 
 	if (infinitymode) {
