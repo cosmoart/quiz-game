@@ -1,4 +1,4 @@
-import devQuestions from './devQuestions'
+import devQuestions from './offQuestions'
 
 export default function getQuestions (topics, qNumber) {
 	// if (process.env.NODE_ENV === 'development') {
@@ -7,7 +7,7 @@ export default function getQuestions (topics, qNumber) {
 			// const error = new Error('Custom error')
 			// error.statusCode = 350
 			// reject(error)
-			resolve(devQuestions(qNumber))
+			resolve(devQuestions(topics, qNumber))
 		}, 1 * 1000)
 	})
 	// }

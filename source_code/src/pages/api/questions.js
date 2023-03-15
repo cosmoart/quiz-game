@@ -52,7 +52,8 @@ export default function handler (req, res) {
 					question: resp.split('\n')[1].split('Question: ')[1],
 					answers: randomArray(resp.split('\n').slice(2, 6).map((answer) => answer.split('- ')[1])),
 					correctAnswer: resp.split('\n')[6].split('Correct: ')[1],
-					userAnswer: 0
+					userAnswer: 0,
+					offline: false
 				})
 			})
 		} catch (err) {

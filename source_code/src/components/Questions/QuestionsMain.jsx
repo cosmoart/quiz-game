@@ -17,7 +17,6 @@ export default function Questions ({ ques }) {
 	const [score, setScore] = useState(1)
 	const [current, setCurrent] = useState(1)
 	const [time, setTime] = useState(Number(queries.time))
-
 	const [loading, setloading] = useState(false)
 	const [error, setError] = useState(false)
 	const [scoreInfinity, setScoreInfinity] = useState([1, 5])
@@ -145,9 +144,8 @@ export default function Questions ({ ques }) {
 		}
 
 		setTimeout(() => {
-			if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) {
-				changueCurrent(1)
-			} else changueCurrent(current + 1)
+			if (queries.infinitymode && correct && scoreInfinity[0] === scoreInfinity[1]) changueCurrent(1)
+			else changueCurrent(current + 1)
 			setScore(score => score + 1)
 			setTime(Number(queries.time))
 		}, 900)

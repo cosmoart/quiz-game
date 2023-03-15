@@ -16,14 +16,14 @@ export default function NewGameForm () {
 	const dialog = useRef(null)
 
 	useEffect(() => {
+		setNowQueries(queries)
+	}, [queries])
+
+	useEffect(() => {
 		if (router.isReady && router.pathname === '/play') {
 			setQueries(queryValidator(router.query))
 		}
 	}, [router.isReady])
-
-	useEffect(() => {
-		console.log(nowQueries)
-	}, [nowQueries])
 
 	// HANDLE FORM INPUTS:
 	function handleInputs (e) {
