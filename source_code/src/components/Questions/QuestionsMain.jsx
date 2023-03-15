@@ -3,10 +3,10 @@ import Wildcards from './Wildcards'
 import GameOver from '../Play/GameOver'
 import QuestionsNavbar from './QuestionsNavbar'
 import categories from '@/assets/categories.json'
-import { WildcardsContext } from '@/hooks/WildcardsContext'
+import { WildcardsContext } from '@/context/WildcardsContext'
 import getQuestions from '@/helpers/getQuestions'
 import QuestionSlider from './QuestionSlider'
-import { QueriesContext } from '@/hooks/QueriesContext'
+import { QueriesContext } from '@/context/QueriesContext'
 import playSound from '@/helpers/playSound'
 
 export default function Questions ({ ques }) {
@@ -38,7 +38,7 @@ export default function Questions ({ ques }) {
 				playSound('wrong_answer', 0.3)
 			} else {
 				subtractWildcard('lives')
-				clickAnswers()
+				clickAnswers(true, true, true)
 				playSound('correct_answer', 0.3)
 			}
 		}
@@ -64,11 +64,15 @@ export default function Questions ({ ques }) {
 			})
 	}
 
-	function clickAnswers (correct = true, addScore = true) {
+	function clickAnswers (correct = true, addScore = true, color = false) {
 		if (addScore) {
 			setTimeout(() => {
 				if (queries.infinitymode) setScoreInfinity(scoreInfinity => [scoreInfinity[0] + 1, scoreInfinity[1]])
 				setTime(Number(queries.time))
+				setQuestions(questions => {
+					questions[current - 1].userAnswer = correct ? (color ? 2 : 1) : -1
+					return questions
+				})
 				setScore(score => score + 1)
 				changueCurrent(current + 1)
 			}, 1000)

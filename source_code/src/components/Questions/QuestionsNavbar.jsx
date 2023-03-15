@@ -1,4 +1,4 @@
-import { QueriesContext } from '@/hooks/QueriesContext'
+import { QueriesContext } from '@/context/QueriesContext'
 import { useContext } from 'react'
 
 export default function QuestionsNavbar ({ score, scoreInfinity, changueCurrent, questions, current }) {

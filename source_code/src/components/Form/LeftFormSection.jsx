@@ -5,7 +5,7 @@ import { FaHeart } from 'react-icons/fa'
 import fiftyImg from '@/assets/fifty.svg'
 import { quiziConfig } from '@/helpers/gameConfig'
 
-export default function LeftFormSection ({ handleInputs, queries }) {
+export default function LeftFormSection ({ handleInputs, queries, nowQueries }) {
 	return (
 		<div className='flex gap-2 sm:gap-5 flex-col'>
 			{/* WILCARDS */}
@@ -40,9 +40,9 @@ export default function LeftFormSection ({ handleInputs, queries }) {
 				<legend className='text-lg font-semibold mb-2'>Questions</legend>
 				<input onClick={handleInputs} defaultChecked={!queries.infinitymode} type="checkbox" name="infinitymode" className='absolute -top-8 left-28 w-5 h-5 cursor-pointer ' />
 				<div className='flex items-center'>
-					<input type="range" name="questions" min={quiziConfig.minQuestions} max={quiziConfig.maxQuestions} defaultValue={queries.questions} onChange={handleInputs} className={`w-full cursor-pointer ${queries.infinitymode ? 'grayscale cursor-not-allowed' : ''}`} disabled={queries.infinitymode} />
+					<input type="range" name="questions" min={quiziConfig.minQuestions} max={quiziConfig.maxQuestions} defaultValue={queries.questions} onChange={handleInputs} className={`w-full cursor-pointer ${queries.infinitymode ? 'grayscale cursor-not-allowed' : ''}`} disabled={nowQueries.infinitymode} />
 					<span className={`w-11 flex justify-center font-semibold h-5 ${queries.infinitymode && 'text-[24px]'}`}>
-						{queries.infinitymode ? <IoMdInfinite /> : queries.questions}
+						{queries.infinitymode ? <IoMdInfinite /> : nowQueries.questions}
 					</span>
 				</div>
 			</fieldset>
@@ -55,8 +55,8 @@ export default function LeftFormSection ({ handleInputs, queries }) {
 					{
 						[10, 20, 30, 60].map(time => (
 							<label key={time} className="w-full">
-								<input className='peer absolute hidden' type="radio" name="time" id={`${time}s`} value={time} defaultChecked={time === Number(queries.time)} onChange={handleInputs} disabled={!queries.timemode} />
-								<span className={`peer-checked:bg-blue-500 transition-colors  peer-checked:text-white px-2 sm:px-4 py-2 rounded mr-3 cursor-pointer bg-gray-200 text-center w-full inline-block ${!queries.timemode ? 'grayscale cursor-not-allowed' : 'active:scale-95'}`} translate="no">{time}s</span>
+								<input className='peer absolute hidden' type="radio" name="time" id={`${time}s`} value={time} defaultChecked={time === Number(queries.time)} onChange={handleInputs} disabled={!nowQueries.timemode} />
+								<span className={`peer-checked:bg-blue-500 transition-colors  peer-checked:text-white px-2 sm:px-4 py-2 rounded mr-3 cursor-pointer bg-gray-200 text-center w-full inline-block ${!nowQueries.timemode ? 'grayscale cursor-not-allowed' : 'active:scale-95'}`} translate="no">{time}s</span>
 							</label>
 						))
 					}

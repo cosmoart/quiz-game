@@ -1,5 +1,7 @@
 <div id="top"></div>
 
+![Work in progress](./readme/wip.png)
+
 <!-- PROJECT LOGO -->
 <div align="center">
 <a href="https://quizi.vercel.app"><img src="./readme/header.webp" alt="Instagram" /></a>
@@ -151,6 +153,7 @@ Distributed under the MIT License. See [`LICENSE.txt`](https://github.com/cosmoa
 ## Roadmap
 
 - [ ] Circle wipe transition
+- [ ] Add offline mode
 - [ ] Improve UI: Form, GameOver
 - [x] Buttons sounds
 - [x] Win and Lose sounds
@@ -158,6 +161,7 @@ Distributed under the MIT License. See [`LICENSE.txt`](https://github.com/cosmoa
 - [ ] PWA
 - [ ] Personalize the game over screen for infinite mode
 - [ ] Button: play with predefined questions on the error screen
+- [ ] Personalize error page for API limit exceeded
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

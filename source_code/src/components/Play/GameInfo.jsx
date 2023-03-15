@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { AiFillInfoCircle } from 'react-icons/ai'
 import categories from '@/assets/categories.json'
 import { useContext, useState } from 'react'
-import { QueriesContext } from '@/hooks/QueriesContext'
+import { QueriesContext } from '@/context/QueriesContext'
 
 export default function GameInfo () {
 	const { queries } = useContext(QueriesContext)

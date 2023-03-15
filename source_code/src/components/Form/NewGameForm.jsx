@@ -5,13 +5,13 @@ import { useRouter } from 'next/router'
 import LeftFormSection from './LeftFormSection'
 import { IoCloseSharp } from 'react-icons/io5'
 import categories from '@/assets/categories.json'
-import { QueriesContext } from '@/hooks/QueriesContext'
+import { QueriesContext } from '@/context/QueriesContext'
 import playSound from '@/helpers/playSound'
 import queryValidator from '@/helpers/gameConfig'
 
 export default function NewGameForm () {
 	const { queries, setQueries } = useContext(QueriesContext)
-	const [quer, setQuer] = useState(queries)
+	const [nowQueries, setNowQueries] = useState(queries)
 	const router = useRouter()
 	const dialog = useRef(null)
 
@@ -21,28 +21,34 @@ export default function NewGameForm () {
 		}
 	}, [router.isReady])
 
+	useEffect(() => {
+		console.log(nowQueries)
+	}, [nowQueries])
+
 	// HANDLE FORM INPUTS:
 	function handleInputs (e) {
 		if (e.target.name === 'infinitymode' || e.target.name === 'timemode') {
 			e.target.checked ? playSound('pop-up-on') : playSound('pop-up-off')
-			return setQuer({ ...queries, [e.target.name]: e.target.name === 'infinitymode' ? !e.target.checked : e.target.checked })
+			return setNowQueries({ ...nowQueries, [e.target.name]: e.target.name === 'infinitymode' ? !e.target.checked : e.target.checked })
 		}
 
 		if (e.target.name === 'categories') {
 			e.target.checked ? playSound('pop-up-on') : playSound('pop-up-off')
-			return setQuer({ ...queries, [e.target.name]: e.target.checked ? [...queries.categories, e.target.value] : queries.categories.filter(cat => cat !== e.target.value) })
+			return setNowQueries({ ...nowQueries, [e.target.name]: e.target.checked ? [...nowQueries.categories, e.target.value] : nowQueries.categories.filter(cat => cat !== e.target.value) })
 		}
 
 		playSound('pop')
-		setQuer({ ...queries, [e.target.name]: e.target.value })
+		setNowQueries({ ...nowQueries, [e.target.name]: e.target.value })
 	}
 
 	function handleSubmit (e) {
 		e.preventDefault()
-		const query = Object.keys(quer).map(key => `${key}=${quer[key]}`).join('&')
+		const query = Object.keys(nowQueries).map(key => `${key}=${nowQueries[key]}`).join('&')
 		router.push({ pathname: '/play', query })
 		if (router.pathname === '/play') {
-			router.reload()
+			setTimeout(() => {
+				router.reload()
+			}, 100)
 		}
 		closeDialog()
 	}
@@ -73,7 +79,7 @@ export default function NewGameForm () {
 			</button>
 			<form onSubmit={(e) => e.preventDefault()} >
 				<div className='flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8'>
-					<LeftFormSection handleInputs={handleInputs} queries={quer} />
+					<LeftFormSection handleInputs={handleInputs} queries={queries} nowQueries={nowQueries} />
 					<fieldset>
 						<legend className='text-lg font-semibold mb-2 mx-1'>
 							Categories

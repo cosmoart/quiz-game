@@ -1,4 +1,4 @@
-import { QueriesProvider } from '@/hooks/QueriesContext'
+import { QueriesProvider } from '@/context/QueriesContext'
 import NewGameForm from './Form/NewGameForm'
 
 export default function Layout ({ children }) {

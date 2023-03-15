@@ -2,7 +2,7 @@ import PlayHeader from '@/components/Play/PlayHeader'
 import GameInfo from '@/components/Play/GameInfo'
 import Footer from '@/components/PageFooter'
 import QuestionsMain from '@/components/Questions/QuestionsMain'
-import { WildcardsProvider } from '@/hooks/WildcardsContext'
+import { WildcardsProvider } from '@/context/WildcardsContext'
 
 export default function PlayHome ({ questions }) {
 	return (
