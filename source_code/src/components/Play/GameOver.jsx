@@ -70,7 +70,7 @@ export default function GameOver ({ win }) {
 	function closeDialog () {
 		playSound('pop', 0.2)
 		document.getElementById('gameoverdialog').close()
-		document.getElementById('gameoverbg')?.remove()
+		document.getElementById('gameoverbg').style.display = 'none'
 	}
 
 	return (
