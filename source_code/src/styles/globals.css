@@ -28,29 +28,29 @@ body {
 	width: calc((100% / var(--segments)) * var(--current));
 }
 
-/* pulse ============================= */
+/* Pulse animation ============================= */
 .pulse_animation {
 	animation: pulse 1s infinite;
 }
 @keyframes pulse {
 	0% {
-		transform: scale(1) translateX(-50%);
+		scale: 1;
 		background: rgb(236, 52, 52);
 		color: white;
 	}
 	50% {
-		transform: scale(1.1) translateX(-50%);
+		scale: 1.1;
 		background: white;
 		color: rgb(236, 52, 52);
 	}
 	100% {
-		transform: scale(1) translateX(-50%);
+		scale: 1;
 		background: rgb(236, 52, 52);
 		color: white;
 	}
 }
 
-/* slides ============================ */
+/* Slides ============================ */
 .slide-left {
 	transform: translateX(-100%);
 	opacity: 0;
@@ -187,8 +187,7 @@ input[type='range']::-moz-range-thumb {
 
 /* Scroll ============================ */
 ::-webkit-scrollbar {
-	width: 2px;
-	/* width: 0.5rem; */
+	width: 6px;
 }
 ::-webkit-scrollbar-track {
 	background: #ffffff;
@@ -205,6 +204,65 @@ input[type='range']::-moz-range-thumb {
 :focus-visible {
 	outline: 5px dashed #0f172a;
 	outline-offset: 2px;
+	border-radius: 4px;
+}
+input:focus-visible {
+	opacity: 1;
+}
+
+/* Checkbox ========================= */
+.cbx,
+.cbx2 {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	border: 1px solid #c8ccd4;
+	background: #d1d5db;
+	border-radius: 3px;
+	transition: background 0.1s ease;
+	cursor: pointer;
+	display: block;
+}
+
+.cbx:after,
+.cbx2:after {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 8px;
+	width: 7px;
+	height: 14px;
+	opacity: 0;
+	transform: rotate(45deg) scale(0);
+	border-right: 3px solid #fff;
+	border-bottom: 3px solid #fff;
+	transition: all 0.3s ease;
+	transition-delay: 0.15s;
+}
+
+.lbl {
+	margin-left: 5px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+#cbx:checked ~ .cbx,
+#cbx2:checked ~ .cbx2 {
+	border-color: transparent;
+	background: #2563eb;
+	animation: jello-vertical 0.3s ease;
+}
+
+#cbx:checked ~ .cbx:after,
+#cbx2:checked ~ .cbx2:after {
+	opacity: 1;
+	transform: rotate(45deg) scale(1);
+}
+
+.cntr {
+	position: absolute;
+	top: -2rem;
+	left: 6.5rem;
 }
 
 /* Animations */
@@ -287,4 +345,16 @@ input[type='range']::-moz-range-thumb {
 	100% {
 		transform: scale3d(1, 1, 1);
 	}
+}
+
+/* Countdown =================*/
+.countdown {
+	transform: rotateZ(-90deg);
+}
+.countdown circle {
+	stroke-dasharray: 174px;
+	stroke-dashoffset: 0px;
+	stroke-linecap: round;
+	stroke-width: 5px;
+	fill: none;
 }

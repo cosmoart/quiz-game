@@ -24,7 +24,6 @@
 		"no-tabs": 0,
 		"react/react-in-jsx-scope": "off",
 		"react/prop-types": "off",
-		// Show warning instead of error for values never used
 		"no-unused-vars": 1,
 		"react/no-unknown-property": [
 			2,

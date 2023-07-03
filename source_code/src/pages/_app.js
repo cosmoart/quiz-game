@@ -1,16 +1,22 @@
 import '@/styles/globals.css'
-import Layout from '../components/layout'
 import { Rubik } from '@next/font/google'
-import { useEffect } from 'react'
-
+import Head from 'next/head'
+import NewGameForm from '@/components/Form/NewGameForm'
 const rubik = Rubik({ subsets: ['latin'] })
 
 export default function App ({ Component, pageProps }) {
-	useEffect(() => document.body.classList.add(rubik.className), [])
-
 	return (
-		<Layout>
-			<Component {...pageProps} className={rubik.className} />
-		</Layout>
+		<>
+			<Head>
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+			</Head>
+			<Component {...pageProps} />
+			<NewGameForm />
+			<style jsx global>{`
+        html {
+          font-family: ${rubik.style.fontFamily};
+        }
+      `}</style>
+		</>
 	)
 }

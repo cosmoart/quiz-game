@@ -1,9 +1,15 @@
-import { AiFillCloseCircle, AiFillCheckCircle } from 'react-icons/ai'
-import React, { useCallback, useEffect, useRef } from 'react'
-import ReactCanvasConfetti from 'react-canvas-confetti'
-import { IoCloseSharp } from 'react-icons/io5'
-import playSound from '@/helpers/playSound'
+import Image from 'next/image'
 import Link from 'next/link'
+
+import { AiFillCloseCircle, AiFillCheckCircle } from 'react-icons/ai'
+import { useCallback, useEffect, useRef } from 'react'
+import { IoCloseSharp } from 'react-icons/io5'
+import { BiArrowBack } from 'react-icons/bi'
+import trophyIcon from '@/assets/trophy.svg'
+
+import playSound from '@/helpers/playSound'
+import ReactCanvasConfetti from 'react-canvas-confetti'
+import { useBoundStore } from '@/store/useBoundStore'
 
 const canvasStyles = {
 	position: 'fixed',
@@ -15,7 +21,8 @@ const canvasStyles = {
 	zIndex: 100
 }
 
-export default function GameOver ({ win }) {
+export default function GameOver () {
+	const { queries, score, win } = useBoundStore(state => state)
 	const refAnimationInstance = useRef(null)
 
 	const getInstance = useCallback((instance) => {
@@ -73,32 +80,48 @@ export default function GameOver ({ win }) {
 		document.getElementById('gameoverbg').style.display = 'none'
 	}
 
+	function finalImage () {
+		if (queries.infinitymode) return <Image src={trophyIcon} width={100} height={200} alt='Trophy' />
+		if (win === 1) return <AiFillCheckCircle className='text-8xl text-green-500' />
+		return <AiFillCloseCircle className='text-8xl text-red-500' />
+	}
+
+	function finalTitle () {
+		if (queries.infinitymode) return 'Congratulations!'
+		if (win === 1) return 'You Win!'
+		return 'You Lose!'
+	}
+
+	function finalText () {
+		if (queries.infinitymode) return `You answered well ${score} questions!`
+		if (win === -1) return 'Congratulations! \nQuiz completed successfully.'
+		return 'Better luck next time! \nYou can try again.'
+	}
+
 	return (
 		<>
 			<div onClick={closeDialog} id="gameoverbg" className='transition-all fixed z-30 w-screen h-screen backdrop-blur-sm top-0 left-0'></div>
+
 			<ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-			<dialog id='gameoverdialog' open={true} className='fixed m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm px-6 py-10 rounded-md bg-white text-slate-900 z-40'>
-				<button
-					className='absolute top-2 right-2 text-3xl'
-					onClick={closeDialog}>
+
+			<dialog id='gameoverdialog' open={true} className='fixed m-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-md px-6 py-12 rounded-md bg-white text-slate-900 z-40'>
+				<button className='absolute top-2 right-2 text-3xl hover:scale-105' onClick={closeDialog}>
 					<IoCloseSharp />
 				</button>
+
 				<div className='flex flex-col items-center gap-4'>
-					{win !== -1
-						? <AiFillCheckCircle className='text-8xl text-green-500' />
-						: <AiFillCloseCircle className='text-8xl text-red-500' />
-					}
-					<h2 className='text-2xl font-bold'>{win !== -1 ? 'You Win!' : 'You Lose!'}</h2>
+					{finalImage()}
+					<h2 className='text-2xl font-bold'>{finalTitle()}</h2>
 					<p className='text-center mb-3 whitespace-pre-line'>
-						{win !== -1
-							? 'Congratulations! \nQuiz completed successfully.'
-							: 'Better luck next time! \nYou can try again.'
-						}
+						{finalText()}
 					</p>
-					<div className='flex gap-4 items-center'>
-						<Link href="/" className='px-4 hover:opacity-75'>Go back</Link>
+					<div className='flex gap-6 items-center'>
+						<Link href="/" className='px-10 hover:opacity-75 bg-slate-200 py-3 rounded-md transition-colors'>
+							<BiArrowBack color='#0f172a' className='text-xl mr-1 inline-block' title='' />
+							Go back
+						</Link>
 						<button onClick={() => document.getElementById('newGameDialog').showModal()} className='btn-primary px-10 py-3 uppercase tracking-widest rounded-md bg-blue-500 text-white'>
-							{win !== -1 ? 'Play Again' : 'Try Again'}
+							{queries.infinitymode || win !== -1 ? 'Play Again' : 'Try Again'}
 						</button>
 					</div>
 				</div>

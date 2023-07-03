@@ -6,19 +6,14 @@ export default function MainHome () {
 	function handleTitleHover (e) {
 		e.target.classList.add('jello-vertical')
 		e.target.style.color = categories[Math.floor(Math.random() * categories.length)].color
-
-		e.target.addEventListener('animationend', () => {
-			e.target.classList.remove('jello-vertical')
-		})
+		e.target.addEventListener('animationend', () => e.target.classList.remove('jello-vertical'))
 	}
 
-	function handleTitleLeave (e) {
-		e.target.style.color = 'white'
-	}
+	const handleTitleLeave = (e) => (e.target.style.color = 'white')
 
 	function handlePlay () {
 		playSound('pop')
-		document.getElementById('newGameDialog').showModal()
+		document.getElementById('newGameDialog')?.showModal()
 	}
 
 	return (

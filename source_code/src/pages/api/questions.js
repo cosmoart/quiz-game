@@ -1,66 +1,70 @@
-import prompts from '@/helpers/promts'
+import offlineQuestions from '@/assets/questions.json'
 const cohere = require('cohere-ai')
 cohere.init(process.env.COHERE_API_KEY)
 
-function randomArray (arr) {
-	const newArray = [...arr]
-	for (let i = newArray.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
-	}
-	return newArray
+function defaultPromt () {
+	const topics = Object.keys(offlineQuestions)
+	const random3Topics = topics.sort(() => Math.random() - Math.random()).slice(0, 3)
+	const randomQuestions = random3Topics.map(topic => {
+		const randomQuestion = {
+			...offlineQuestions[topic][Math.floor(Math.random() * offlineQuestions[topic].length)],
+			topic
+		}
+		return randomQuestion
+	})
+
+	const text = randomQuestions.reduce((acc, question, index) => {
+		const questionText = `question: ${question.question}\ntopic: ${question.topic}\n${question.answers.map(answer => `-${answer}`).join('\n')}\ncorrect: ${question.correctAnswer}\n\n`
+		if (index === randomQuestions.length - 1) return acc + questionText.slice(0, -1)
+		return acc + questionText
+	}, '')
+
+	return 'Generate 3 questions, ' + random3Topics.map(topic => `1 about ${topic}`).join(', ') + '. Each question has 4 answers (1 correct and 3 incorrect).\n---\n' + text + '---\n'
 }
 
 export default function handler (req, res) {
 	if (req.method !== 'POST') return res.status(405).json({ message: 'Only POST requests allowed', statusCode: 405 })
-	if (!req.body.questions) return res.status(400).json({ message: 'Questions number is required', statusCode: 400 })
 	if (!req.body.topics) return res.status(400).json({ message: 'Topics are required', statusCode: 400 })
 
-	const questionsNumber = req.body.questions
-	const topicsArray = req.body.topics
-	const questions = []
-	const topics = []
+	const promt = defaultPromt() + defaultPromt() + 'Generate 3 questions, ' + req.body.topics.map(topic => `1 about ${topic}`).join(', ') + '. Each question has 4 answers (1 correct and 3 incorrect).\n---'
 
-	for (let i = 0; i < questionsNumber; i++) {
-		topics.push(topicsArray[i % topicsArray.length])
-	}
+	setTimeout(() => {
+		res.status(500).json({ message: 'Request timed out', statusCode: 500 })
+	}, 10 * 1000)
 
-	return Promise.all(randomArray(topics).map((topic, index) => {
-		return new Promise((resolve, reject) => {
-			cohere.generate({
-				model: 'xlarge',
-				prompt: prompts[topic],
-				max_tokens: 65,
-				temperature: 0.3,
-				k: 0,
-				p: 0.75,
-				stop_sequences: ['--'],
-				frequency_penalty: 0.9,
-				presence_penalty: 0.36,
-				return_likelihoods: 'NONE'
-			}).then(response => {
-				if (response.statusCode >= 400) return reject(response)
-				resolve(response)
-			}).catch(err => reject(err))
-		})
-	})).then((responses) => {
-		try {
-			responses.forEach((response, i) => {
-				const resp = response.body.generations[0].text
-				questions.push({
-					topic: topics[i],
-					question: resp.split('\n')[1].split('Question: ')[1],
-					answers: randomArray(resp.split('\n').slice(2, 6).map((answer) => answer.split('- ')[1])),
-					correctAnswer: resp.split('\n')[6].split('Correct: ')[1],
-					userAnswer: 0,
-					offline: false
+	cohere.generate({
+		model: 'command',
+		prompt: promt,
+		max_tokens: 450,
+		temperature: 0.8,
+		k: 0,
+		stop_sequences: ['---'],
+		return_likelihoods: 'NONE'
+	})
+		.then(response => {
+			if (response.statusCode >= 400) {
+				return res.status(500).json({
+					message: response.body.message || 'Something went wrong',
+					statusCode: response.statusCode || 500
 				})
-			})
-		} catch (err) {
-			return res.status(500).json(err || { message: 'Something went wrong', statusCode: 500 })
-		}
-	}).then(() => res.status(200).json(questions))
+			}
+			res.status(200).json(response.body.generations[0].text.split('\n\n').map(question => {
+				if (question.startsWith('\n')) question = question.slice(1)
+				if (question.endsWith('\n')) question = question.slice(0, -1)
+				const questionArray = question.split('\n')
+				const questionObject = {
+					question: questionArray[0].split('question: ')[1]?.trim(),
+					topic: questionArray[1].split('topic: ')[1]?.trim(),
+					answers: questionArray.slice(2, 6).map(answer => answer.split('-')[1]?.trim()),
+					correctAnswer: questionArray[6].split('correct: ')[1]?.trim(),
+					userAnswer: undefined,
+					ia: true
+				}
+				return questionObject
+			}))
+		})
 		.catch(err => {
+			console.log(err)
 			const message = err.body.message || 'Something went wrong'
 			const statusCode = err.statusCode || 500
 			return res.status(500).json({ message, statusCode })
