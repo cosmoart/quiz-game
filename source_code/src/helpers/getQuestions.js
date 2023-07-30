@@ -1,13 +1,6 @@
 import offlineQuestions from '@/assets/questions.json'
 
-function randomArray (arr) {
-	const newArr = arr
-	for (let i = newArr.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[newArr[i], newArr[j]] = [newArr[j], newArr[i]]
-	}
-	return newArr
-}
+const randomArray = (arr) => arr.toSorted(() => 0.5 - Math.random())
 
 export default async function getQuestions (topics, qNumber) {
 	const randomTopics = randomArray(topics)
@@ -17,8 +10,7 @@ export default async function getQuestions (topics, qNumber) {
 	function getOfflineQuestions () {
 		const questionsPerTopic = {}
 		messyTopics.forEach(topic => {
-			if (!questionsPerTopic[topic]) questionsPerTopic[topic] = 0
-			questionsPerTopic[topic]++
+			questionsPerTopic[topic] = (questionsPerTopic[topic] || 0) + 1
 		})
 
 		const questions = []
@@ -34,11 +26,7 @@ export default async function getQuestions (topics, qNumber) {
 			})
 		})
 
-		return messyTopics.map(topic => {
-			const question = questions.find(q => q.topic === topic)
-			questions.splice(questions.indexOf(question), 1)
-			return question
-		})
+		return questions
 	}
 
 	if (process.env.NODE_ENV === 'development') {
@@ -73,6 +61,9 @@ export default async function getQuestions (topics, qNumber) {
 		})
 
 	return iaQuestions
-		.then(iaQuestions => randomArray([...iaQuestions, ...getOfflineQuestions().slice(iaQuestions.length)]))
+		.then(iaQuestions => randomArray([
+			...iaQuestions,
+			...getOfflineQuestions().slice(iaQuestions.length)
+		]))
 		.catch(() => randomArray(getOfflineQuestions()))
 }

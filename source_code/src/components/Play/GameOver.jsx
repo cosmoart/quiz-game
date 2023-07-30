@@ -116,11 +116,11 @@ export default function GameOver () {
 						{finalText()}
 					</p>
 					<div className='flex gap-6 items-center'>
-						<Link href="/" className='px-10 hover:opacity-75 bg-slate-200 py-3 rounded-md transition-colors'>
+						<Link href="/" className='px-5 md:px-10 hover:opacity-75 bg-slate-200 py-3 rounded-md transition-colors'>
 							<BiArrowBack color='#0f172a' className='text-xl mr-1 inline-block' title='' />
 							Go back
 						</Link>
-						<button onClick={() => document.getElementById('newGameDialog').showModal()} className='btn-primary px-10 py-3 uppercase tracking-widest rounded-md bg-blue-500 text-white'>
+						<button onClick={() => document.getElementById('newGameDialog').showModal()} className='btn-primary px-5 md:px-10 py-3 uppercase tracking-widest rounded-md bg-blue-500 text-white'>
 							{queries.infinitymode || win !== -1 ? 'Play Again' : 'Try Again'}
 						</button>
 					</div>
