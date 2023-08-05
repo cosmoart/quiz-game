@@ -41,7 +41,7 @@ export default function Play () {
 				<style jsx global>
 					{`
 					body {
-						background: url(play_bg.png) center;
+						background: url(play_bg.webp) center;
 						background-size: 100% 100%;
 					}
 
