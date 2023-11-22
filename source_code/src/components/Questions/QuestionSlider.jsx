@@ -30,15 +30,15 @@ export default function QuestionSlider ({ changueCurrent, setTime, getAnotherQue
 				if (wildCards.lives > 0) {
 					if (score !== 1 && score % 5 === 0) getAnotherQuestions()
 					useLivesCard()
-				} else return setWin(-1)
+				} else return setWin(false)
 			}
 		} else {
 			if (!correct) {
 				if (wildCards.lives > 0) {
 					useLivesCard()
-					if (score === Number(queries.questions)) return setWin(1)
-				} else return setWin(-1)
-			} else if (score === Number(queries.questions)) return setWin(1)
+					if (score === Number(queries.questions)) return setWin(true)
+				} else return setWin(false)
+			} else if (score === Number(queries.questions)) return setWin(true)
 		}
 
 		setTimeout(() => {

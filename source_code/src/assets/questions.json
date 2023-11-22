@@ -282,7 +282,7 @@
 		{
 			"question": "Which river is the longest in the world?",
 			"answers": ["Nile", "Amazon", "Yangtze", "Mississippi"],
-			"correctAnswer": "Nile"
+			"correctAnswer": "Amazon"
 		},
 		{
 			"question": "Which country is the largest by land area?",

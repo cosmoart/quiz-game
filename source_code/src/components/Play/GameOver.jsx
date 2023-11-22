@@ -68,7 +68,7 @@ export default function GameOver () {
 	}, [makeShot])
 
 	useEffect(() => {
-		if (win === 1) {
+		if (win === true) {
 			fire()
 			playSound('win', 0.2)
 		}
@@ -82,19 +82,19 @@ export default function GameOver () {
 
 	function finalImage () {
 		if (queries.infinitymode) return <Image src={trophyIcon} width={100} height={200} alt='Trophy' />
-		if (win === 1) return <AiFillCheckCircle className='text-8xl text-green-500' />
+		if (win === true) return <AiFillCheckCircle className='text-8xl text-green-500' />
 		return <AiFillCloseCircle className='text-8xl text-red-500' />
 	}
 
 	function finalTitle () {
 		if (queries.infinitymode) return 'Congratulations!'
-		if (win === 1) return 'You Win!'
+		if (win === true) return 'You Win!'
 		return 'You Lose!'
 	}
 
 	function finalText () {
 		if (queries.infinitymode) return `You answered well ${score} questions!`
-		if (win === -1) return 'Congratulations! \nQuiz completed successfully.'
+		if (win === true) return 'Congratulations! \nQuiz completed successfully.'
 		return 'Better luck next time! \nYou can try again.'
 	}
 
@@ -121,7 +121,7 @@ export default function GameOver () {
 							Go back
 						</Link>
 						<button onClick={() => document.getElementById('newGameDialog').showModal()} className='btn-primary px-5 md:px-10 py-3 uppercase tracking-widest rounded-md bg-blue-500 text-white'>
-							{queries.infinitymode || win !== -1 ? 'Play Again' : 'Try Again'}
+							{queries.infinitymode || win !== false ? 'Play Again' : 'Try Again'}
 						</button>
 					</div>
 				</div>

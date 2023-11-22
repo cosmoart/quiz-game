@@ -45,7 +45,7 @@ export default function Questions () {
 			clickCorrectAnswer()
 			setUserAnswer(score - 1, -1)
 			playSound('wrong_answer', 0.3)
-			setWin(-1)
+			setWin(false)
 		} else {
 			if (queries.infinitymode) {
 				if (score !== 1 && score % 5 === 0) {
@@ -54,7 +54,7 @@ export default function Questions () {
 				} else clickCorrectAnswer(true)
 			} else {
 				if (score === queries.questions) {
-					setWin(1)
+					setWin(true)
 					clickCorrectAnswer()
 				} else clickCorrectAnswer(true)
 			}
