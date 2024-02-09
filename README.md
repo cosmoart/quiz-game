@@ -163,7 +163,7 @@ Distributed under the MIT License. See [`LICENSE.txt`](https://github.com/cosmoa
 <!-- CONTACT -->
 ## Contact
 
--   My website - [https://cosmoart.github.io](https://cosmoart.github.io)
+-   My website - [cosmoart.vercel.app](https://cosmoart.vercel.app)
 -   Twitter - [@CosmoArt0](https://twitter.com/cosmoart0)
 -   Instagram - [@cosmo_art0](https://www.instagram.com/cosmo_art0/)
 
